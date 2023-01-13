@@ -1,0 +1,53 @@
+{
+  "comment": "Rules for the style guide at adobe.com",
+
+  "default": true,
+  "MD003": {
+    "style": "atx"
+  },
+  "MD004": {
+    "style": "dash"
+  },
+  "MD007": {
+    "indent": 4
+  },
+  "MD030": {
+    "ul_multi": 3,
+    "ol_multi": 2
+  },
+  "MD033": {
+    "allowed_elements": [
+      "a",
+      "b",
+      "br",
+      "caption",
+      "code",
+      "col",
+      "colgroup",
+      "div",
+      "em",
+      "I",
+      "img",
+      "li",
+      "ol",
+      "p",
+      "pre",
+      "s",
+      "span",
+      "strong" 
+      "sub",
+      "sup",
+      "table",
+      "tbody",
+      "td",
+      "tfoot",
+      "th",
+      "thead",
+      "tr",
+      "u",
+      "ul"]
+  } 
+  "MD035": {
+    "style": "---"
+  }
+}
