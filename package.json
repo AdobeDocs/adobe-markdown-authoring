@@ -692,7 +692,7 @@
     "MD045": false
   },
   "markdownlint.customRules": [
-    "{adobe.adobe-markdown-authoring}/dist-rules/rules.bundle.js"
+    "{AdobeExl.adobe-markdown-authoring}/dist-rules/rules.bundle.js"
   ],
   "scripts": {
     "rebuild": "npm run clean && npm run build",

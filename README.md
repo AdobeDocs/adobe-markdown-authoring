@@ -35,32 +35,32 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 ### Note
 
 ```markdown
->[!NOTE]
+> [!NOTE]
 >
->Here is a note component. Notice that it is just a blockquote that has a [!NOTE] label at the beginning of the code.
+> Here is a note component. Notice that it is just a blockquote that has a [!NOTE] label at the beginning of the code.
 ```
 
->[!NOTE]
+> [!NOTE]
 >
->Here is a note component. Notice that it is just a blockquote that has a [!NOTE] label at the beginning of the code.
+> Here is a note component. Notice that it is just a blockquote that has a [!NOTE] label at the beginning of the code.
 
 ![note](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/NOTE.gif)
 
 ### Caution
 
 ```markdown
->[!CAUTION]
+> [!CAUTION]
 >
->Here is a caution component. Notice that it is just a blockquote and that you can _embed_ inline markdown including `pre-formatted text` and other **chicanery**
+> Here is a caution component. Notice that it is just a blockquote and that you can _embed_ inline markdown including `pre-formatted text` and other **chicanery**
 ```
 
->[!CAUTION]
+> [!CAUTION]
 >
 > Here is a caution component. Notice that it is just a blockquote and that you can _embed_ inline markdown including `pre-formatted text` and other **chicanery**
 
 ![caution](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/CAUTION.gif)
 
->[!TIP]
+> [!TIP]
 >
 > Here is a tip [!TIP] This is after this.
 
@@ -74,7 +74,7 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 > Here is the _IMPORTANT_ component. It's only one line.
 ```
 
->[!IMPORTANT]
+> [!IMPORTANT]
 >
 > Here is the _IMPORTANT_ component. It's only one line.
 
@@ -89,24 +89,26 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 ```
 
 ### Shade Boxes
+
 Shade boxes are useful for setting off a section of content from the rest of the page. For example, the Workfront team likes to add "Example" boxes that contains text, images, and code samples to achieve a specific purpose. A shade box might also be useful for "On Your Own" or "Use Case" sections, or for extended notes or tips.
 
 To create a shade box, add >[!BEGINSHADEBOX] at the beginning of the section and >[!ENDSHADEBOX] at the end. All content between these begin and end tags will have a gray background. Adding a label to BEGINSHADEBOX (such as >[!BEGINSHADEBOX "Use Case] is an optional way to create a bolded shade box title. You can also just add bold text or a heading on the next line.
 
 Example:
 
->[!BEGINSHADEBOX "Removing the border in an HTML Table"]
+> [!BEGINSHADEBOX "Removing the border in an HTML Table"]
 
 In some cases, you use an HTML table to create a balanced design, but you don't want the content to look like a table. To turn off a border for a one-row HTML table, use this syntax:
 
 ```html
 <table>
-    <tr style="border: 0;">
+  <tr style="border: 0;"></tr>
+</table>
 ```
 
->[!NOTE]
+> [!NOTE]
 >
-> Don't overuse.  For normal tables, we want to keep a consistent design across
+> Don't overuse. For normal tables, we want to keep a consistent design across
 > content.
 
 ![table tip](/assets/table-no-border.png)
@@ -115,55 +117,54 @@ In a three-column table, you can also add <td align="center"> and <td align="rig
 
 This is the last line of the shade box.
 
->[!ENDSHADEBOX]
+> [!ENDSHADEBOX]
 
 ### Video
 
->[!VIDEO](https://youtube.com?watch="xyxz")
+> [!VIDEO](https://youtube.com?watch="xyxz")
 
 ![video](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/VIDEO.gif)
 
-
 ## Exposed Commands
 
-| Name | Description | Default key binding |
-| ---- | ----------- | ------------------- |
-| md-shortcut.showCommandPalette | Display all commands | ctrl+M ctrl+M |
-| md-shortcut.toggleBold | Make \*\*bold\*\* | ctrl+B |
-| md-shortcut.toggleItalic | Make \_italic\_ | ctrl+I |
-| md-shortcut.toggleStrikethrough | Make \~\~strikethrough\~\~ |  |
-| md-shortcut.toggleLink | Make [a hyperlink]\(www.example.org) | ctrl+L |
-| md-shortcut.toggleImage | Make an image ![]\(image_url.png) | ctrl+shift+L |
-| md-shortcut.toggleCodeBlock | Make \`\`\`a code block\`\`\` | ctrl+M ctrl+C |
-| md-shortcut.toggleInlineCode | Make \`inline code\` | ctrl+M ctrl+I |
-| md-shortcut.toggleBullets | Make * bullet point | ctrl+M ctrl+B |
-| md-shortcut.toggleNumbers | Make 1. numbered list | ctrl+M ctrl+1 |
-| md-shortcut.toggleCheckboxes | Make - [ ] check list (Github flavored markdown) | ctrl+M ctrl+X |
-| md-shortcut.toggleTitleH1 | Toggle # H1 title |  |
-| md-shortcut.toggleTitleH2 | Toggle ## H2 title |  |
-| md-shortcut.toggleTitleH3 | Toggle ### H3 title |  |
-| md-shortcut.toggleTitleH4 | Toggle #### H4 title |  |
-| md-shortcut.toggleTitleH5 | Toggle ##### H5 title |  |
-| md-shortcut.toggleTitleH6 | Toggle ###### H6 title |  |
-| md-shortcut.addTable | Add Tabular values |  |
-| md-shortcut.addTableWithHeader | Add Tabular values with header |  |
-| md-shortcut.toggleNote | Make a [!NOTE] block | ctrl+m ctrl+n |
-| md-shortcut.toggleTip | Make a [!TIP] block | ctrl+m ctrl+t |
-| md-shortcut.toggleCaution | Make a [!CAUTION] block | ctrl+m ctrl+c |
-| md-shortcut.toggleImportant | Make an [!IMPORTANT] block | ctrl+m ctrl+p |
-| md-shortcut.toggleWarning | Make a [!WARNING] block | ctrl+m ctrl+w |
-| md-shortcut.toggleMoreLikeThis | Make a [!MORELIKETHIS] block | ctrl+m ctrl+m |
-| md-shortcut.toggleVideo | Make a [!VIDEO] block | ctrl+m ctrl+v |
-| md-shortcut.toggleDNL | Make a [!DNL] block | ctrl+m ctrl+d |
-| md-shortcut.toggleUIControl | Make a [!UICONTROL] block | ctrl+m ctrl+u |
+| Name                            | Description                                      | Default key binding |
+| ------------------------------- | ------------------------------------------------ | ------------------- |
+| md-shortcut.showCommandPalette  | Display all commands                             | ctrl+M ctrl+M       |
+| md-shortcut.toggleBold          | Make \*\*bold\*\*                                | ctrl+B              |
+| md-shortcut.toggleItalic        | Make \_italic\_                                  | ctrl+I              |
+| md-shortcut.toggleStrikethrough | Make \~\~strikethrough\~\~                       |                     |
+| md-shortcut.toggleLink          | Make [a hyperlink]\(www.example.org)             | ctrl+L              |
+| md-shortcut.toggleImage         | Make an image ![]\(image_url.png)                | ctrl+shift+L        |
+| md-shortcut.toggleCodeBlock     | Make \`\`\`a code block\`\`\`                    | ctrl+M ctrl+C       |
+| md-shortcut.toggleInlineCode    | Make \`inline code\`                             | ctrl+M ctrl+I       |
+| md-shortcut.toggleBullets       | Make \* bullet point                             | ctrl+M ctrl+B       |
+| md-shortcut.toggleNumbers       | Make 1. numbered list                            | ctrl+M ctrl+1       |
+| md-shortcut.toggleCheckboxes    | Make - [ ] check list (Github flavored markdown) | ctrl+M ctrl+X       |
+| md-shortcut.toggleTitleH1       | Toggle # H1 title                                |                     |
+| md-shortcut.toggleTitleH2       | Toggle ## H2 title                               |                     |
+| md-shortcut.toggleTitleH3       | Toggle ### H3 title                              |                     |
+| md-shortcut.toggleTitleH4       | Toggle #### H4 title                             |                     |
+| md-shortcut.toggleTitleH5       | Toggle ##### H5 title                            |                     |
+| md-shortcut.toggleTitleH6       | Toggle ###### H6 title                           |                     |
+| md-shortcut.addTable            | Add Tabular values                               |                     |
+| md-shortcut.addTableWithHeader  | Add Tabular values with header                   |                     |
+| md-shortcut.toggleNote          | Make a [!NOTE] block                             | ctrl+m ctrl+n       |
+| md-shortcut.toggleTip           | Make a [!TIP] block                              | ctrl+m ctrl+t       |
+| md-shortcut.toggleCaution       | Make a [!CAUTION] block                          | ctrl+m ctrl+c       |
+| md-shortcut.toggleImportant     | Make an [!IMPORTANT] block                       | ctrl+m ctrl+p       |
+| md-shortcut.toggleWarning       | Make a [!WARNING] block                          | ctrl+m ctrl+w       |
+| md-shortcut.toggleMoreLikeThis  | Make a [!MORELIKETHIS] block                     | ctrl+m ctrl+m       |
+| md-shortcut.toggleVideo         | Make a [!VIDEO] block                            | ctrl+m ctrl+v       |
+| md-shortcut.toggleDNL           | Make a [!DNL] block                              | ctrl+m ctrl+d       |
+| md-shortcut.toggleUIControl     | Make a [!UICONTROL] block                        | ctrl+m ctrl+u       |
 
 ## Markdown Lint Validation Settings
 
-This package uses David Anson's Markdown-Lint package to validate the markdown.  In addition to the built-in validation rules, this package adds support for Adobe Flavored Markdown.
+This package uses David Anson's Markdown-Lint package to validate the markdown. In addition to the built-in validation rules, this package adds support for Adobe Flavored Markdown.
 
 ### Changing the Markdown-Lint Validation Settings
 
-When it starts up for the first time the Adobe Markdown Authoring extension will look for existing settings in the VSCode Settings.  If it does not find them, it will add the default settings below.  If it does find them, it will default to the values found in the user settings.
+When it starts up for the first time the Adobe Markdown Authoring extension will look for existing settings in the VSCode Settings. If it does not find them, it will add the default settings below. If it does find them, it will default to the values found in the user settings.
 
 To change the settings, go to Preferences > Settings > markdownlint.
 
@@ -236,6 +237,7 @@ markdownlint.config: {
     "MD045": false
   }
 ```
+
 ### Custom Rules
 
 In addition to the standard support MD### rules, Adobe Markdown Extension supports AM### rules, which are specific to
@@ -243,14 +245,13 @@ Adobe Flavored Markdown.
 
 ```
   "markdownlint.customRules": [
-    "{adobe.adobe-markdown-authoring}/dist-rules/index.bundle.js"
+    "{AdobeExl.adobe-markdown-authoring}/dist-rules/index.bundle.js"
   ]
 ```
 
-
 ## Extension Settings
 
-Since this is an expansion on the built-in VS Code preview extension, any settings applicable to that extension also apply to this one.  You can find more information about support for Markdown in Visual Studio Code at in the [Visual Studio Code online documentation](https://code.visualstudio.com/Docs/languages/markdown).
+Since this is an expansion on the built-in VS Code preview extension, any settings applicable to that extension also apply to this one. You can find more information about support for Markdown in Visual Studio Code at in the [Visual Studio Code online documentation](https://code.visualstudio.com/Docs/languages/markdown).
 
 ---
 
@@ -261,4 +262,3 @@ Since this is an expansion on the built-in VS Code preview extension, any settin
 - [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 - [David Anson's Markdown Lint](https://github.com/DavidAnson/markdownlint)
 - [VS Code version of Markdown Lint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
-
