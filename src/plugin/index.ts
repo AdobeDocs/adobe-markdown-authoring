@@ -1,4 +1,4 @@
-import MarkdownIt, { Options } from "markdown-it";
+import MarkdownIt from "markdown-it";
 import { transformAdmonitions } from "./transform/admonitions";
 import { transformCollapsible } from "./transform/collapsible";
 import { transformDNL } from "./transform/dnl";

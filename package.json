@@ -694,6 +694,18 @@
   "markdownlint.customRules": [
     "{AdobeExl.adobe-markdown-authoring}/dist-rules/rules.bundle.js"
   ],
+  "mocha": {
+    "ui": "tdd",
+    "timeout": 30000,
+    "reporter": "spec",
+    "require": [
+      "ts-node/register"
+    ],
+    "recursive": true,
+    "extension": [
+      "ts"
+    ]
+  },
   "scripts": {
     "rebuild": "npm run clean && npm run build",
     "build": "npm run build-preview && npm run build-rules && npm run build-ext && npm run compile",
@@ -729,6 +741,7 @@
     "glob": "^8.0.3",
     "mini-css-extract-plugin": "^2.7.2",
     "mocha": "^10.1.0",
+    "mocha-explorer-launcher-scripts": "^0.4.0",
     "nyc": "^15.1.0",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
