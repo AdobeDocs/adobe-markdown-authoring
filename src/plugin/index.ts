@@ -1,14 +1,14 @@
 import MarkdownIt from "markdown-it";
 import { transformAdmonitions } from "./transform/admonitions";
 import { transformCollapsible } from "./transform/collapsible";
-import { transformDNLs } from "./transform/dnls";
+import { transformDNL } from "./transform/dnl";
 import { transformHeaderAnchors } from "./transform/header-anchors";
 import transformLinkTargets from "./transform/link-targets";
 import { transformShadebox } from "./transform/shadebox";
 import { includeFileParts } from "./transform/snippets";
 import { transformTableStyles } from "./transform/table-styles";
 import transformTabs from "./transform/tabs";
-import { transformUICONTROLs } from "./transform/uicontrols";
+import { transformUICONTROL } from "./transform/uicontrol";
 
 export enum TokenType {
   BLOCKQUOTE_OPEN = "blockquote_open",
@@ -38,8 +38,8 @@ function injectTransforms(md: MarkdownIt, filePath: string) {
   md.core.ruler.after("block", "collapsible", transformCollapsible);
   md.core.ruler.after("block", "table-styles", transformTableStyles);
   md.core.ruler.after("block", "tabs", transformTabs);
-  md.core.ruler.after("block", "dnls", transformDNLs);
-  md.core.ruler.after("block", "uicontrol", transformUICONTROLs);
+  md.core.ruler.after("block", "dnl", transformDNL);
+  md.core.ruler.after("block", "uicontrol", transformUICONTROL);
   md.core.ruler.after("block", "alert", transformAdmonitions);
   md.core.ruler.after("block", "header-anchors", transformHeaderAnchors);
   md.core.ruler.after("block", "link-target", transformLinkTargets);
