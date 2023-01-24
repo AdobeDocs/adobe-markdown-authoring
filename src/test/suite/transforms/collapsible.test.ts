@@ -4,15 +4,16 @@ import { setupMarkdownParser } from "../transforms.test";
 import { before } from "mocha";
 import MarkdownIt from "markdown-it";
 
-suite("Admonition Transform Rule", () => {
+suite("Collapsible Transform Rule", () => {
   let md: MarkdownIt;
   before(() => {
     md = setupMarkdownParser(".");
   });
-  test('should convert [!NOTE] to <div class="Admonition note" data-label="NOTE">', () => {
-    const input = "> [!NOTE]\n>\n> This is note text.";
+
+  test("should convert +++ to <details> and </details> with <summary>", () => {
+    const input = "+++ Title\nContent\n+++";
     const expectedOutput =
-      '<div class="extension note" data-label="NOTE">\n<div class="p"></div>\n<div class="p">This is note text.</div>\n</div>\n';
+      "<details>\n<summary>Title</summary>\nContent\n</details>\n";
     const tokens = md.parse(input, {});
     const output = md.renderer.render(tokens, md.options, {});
     assert.strictEqual(output, expectedOutput);
