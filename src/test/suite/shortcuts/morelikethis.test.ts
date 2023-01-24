@@ -8,7 +8,7 @@ suite("Morelikethis Tags", () => {
     return testCommand(
       "toggleMoreLikeThis",
       "«This is just a plain morelikethis≥",
-      "«>[!MORELIKETHIS]\n>\n>This is just a plain morelikethis\n≥"
+      `«>[!MORELIKETHIS]${NEWLINE}>${NEWLINE}>This is just a plain morelikethis${NEWLINE}≥`
     );
   });
 
@@ -16,7 +16,7 @@ suite("Morelikethis Tags", () => {
     return testCommand(
       "toggleMoreLikeThis",
       "«This is just a" + NEWLINE + "plain morelikethis≥",
-      "«>[!MORELIKETHIS]\n>\n>This is just a\nplain morelikethis\n≥"
+      `«>[!MORELIKETHIS]${NEWLINE}>${NEWLINE}>This is just a${NEWLINE}plain morelikethis${NEWLINE}≥`
     );
   });
 
@@ -24,7 +24,7 @@ suite("Morelikethis Tags", () => {
     return testCommand(
       "toggleMoreLikeThis",
       "«This is just a" + NEWLINE + "plain morelikethis≥" + NEWLINE,
-      "«>[!MORELIKETHIS]\n>\n>This is just a\nplain morelikethis\n≥"
+      `«>[!MORELIKETHIS]${NEWLINE}>${NEWLINE}>This is just a${NEWLINE}plain morelikethis${NEWLINE}≥`
     );
   });
 
@@ -32,7 +32,7 @@ suite("Morelikethis Tags", () => {
     return testCommand(
       "toggleMoreLikeThis",
       "«This is just a" + NEWLINE + "plain morelikethis" + NEWLINE + "≥",
-      "«>[!MORELIKETHIS]\n>\n>This is just a\nplain morelikethis\n\n≥"
+      `«>[!MORELIKETHIS]${NEWLINE}>${NEWLINE}>This is just a${NEWLINE}plain morelikethis${NEWLINE}${NEWLINE}≥`
     );
   });
 
@@ -40,20 +40,14 @@ suite("Morelikethis Tags", () => {
     return testCommand(
       "toggleMoreLikeThis",
       "Just a plain morelikethis•",
-      "«>[!MORELIKETHIS]\n>\n>Just a plain morelikethis\n≥"
+      `«>[!MORELIKETHIS]${NEWLINE}>${NEWLINE}>Just a plain morelikethis${NEWLINE}≥`
     );
   });
 
   test("Toggles with ranged selection", () => {
     return testCommand(
       "toggleMoreLikeThis",
-      "[>[!MORELIKETHIS]" +
-        NEWLINE +
-        ">" +
-        NEWLINE +
-        ">This is just a plain morelikethis" +
-        NEWLINE +
-        "}",
+      `«>[!MORELIKETHIS]${NEWLINE}>${NEWLINE}>This is just a plain morelikethis${NEWLINE}≥`,
       "«This is just a plain morelikethis≥"
     );
   });
@@ -61,14 +55,8 @@ suite("Morelikethis Tags", () => {
   test("Toggles with multi-line ranged selection", () => {
     return testCommand(
       "toggleMoreLikeThis",
-      "[>[!MORELIKETHIS]" +
-        NEWLINE +
-        ">" +
-        NEWLINE +
-        ">This is just a" +
-        NEWLINE +
-        "plain morelikethis}",
-      "«This is just a\nplain morelikethis≥"
+      `«>[!MORELIKETHIS]${NEWLINE}>${NEWLINE}>This is just a${NEWLINE}plain morelikethis${NEWLINE}≥`,
+      `«This is just a${NEWLINE}plain morelikethis≥`
     );
   });
 });
