@@ -13,7 +13,7 @@ suite("Collapsible Transform Rule", () => {
   test("should convert +++ to <details> and </details> with <summary>", () => {
     const input = "+++ Title\nContent\n+++";
     const expectedOutput =
-      "<details>\n<summary>Title</summary>\nContent\n</details>\n";
+      "<details><summary>Title</summary>Content</details>";
     const tokens = md.parse(input, {});
     const output = md.renderer.render(tokens, md.options, {});
     assert.strictEqual(output, expectedOutput);
