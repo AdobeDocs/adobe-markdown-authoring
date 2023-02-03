@@ -26,7 +26,7 @@ export function transformCollapsible(state: StateCore) {
         if (content) {
           let contentToken = new Token("html_block", "", 0);
           contentToken.content = content;
-          tokens.splice(i, 0, contentToken); // insert the content token
+          tokens.splice(i + 1, 0, contentToken); // insert the content token
         }
         // Find the closing +++ line.
         i += 2; // skip the opening <details> tag and the <summary> tag
