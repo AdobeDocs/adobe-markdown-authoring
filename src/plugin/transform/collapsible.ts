@@ -32,14 +32,14 @@ export function transformCollapsible(state: StateCore) {
         i += 2; // skip the opening <details> tag and the <summary> tag
         while (i < tokens.length) {
           let nextToken = tokens[i];
-          if (nextToken.type === TokenType.INLINE) {
+          if (nextToken.type === TokenType.PARAGRAPH_CLOSE) {
             text = nextToken.content;
-            if (text.startsWith("+++")) {
+            // if (text.startsWith("+++")) {
               let endDetailsToken = new Token("html_block", "", 0);
               endDetailsToken.content = "</details>";
               tokens.splice(i, 1, endDetailsToken);
               break;
-            }
+            // }
           }
           i++;
         }
