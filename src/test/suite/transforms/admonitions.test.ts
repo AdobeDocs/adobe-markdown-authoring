@@ -1,19 +1,37 @@
 import assert from "assert";
 
 import { setupMarkdownParser } from "../transforms.test";
+import { before } from "mocha";
 import MarkdownIt from "markdown-it";
 
 suite("Admonition Transform Rule", () => {
   let md: MarkdownIt;
-  beforeEach(() => {
+  before(() => {
     md = setupMarkdownParser(".");
   });
-  test('should convert [!NOTE] to <div class="Admonition note" data-label="NOTE">', () => {
-    const input = "> [!NOTE]\n>\n> This is note text.";
-    const expectedOutput =
-      '<div class="Admonition note" data-label="NOTE">\n<div class="p"></div>\n<div class="p">This is note text.</div>\n</div>';
-    const tokens = md.parse(input, {});
-    const output = md.renderer.render(tokens, md.options, {});
-    assert.strictEqual(output, expectedOutput);
-  });
+
+  const alertTypes = [
+    "ADMINISTRATION",
+    "AVAILABILITY",
+    "CAUTION",
+    "ERROR",
+    "IMPORTANT",
+    "INFO",
+    "MORELIKETHIS",
+    "NOTE",
+    "PREREQUISITES",
+    "SUCCESS",
+    "TIP",
+    "WARNING",
+  ];
+
+  for (const alertType of alertTypes) {
+    test(`should convert [!${alertType}] to <div class="extension ${alertType.toLowerCase()}" data-label="${alertType}">`, () => {
+      const input = `> [!${alertType}]\n>\n> This is ${alertType.toLowerCase()} text.`;
+      const expectedOutput = `<div class="extension ${alertType.toLowerCase()}" data-label="${alertType}">\n<div class="p"></div>\n<div class="p">This is ${alertType.toLowerCase()} text.</div>\n</div>\n`;
+      const tokens = md.parse(input, {});
+      const output = md.renderer.render(tokens, md.options, {});
+      assert.strictEqual(output, expectedOutput);
+    });
+  }
 });

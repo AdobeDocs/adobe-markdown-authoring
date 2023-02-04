@@ -1,18 +1,17 @@
 import assert from "assert";
-
 import { setupMarkdownParser } from "../transforms.test";
 import { before } from "mocha";
 import MarkdownIt from "markdown-it";
 
-suite("DNL Transform Rule", () => {
+suite("Transform Header Anchors", () => {
   let md: MarkdownIt;
   before(() => {
     md = setupMarkdownParser(".");
   });
 
-  test("should strip the [!DNL <text>] markdown and leave the <text> part", () => {
-    const input = "Lorem ipsum [!DNL dolor sit amet]";
-    const expectedOutput = "<p>Lorem ipsum dolor sit amet</p>\n";
+  test("should convert AFM Markdown header anchor to an element id on H1", () => {
+    const input = "# Header {#my-header}\nContent\n";
+    const expectedOutput = '<h1 id="my-header">Header </h1>\n<p>Content</p>\n';
     const tokens = md.parse(input, {});
     const output = md.renderer.render(tokens, md.options, {});
     assert.strictEqual(output, expectedOutput);

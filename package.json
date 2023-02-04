@@ -23,6 +23,9 @@
     "onLanguage:markdown"
   ],
   "main": "./dist/extension.js",
+  "files": [
+    "assets/**/*"
+  ],
   "contributes": {
     "markdown.previewStyles": [
       "./assets/styles/spectrum.css",
@@ -714,7 +717,7 @@
     "build-ext": "webpack --mode development --config ./build/webpack.config.js",
     "compile": "tsc -p src  --listEmittedFiles --outDir out",
     "watch-tests": "tsc -p src -w --outDir out",
-    "test": "node ./out/test/runTest.js",
+    "test": "node ./out/runTest.js",
     "clean": "rimraf dist && rimraf dist-rules && rimraf dist-plugin && rimraf dist-preview && rimraf out",
     "package": "npm run clean && npm run package-preview && npm run package-rules && npm run package-ext",
     "package-preview": "webpack --mode production --devtool hidden-source-map --config ./build/preview.webpack.config.js",
