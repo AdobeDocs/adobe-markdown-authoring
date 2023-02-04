@@ -14,8 +14,7 @@ import { TokenType } from "..";
 
 export function transformShadebox(state: StateCore) {
   let tokens: Token[] = state.tokens;
-  let shadeboxRe =
-    /\[!BEGINSHADEBOX(\s+\"(.*)\")*\]\n*([\s\S]*)\n*\[!ENDSHADEBOX\]\n*/;
+  let beginShadeboxRe = /\[!BEGINSHADEBOX(\s+\"(.*)\")?\]/;
   let endShadeboxRe = /\[!ENDSHADEBOX\]/;
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i];
@@ -32,40 +31,31 @@ export function transformShadebox(state: StateCore) {
     if (nextNextToken.type === TokenType.INLINE) {
       let text = nextNextToken.content;
       // Find the opening line.
-      let match = shadeboxRe.exec(text);
+      let match = beginShadeboxRe.exec(text);
       if (match) {
         let shadeboxTitleText = match[2] || "";
-        let shadeboxContent = match[3] || "";
         // Replace the blockquote_open with a <div class="sp-wrapper"> opening.
         let wrapperToken = new Token("html_block", "", 0);
         wrapperToken.content = '<div class="sp-wrapper">';
         wrapperToken.type = "html_block";
         tokens.splice(i, 1, wrapperToken);
-        // Replace the paragraph, inline and paragraph end, with the title HTML div
-        let shadeboxToken = new Token("html_block", "", 0);
-        shadeboxToken.content = `<p><strong>${shadeboxTitleText}</strong></p>`;
-        shadeboxToken.type = "html_block";
-        tokens.splice(i + 1, 3, shadeboxToken);
-        // insert the content
-        let contentToken = new Token("html_block", "", 0);
-        contentToken.type = "html_block";
-        contentToken.content = `<div>${shadeboxContent}</div>`;
-        tokens.splice(i + 2, 0, contentToken); // replace the block end with the content
-        i += 3; //skip the content we just inserted
-        // Find the BLOCKQUOTE_CLOSE token
-        while (i < tokens.length) {
-          nextToken = tokens[i];
-          if (nextToken.type === TokenType.BLOCKQUOTE_CLOSE) {
-            // Replace the blockquote_close with a </div> closing.
-            let closeWrapperToken = new Token("html_block", "", 0);
-            closeWrapperToken.content = "</div>";
-            closeWrapperToken.type = "html_block";
-            tokens.splice(i, 1, closeWrapperToken);
-            break;
-          }
-          i++;
-        }
-      } // end if
+        // Replace the paragraph, inline, paragraph end and blockquote_close, with the title HTML div
+        let titleToken = new Token("html_block", "", 0);
+        titleToken.content = `<p><strong>${shadeboxTitleText}</strong></p>`;
+        titleToken.type = "html_block";
+        tokens.splice(i + 1, 4, titleToken);
+      }
+      // The end of the shaded box is also in a blockquote with the same structure
+      // as the beginning, only with endMatch as the regex.
+      let endMatch = endShadeboxRe.exec(text);
+      if (endMatch) {
+        // Replace everything between the blockquote_open and blockquote_close with a </div> closing.
+        let endToken = new Token("html_block", "", 0);
+        endToken.content = "</div>";
+        endToken.type = "html_block";
+        tokens.splice(i, 5, endToken);
+      }
+      // end if
     } // end for
   }
 }
