@@ -33,6 +33,7 @@ function injectTransforms(md: MarkdownIt, filePath: string) {
     includeFileParts(state, filePath);
   });
   // Now add the token transforms.
+  md.core.ruler.after("block", "link-targets", transformLinkTargets);
   md.core.ruler.after("block", "tabs", transformTabs);
   md.core.ruler.after("block", "shadebox", transformShadebox);
   md.core.ruler.after("block", "collapsible", transformCollapsible);
@@ -42,5 +43,4 @@ function injectTransforms(md: MarkdownIt, filePath: string) {
   md.core.ruler.after("block", "uicontrol", transformUICONTROL);
   md.core.ruler.after("block", "alert", transformAdmonitions);
   md.core.ruler.after("block", "header-anchors", transformHeaderAnchors);
-  md.core.ruler.after("block", "link-target", transformLinkTargets);
 }
