@@ -1,7 +1,7 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../out",
+    "outDir": "../dist",
     "rootDir": "./",
     "lib": ["es2020", "DOM", "DOM.Iterable"],
     "allowSyntheticDefaultImports": true,

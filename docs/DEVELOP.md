@@ -34,8 +34,8 @@ npm install
 There are three main parts to the extension, each is contained in its folder.
 
 - ./src - The extension itself
-- ./src-preview - The Preview Webview web components and themes.
-- ./src-rules - The Markdownlint rules for Adobe Flavored Markdown.
+- ./src/preview - The Preview Webview web components and themes.
+- ./src/rules - The Markdownlint rules for Adobe Flavored Markdown.
 
 Each of the parts requires its build process. The Webpack configuration files are located in the "build" folder.
 
@@ -106,4 +106,4 @@ Some areas of the Experience Leagues documentation site are being migrated to th
 
 The linter rules specific to Adobe are provided by Adobe. However, they are maintained in JavaScript and redundant to the rules built-in to Markdownlint. Because of this, we cannot use the rules provided by Adobe. Instead, we have to convert the rules to a format that can be used by Markdownlint. Since we are using TypeScript throughout the application, we have created TypeScript versions of all of the rules.
 
-To ease migration, we keep a copy of the original JavaScript rules in an `src-rules/from-adobe` folder. The `from-adobe` folder is not included in the build process. The `from-adobe` folder is only used to compare the original rules to the TypeScript rules.
+To ease migration, we keep a copy of the original JavaScript rules in an `src/rules/from-adobe` folder. The `from-adobe` folder is not included in the build process. The `from-adobe` folder is only used to compare the original rules to the TypeScript rules.

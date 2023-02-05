@@ -34,7 +34,7 @@
     ],
     "markdown.markdownItPlugins": true,
     "markdown.previewScripts": [
-      "./dist-preview/index.bundle.js"
+      "./dist/preview/index.bundle.js"
     ],
     "configuration": {
       "title": "Markdown Preview Spectrum Support",
@@ -695,7 +695,7 @@
     "MD045": false
   },
   "markdownlint.customRules": [
-    "{AdobeExl.adobe-markdown-authoring}/dist-rules/rules.bundle.js"
+    "{AdobeExl.adobe-markdown-authoring}/dist/rules/rules.bundle.js"
   ],
   "mocha": {
     "ui": "tdd",
@@ -710,21 +710,21 @@
     ]
   },
   "scripts": {
-    "rebuild": "npm run clean && npm run build",
+    "rebuild": "npm run clean && npm run build && npm run compile",
     "build": "npm run build-preview && npm run build-rules && npm run build-ext && npm run compile",
     "build-preview": "webpack --mode=development --config ./build/preview.webpack.config.js",
     "build-rules": "webpack --mode=development --config ./build/rules.webpack.config.js",
     "build-ext": "webpack --mode development --config ./build/webpack.config.js",
-    "compile": "tsc -p src  --listEmittedFiles --outDir out",
-    "watch-tests": "tsc -p src -w --outDir out",
-    "test": "node ./out/runTest.js",
-    "clean": "rimraf dist && rimraf dist-rules && rimraf dist-plugin && rimraf dist-preview && rimraf out",
+    "compile": "webpack --mode development --config ./build/dev.webpack.config.js",
+    "watch": "webpack --mode development --watch --config ./build/dev.webpack.config.js",
+    "test": "node ./dist/runTest.js",
+    "clean": "rimraf dist",
     "package": "npm run clean && npm run package-preview && npm run package-rules && npm run package-ext",
     "package-preview": "webpack --mode production --devtool hidden-source-map --config ./build/preview.webpack.config.js",
     "package-rules": "webpack --mode production --devtool hidden-source-map --config ./build/rules.webpack.config.js ",
     "package-ext": "webpack --mode production --devtool hidden-source-map --config ./build/webpack.config.js",
     "lint": "eslint src --ext ts",
-    "test-lint": "markdownlint-cli2 README.md --rules ./dist-rules/rules.bundle.js",
+    "test-lint": "markdownlint-cli2 README.md --rules ./dist/rules/rules.bundle.js",
     "vscode:prepublish": "npm run package"
   },
   "devDependencies": {
@@ -740,6 +740,7 @@
     "@typescript-eslint/parser": "^5.45.0",
     "@vscode/test-electron": "^2.2.2",
     "babel-loader": "^9.1.2",
+    "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.28.0",
     "glob": "^8.0.3",
     "mini-css-extract-plugin": "^2.7.2",

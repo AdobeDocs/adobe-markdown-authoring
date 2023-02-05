@@ -249,7 +249,7 @@ Adobe Flavored Markdown.
 
 ```
   "markdownlint.customRules": [
-    "{AdobeExl.adobe-markdown-authoring}/dist-rules/index.bundle.js"
+    "{AdobeExl.adobe-markdown-authoring}/dist/rules/index.bundle.js"
   ]
 ```
 
