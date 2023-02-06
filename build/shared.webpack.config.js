@@ -1,11 +1,8 @@
-// From https://github.com/mermaidjs/mermaid-webpack-demo/
-
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 
 module.exports = {
   target: "web",
-  externals: "fs", // in order to make mermaid work
+  externals: ["fs"],
   resolve: {
     extensions: [".ts", ".js"], // support ts-files and js-files
   },

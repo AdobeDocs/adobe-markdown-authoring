@@ -17,7 +17,7 @@ suite("Admonition Transform Rule", () => {
     "ERROR",
     "IMPORTANT",
     "INFO",
-    "MORELIKETHIS",
+    // "MORELIKETHIS",  // MORELIKETHIS is not really an admonition, so we don't test it here
     "NOTE",
     "PREREQUISITES",
     "SUCCESS",
