@@ -13,10 +13,8 @@ export default function transformLinkTargets(state: StateCore) {
       if (linkLine) {
         // Convert the linkToken token to an HTML_BLOCK token
         const ids = linkLine.match(targetMatch);
-        const [_, text, url, target] = ids;
-        //   const htmlToken = new Token("html_block", "", 0);
-        //   htmlToken.content = `<a href="${url}" target="${target}" title="${text}">${text}</a>`;
-        //   linkTokens.splice(i, 1, htmlToken); // replace the inline token with the link_open token
+        const [_, text, url, target] = ids || [];
+
         const linkToken = new Token("link_open", "a", 1);
         linkToken.attrs = [
           ["href", url],

@@ -34,8 +34,8 @@ npm install
 There are three main parts to the extension, each is contained in its folder.
 
 - ./src - The extension itself
-- ./src-preview - The Preview Webview web components and themes.
-- ./src-rules - The Markdownlint rules for Adobe Flavored Markdown.
+- ./src/preview - The Preview Webview web components and themes.
+- ./src/rules - The Markdownlint rules for Adobe Flavored Markdown.
 
 Each of the parts requires its build process. The Webpack configuration files are located in the "build" folder.
 
@@ -58,13 +58,13 @@ The extension can be debugged using the VSCode debugger. The debugger is configu
 
 ## Markdown-it Plugin
 
-In support of the markdown preview, the extension uses the Markdown-It plug-in system to convert Adobe Flavored Markdown directives into HTML. Each markdown component is defined in its own file under the `/src-plugin/transform/` folder. The `index.ts` file is the entry point for the plugin. The `index.ts` file imports all of the components and registers them with the Markdown-it parser. The `index.ts` file also defines the `adobe` plugin. The `adobeMarkdownPlugin` plugin is the entry point for the plugin.
+In support of the markdown preview, the extension uses the Markdown-It plug-in system to convert Adobe Flavored Markdown directives into HTML. Each markdown component is defined in its own file under the `/src/plugin/transform/` folder. The `index.ts` file is the entry point for the plugin. The `index.ts` file imports all of the components and registers them with the Markdown-it parser. The `index.ts` file also defines the `adobe` plugin. The `adobeMarkdownPlugin` plugin is the entry point for the plugin.
 
 > This extension no longer uses the independent [Adobe Markdown-it Plugin](https://www.npmjs.com/package/markdown-it-adobe-plugin).
 
 ### Adding a new Markdown-it transformation
 
-To add a new Markdown-it transformation, create a new file in the `/src-plugin/transform/` folder. The file should export a function that takes a single parameter, the Markdown-it parser. Register the transform function with the Markdown-it parser in the `index.ts` file.
+To add a new Markdown-it transformation, create a new file in the `/src/plugin/transform/` folder. The file should export a function that takes a single parameter, the Markdown-it parser. Register the transform function with the Markdown-it parser in the `index.ts` file.
 
 The transform functions are registered in the order they are called. The order is important because the transforms are applied in the order they are registered. That is why, for example, the includeFileParts transform is called before the 'normalize' transform, so that it can modify the action Markdown file before it is tokenized. Each of the other transform functions modifies the `state.tokens` array directly, in the order in which they are called.
 
@@ -84,7 +84,7 @@ md.core.ruler.after("block", "link-target", transformLinkTargets);
 
 #### Snippets
 
-The extension also supports snippets and includes. The snippets and include transform functions are defined in `/src-plugin/transform/snippets.ts`.
+The extension also supports snippets and includes. The snippets and include transform functions are defined in `/src/plugin/transform/snippets.ts`.
 
 https://experienceleague.adobe.com/docs/authoring-guide-exl/using/authoring/includes.html?lang=en
 
@@ -96,7 +96,7 @@ Reference to include file: `{{$include /help/_includes/filename.md}}`
 
 #### Admonitions
 
-The extension supports admonitions. The admonition transform functions are defined in `/src-plugin/transform/admonitions.ts`. Admonitions are sometimes called "alerts" or "notes".
+The extension supports admonitions. The admonition transform functions are defined in `/src/plugin/transform/admonitions.ts`. Admonitions are sometimes called "alerts" or "notes".
 
 ## Adobe Spectrum Integration
 
@@ -106,4 +106,4 @@ Some areas of the Experience Leagues documentation site are being migrated to th
 
 The linter rules specific to Adobe are provided by Adobe. However, they are maintained in JavaScript and redundant to the rules built-in to Markdownlint. Because of this, we cannot use the rules provided by Adobe. Instead, we have to convert the rules to a format that can be used by Markdownlint. Since we are using TypeScript throughout the application, we have created TypeScript versions of all of the rules.
 
-To ease migration, we keep a copy of the original JavaScript rules in an `src-rules/from-adobe` folder. The `from-adobe` folder is not included in the build process. The `from-adobe` folder is only used to compare the original rules to the TypeScript rules.
+To ease migration, we keep a copy of the original JavaScript rules in an `src/rules/from-adobe` folder. The `from-adobe` folder is not included in the build process. The `from-adobe` folder is only used to compare the original rules to the TypeScript rules.

@@ -5,10 +5,10 @@ module.exports = {
     ...shared,
     target: 'node',
     entry: {
-        'index': path.join(__dirname, '..', 'src-rules', 'rules.ts'),
+        'index': path.join(__dirname, '..', 'src', 'rules', 'rules.ts'),
     },
     output: {
-        path: path.join(__dirname, '..', 'dist-rules'),
+        path: path.join(__dirname, '..', 'dist', 'rules'),
         filename: 'rules.bundle.js',
         "libraryTarget": "commonjs2"
     },
