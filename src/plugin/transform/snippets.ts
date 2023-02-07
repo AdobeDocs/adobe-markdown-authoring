@@ -52,9 +52,6 @@ function replaceIncludes(
     }
 
     if (errorMessage) {
-      // if (options.throwError) {
-      //     throw new Error(errorMessage);
-      // }
       mdSrc = `\n\n# INCLUDE ERROR: ${errorMessage}\n\n`;
     } else {
       // get content of child file

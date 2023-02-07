@@ -6,13 +6,14 @@ import _ from "lodash";
 import { setupMarkdownParser } from "../transforms.test";
 import { before } from "mocha";
 import MarkdownIt from "markdown-it";
+import { normalizeHtml } from "../../utils";
 
 suite("Snippet Transform Rule", () => {
   let md: MarkdownIt;
   let input: string;
   let expectedOutput: string;
   before(async () => {
-    md = setupMarkdownParser(".");
+    md = setupMarkdownParser();
   });
 
   test("Should render the {{premium-note}} snippet.", async () => {
@@ -26,9 +27,6 @@ suite("Snippet Transform Rule", () => {
     );
     const tokens = md.parse(input, {});
     const output = md.renderer.render(tokens, md.options, {});
-    assert.strictEqual(
-      _.replace(_.trim(output), /(\s)(?![^<]*>)/g, " "),
-      _.replace(_.trim(expectedOutput), /(\s)(?![^<]*>)/g, " ")
-    );
+    assert.strictEqual(normalizeHtml(output), normalizeHtml(expectedOutput));
   });
 });

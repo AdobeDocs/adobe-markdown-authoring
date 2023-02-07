@@ -710,8 +710,8 @@
     ]
   },
   "scripts": {
-    "rebuild": "npm run clean && npm run build && npm run compile",
-    "build": "npm run build-preview && npm run build-rules && npm run build-ext && npm run build-test && npm run compile",
+    "rebuild": "npm run clean && npm run build",
+    "build": "npm run build-preview && npm run build-rules && npm run build-ext && npm run compile",
     "build-preview": "webpack --mode=development --config=./build/preview.webpack.config.js",
     "build-rules": "webpack --mode=development --config=./build/rules.webpack.config.js",
     "build-ext": "webpack --mode=development --config=./build/ext.webpack.config.js",
