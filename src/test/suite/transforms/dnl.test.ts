@@ -7,7 +7,7 @@ import MarkdownIt from "markdown-it";
 suite("DNL Transform Rule", () => {
   let md: MarkdownIt;
   before(() => {
-    md = setupMarkdownParser(".");
+    md = setupMarkdownParser();
   });
 
   test("should strip the [!DNL <text>] markdown and leave the <text> part", () => {

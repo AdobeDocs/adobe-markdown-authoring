@@ -6,7 +6,7 @@ import MarkdownIt from "markdown-it";
 suite("Transform Header Anchors", () => {
   let md: MarkdownIt;
   before(() => {
-    md = setupMarkdownParser(".");
+    md = setupMarkdownParser();
   });
 
   test("should convert AFM Markdown header anchor to an element id on H1", () => {

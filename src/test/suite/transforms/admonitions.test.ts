@@ -7,7 +7,7 @@ import MarkdownIt from "markdown-it";
 suite("Admonition Transform Rule", () => {
   let md: MarkdownIt;
   before(() => {
-    md = setupMarkdownParser(".");
+    md = setupMarkdownParser();
   });
 
   const alertTypes = [

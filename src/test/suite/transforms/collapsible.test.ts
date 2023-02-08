@@ -7,7 +7,7 @@ import MarkdownIt from "markdown-it";
 suite("Collapsible Transform Rule", () => {
   let md: MarkdownIt;
   before(() => {
-    md = setupMarkdownParser(".");
+    md = setupMarkdownParser();
   });
 
   test("should convert +++ to <details> and </details> with <summary>", () => {
