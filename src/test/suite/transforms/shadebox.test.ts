@@ -6,7 +6,7 @@ import MarkdownIt from "markdown-it";
 suite("Test transformShadeBox", () => {
   let md: MarkdownIt;
   before(() => {
-    md = setupMarkdownParser(".");
+    md = setupMarkdownParser();
   });
 
   test("Test shadebox with title", () => {

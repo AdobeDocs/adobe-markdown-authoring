@@ -7,7 +7,7 @@ import MarkdownIt from "markdown-it";
 suite("Transform Link Targets Rule", () => {
   let md: MarkdownIt;
   before(() => {
-    md = setupMarkdownParser(".");
+    md = setupMarkdownParser();
   });
 
   test("should add target attribute to links with target attribute defined in braces", () => {

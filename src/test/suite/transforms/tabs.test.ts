@@ -12,7 +12,7 @@ suite("TABS Transform Rule", () => {
   let input: string;
   let expectedOutput: string;
   before(async () => {
-    md = setupMarkdownParser(".");
+    md = setupMarkdownParser();
     input = await fs.promises.readFile(
       path.join(__dirname, "../../fixtures/transforms/tabs-simple.md"),
       "utf-8"
