@@ -23,8 +23,8 @@
         "--extensionTestsPath=${workspaceFolder}/dist/test/suite"
       ],
       "outFiles": ["${workspaceFolder}/dist/**/*.js"],
-      "preLaunchTask": "tasks: watch-tests",
-      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+      "preLaunchTask": "tasks: compile-tests",
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }

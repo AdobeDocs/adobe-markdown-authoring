@@ -19,27 +19,33 @@ export function transformCollapsible(state: StateCore) {
         let [title, content] = collapsibleText.split("\n");
         let summaryToken = new Token("html_block", "", 0);
         summaryToken.content = `<summary>${title}</summary>`;
-        let detailsToken = new Token("html_block", "", 0);
-        detailsToken.content = "<details>";
-        tokens.splice(i - 1, 2, detailsToken); // replace the opening paragraph and the +++ line with the <details> tag
+        let detailsToken = new Token("paragraph_open", "details", 1);
+        // detailsToken.content = "<details>";
+        tokens.splice(i - 1, 3, detailsToken); // replace the opening paragraph and the +++ line with the <details> tag
         tokens.splice(i, 0, summaryToken); // insert the <summary> tag
         if (content) {
-          let contentToken = new Token("html_block", "", 0);
+          let popen = new Token("paragraph_open", "p", 1);
+          let contentToken = new Token(TokenType.INLINE, "", 0);
           contentToken.content = content;
+          contentToken.children = []; // important!  Can't be null.
+          let pclose = new Token("paragraph_close", "p", -1);
+          tokens.splice(i + 1, 0, pclose);
           tokens.splice(i + 1, 0, contentToken); // insert the content token
+          tokens.splice(i + 1, 0, popen);
         }
+        i += 3; // skip the summary token
         // Find the closing +++ line.
-        i += 2; // skip the opening <details> tag and the <summary> tag
         while (i < tokens.length) {
           let nextToken = tokens[i];
-          if (nextToken.type === TokenType.PARAGRAPH_CLOSE) {
+          if (nextToken.type === TokenType.INLINE) {
             text = nextToken.content;
-            // if (text.startsWith("+++")) {
-              let endDetailsToken = new Token("html_block", "", 0);
-              endDetailsToken.content = "</details>";
-              tokens.splice(i, 1, endDetailsToken);
+            if (text.startsWith("+++")) {
+              let endDetailsToken = new Token("paragraph_close", "details", -1);
+              // endDetailsToken.content = "</details>";
+              tokens.splice(i - 1, 3, endDetailsToken);
+              i--; // back up to the end details token
               break;
-            // }
+            }
           }
           i++;
         }
