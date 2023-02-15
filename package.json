@@ -716,7 +716,7 @@
     "build-rules": "webpack --mode=development --config=./build/rules.webpack.config.js",
     "build-ext": "webpack --mode=development --config=./build/ext.webpack.config.js",
     "build-test": "tsc -p ./src/test",
-    "copy-fixtures": "cp -R ./src/test/fixtures ./dist/test",
+    "copy-fixtures": "cpx \"./src/test/fixtures/**/*\" \"./dist/test\" --verbose",
     "compile": "npm run copy-fixtures && npm run build-test",
     "test": "node ./dist/test/runTest.bundle.js",
     "clean": "rimraf dist",
@@ -726,7 +726,8 @@
     "package-ext": "webpack --mode production --devtool hidden-source-map --config ./build/ext.webpack.config.js",
     "lint": "eslint src --ext ts",
     "test-lint": "markdownlint-cli2 README.md --rules ./dist/rules/rules.bundle.js",
-    "vscode:prepublish": "npm run package"
+    "vscode:prepublish": "npm run package",
+    "vsce:package": "vsce package"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -734,7 +735,6 @@
     "@types/glob": "^8.0.0",
     "@types/lodash": "^4.14.191",
     "@types/markdown-it": "^12.2.3",
-    "@types/markdownlint": "^0.18.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
     "@types/vscode": "^1.74.0",
@@ -750,7 +750,6 @@
     "mini-css-extract-plugin": "^2.7.2",
     "mocha": "^10.1.0",
     "mocha-explorer-launcher-scripts": "^0.4.0",
-    "ncp": "^2.0.0",
     "nyc": "^15.1.0",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
