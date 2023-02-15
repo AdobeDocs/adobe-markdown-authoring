@@ -1,9 +1,5 @@
-out
 dist
-dist-plugin
-dist-preview
-dist-rules
 *temp
 node_modules
-.vscode-test/
-*.vsix
+
+

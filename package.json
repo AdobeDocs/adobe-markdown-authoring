@@ -23,6 +23,9 @@
     "onLanguage:markdown"
   ],
   "main": "./dist/extension.js",
+  "files": [
+    "assets/**/*"
+  ],
   "contributes": {
     "markdown.previewStyles": [
       "./assets/styles/spectrum.css",
@@ -31,7 +34,7 @@
     ],
     "markdown.markdownItPlugins": true,
     "markdown.previewScripts": [
-      "./dist-preview/index.bundle.js"
+      "./dist/preview/index.bundle.js"
     ],
     "configuration": {
       "title": "Markdown Preview Spectrum Support",
@@ -692,32 +695,46 @@
     "MD045": false
   },
   "markdownlint.customRules": [
-    "{AdobeExl.adobe-markdown-authoring}/dist-rules/rules.bundle.js"
+    "{AdobeExl.adobe-markdown-authoring}/dist/rules/rules.bundle.js"
   ],
+  "mocha": {
+    "ui": "tdd",
+    "timeout": 30000,
+    "reporter": "spec",
+    "require": [
+      "ts-node/register"
+    ],
+    "recursive": true,
+    "extension": [
+      "ts"
+    ]
+  },
   "scripts": {
     "rebuild": "npm run clean && npm run build",
     "build": "npm run build-preview && npm run build-rules && npm run build-ext && npm run compile",
-    "build-preview": "webpack --mode=development --config ./build/preview.webpack.config.js",
-    "build-rules": "webpack --mode=development --config ./build/rules.webpack.config.js",
-    "build-ext": "webpack --mode development --config ./build/webpack.config.js",
-    "compile": "tsc -p src  --listEmittedFiles --outDir out",
-    "watch-tests": "tsc -p src -w --outDir out",
-    "test": "node ./out/test/runTest.js",
-    "clean": "rimraf dist && rimraf dist-rules && rimraf dist-plugin && rimraf dist-preview && rimraf out",
+    "build-preview": "webpack --mode=development --config=./build/preview.webpack.config.js",
+    "build-rules": "webpack --mode=development --config=./build/rules.webpack.config.js",
+    "build-ext": "webpack --mode=development --config=./build/ext.webpack.config.js",
+    "build-test": "tsc -p ./src/test",
+    "copy-fixtures": "cpx \"./src/test/fixtures/**/*\" \"./dist/test\" --verbose",
+    "compile": "npm run copy-fixtures && npm run build-test",
+    "test": "node ./dist/test/runTest.bundle.js",
+    "clean": "rimraf dist",
     "package": "npm run clean && npm run package-preview && npm run package-rules && npm run package-ext",
     "package-preview": "webpack --mode production --devtool hidden-source-map --config ./build/preview.webpack.config.js",
     "package-rules": "webpack --mode production --devtool hidden-source-map --config ./build/rules.webpack.config.js ",
-    "package-ext": "webpack --mode production --devtool hidden-source-map --config ./build/webpack.config.js",
+    "package-ext": "webpack --mode production --devtool hidden-source-map --config ./build/ext.webpack.config.js",
     "lint": "eslint src --ext ts",
-    "test-lint": "markdownlint-cli2 README.md --rules ./dist-rules/rules.bundle.js",
-    "vscode:prepublish": "npm run package"
+    "test-lint": "markdownlint-cli2 README.md --rules ./dist/rules/rules.bundle.js",
+    "vscode:prepublish": "npm run package",
+    "vsce:package": "vsce package"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
     "@types/glob": "^8.0.0",
+    "@types/lodash": "^4.14.191",
     "@types/markdown-it": "^12.2.3",
-    "@types/markdownlint": "^0.18.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
     "@types/vscode": "^1.74.0",
@@ -725,10 +742,15 @@
     "@typescript-eslint/parser": "^5.45.0",
     "@vscode/test-electron": "^2.2.2",
     "babel-loader": "^9.1.2",
+    "copy-webpack-plugin": "^11.0.0",
+    "cpx": "^1.5.0",
     "eslint": "^8.28.0",
     "glob": "^8.0.3",
+    "ignore-loader": "^0.1.2",
+    "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.2",
     "mocha": "^10.1.0",
+    "mocha-explorer-launcher-scripts": "^0.4.0",
     "nyc": "^15.1.0",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",

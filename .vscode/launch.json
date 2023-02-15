@@ -10,12 +10,9 @@
       "type": "extensionHost",
       "request": "launch",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
-      "outFiles": [
-        "${workspaceFolder}/dist/*.js",
-        "${workspaceFolder}/dist-preview/*.js",
-        "${workspaceFolder}/dist-rules/*.js"
-      ],
-      "preLaunchTask": "${defaultBuildTask}"
+      "outFiles": ["${workspaceFolder}/dist/*.js"],
+      "preLaunchTask": "${defaultBuildTask}",
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
     },
     {
       "name": "Extension Tests",
@@ -23,10 +20,11 @@
       "request": "launch",
       "args": [
         "--extensionDevelopmentPath=${workspaceFolder}",
-        "--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
+        "--extensionTestsPath=${workspaceFolder}/dist/test/suite"
       ],
-      "outFiles": ["${workspaceFolder}/out/**/*.js"],
-      "preLaunchTask": "tasks: watch-tests"
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "preLaunchTask": "tasks: compile-tests",
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }
