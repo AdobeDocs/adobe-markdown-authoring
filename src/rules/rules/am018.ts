@@ -6,6 +6,7 @@ import {
   FilterParams,
   filterTokens,
   forEachLine,
+  makeTokenCache,
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 module.exports = {
@@ -16,6 +17,7 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     var checklines: number[] = [];
     filterTokens(
       params,

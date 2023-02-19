@@ -14,12 +14,9 @@ import {
   forEachLine,
   inlinetags,
   isInCodeBlock,
+  makeTokenCache,
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
-
-// > [!NOTE]
-// should be
-// >[!NOTE]
 
 module.exports = {
   names: ["AM009", "malformed-adobe-markdown-block"],
@@ -37,8 +34,8 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     var incodeblock: boolean = false;
-
     // check for stray AFM admonitions outside of blockquote or UICONTROL/DNL without brackets
     for (var i = 0; i < params.lines.length; i++) {
       if (i > 1) {

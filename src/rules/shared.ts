@@ -239,7 +239,7 @@ export const filterTokens = (params: FilterParams, type: string, callback: { (to
 
 let tokenCache: { params: FilterParams; lineMetadata: any; flattenedLists: any; } | null = null;
 // Caches line metadata and flattened lists for reuse
-export const makeTokenCache = (params: FilterParams) => {
+export const makeTokenCache = (params: FilterParams | null) => {
   if (!params) {
     tokenCache = null;
     return;

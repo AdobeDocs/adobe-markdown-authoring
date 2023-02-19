@@ -111,7 +111,8 @@ export function checkMarkdownlintConfigSettings() {
 
 /**
  * Method to check for the docs custom markdownlint value.
- * Checks for markdownlint.customRules property.  If markdownlint isn't installed, do nothing.  If markdownlint is installed, check for custom property values.
+ * Checks for markdownlint.customRules property.  If markdownlint isn't installed, do nothing.
+ * If markdownlint is installed, check for custom property values.
  */
 export function checkMarkdownlintCustomProperty() {
   const { msTimeValue } = generateTimestamp();

@@ -6,6 +6,7 @@ import {
   FilterParams,
   filterTokens,
   forEachLine,
+  makeTokenCache,
   rangeFromRegExp,
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
@@ -19,6 +20,7 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     const tableMissingCloseRe = new RegExp("^\\s*\\|(.*?)[^\\|]$");
     const asideBlockRe = new RegExp("^\\|[^\\|]*$"); // const missingClosingPipe = new RegExp("^\\s*\\")
     const codeBlockRe = new RegExp("```");

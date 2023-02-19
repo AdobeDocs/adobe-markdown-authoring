@@ -5,9 +5,9 @@ import {
   ErrorContext,
   FilterParams,
   forEachHeading,
+  makeTokenCache,
   rangeFromRegExp,
 } from "../shared";
-import { MarkdownItToken } from "markdownlint";
 
 module.exports = {
   names: ["AM008", "header-contains-link"],
@@ -17,6 +17,7 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     const headingHasLinkRe = new RegExp("[^!]\\[.*\\]\\(.*\\)");
     forEachHeading(params, function forHeading(heading, content) {
       const match = headingHasLinkRe.exec(content);
