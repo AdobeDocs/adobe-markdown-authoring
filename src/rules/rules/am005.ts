@@ -5,6 +5,7 @@ import {
   ErrorContext,
   FilterParams,
   forEachLine,
+  makeTokenCache,
 } from "../shared";
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     const codeBlockRe = new RegExp("```");
     var inCodeBlock = false;
     const idStartsWithNumberRe = new RegExp(".*?{#d+.*?}");

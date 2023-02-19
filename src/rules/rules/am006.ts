@@ -5,6 +5,7 @@ import {
   ErrorContext,
   FilterParams,
   forEachLine,
+  makeTokenCache,
 } from "../shared";
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     forEachLine(function forLine(line, lineIndex) {
       const lineNumber = lineIndex + 1;
       if (line.match(/[\x00-\x08\x0A-\x0F]/)) {

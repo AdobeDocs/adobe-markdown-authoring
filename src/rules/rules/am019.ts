@@ -1,6 +1,12 @@
 "use strict";
 
-import { addError, ErrorContext, FilterParams, forEachLine } from "../shared";
+import {
+  addError,
+  ErrorContext,
+  FilterParams,
+  forEachLine,
+  makeTokenCache,
+} from "../shared";
 
 module.exports = {
   names: ["AM019", "link-syntax"],
@@ -10,13 +16,16 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     const codeBlockRe = new RegExp("```");
     var inCodeBlock = false;
     forEachLine(function forLine(line, lineIndex) {
       const lineNumber = lineIndex + 1;
       const codeBlockMatch = codeBlockRe.exec(line);
-      const spaceinurl = line.match(/\[[^!].*?\]\(\s+/);
-      const pareninurl = line.match(/\[[^!].*?\]\(\(/);
+      const spaceinurl = line.match(/\[.+?\]\((?:.*\s+.*)\)/);
+      const pareninurl = line.match(
+        /\[[^\]]*\]\((?=.*?\()(?:[^\s)]|\((?:[^()]*|\([^()]*\))*\))+\)/
+      );
       if (codeBlockMatch) {
         inCodeBlock = !inCodeBlock;
       }
