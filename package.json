@@ -716,7 +716,7 @@
     "build-rules": "webpack --mode=development --config=./build/rules.webpack.config.js",
     "build-ext": "webpack --mode=development --config=./build/ext.webpack.config.js",
     "build-test": "tsc -p ./src/test",
-    "copy-fixtures": "cpx \"./src/test/fixtures/**/*\" \"./dist/test\" --verbose",
+    "copy-fixtures": "cpx \"./src/test/fixtures/**/*\" \"./dist/test/fixtures\" --verbose",
     "compile": "npm run copy-fixtures && npm run build-test",
     "test": "node ./dist/test/runTest.bundle.js",
     "clean": "rimraf dist",

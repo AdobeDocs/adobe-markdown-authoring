@@ -18,10 +18,6 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-// > [!NOTE]
-// should be
-// >[!NOTE]
-
 module.exports = {
   names: ["AM009", "malformed-adobe-markdown-block"],
   description: "Tests whether the Adobe Markdown is malformed",
