@@ -73,6 +73,73 @@ should be
 
 Not allowed: `{#id-tag-#name}`
 
+<a name="AM011"/>
+
+## AM011 - Spaces between link components or in URL
+Spaces between link components or in URLs are not recommended as they can cause issues with linking or break links altogether.
+
+### Rule Details
+This rule detects any links in the document where there are spaces between the link components or within the URL itself. Links should have no spaces between the link text and the URL or between the components of the URL.
+
+### Examples
+
+#### Incorrect
+The following example demonstrates the incorrect usage of spaces in a link:
+
+```markdown
+[Link with space in text] (http://example.com)
+Correct
+```
+
+The following example demonstrates the correct usage of links without spaces:
+
+```markdown
+[Link without space in text](http://example.com)
+```
+
+### Configuration
+This rule does not take any configuration.
+
+<a name="AM012"></a>
+
+## AM012/code-block-indent-and-fence
+
+Code blocks must have the same indent level as their surrounding context, and the opening and closing fence must be indented to the same level.
+
+### Rule Details
+This rule checks for proper indentation in code blocks, including inline code. It will detect if the opening and closing fence are not indented to the same level, and whether the code block has the same indent level as its surrounding context. The rule also checks for unclosed code blocks.
+
+### Example
+
+The following code block is indented correctly.
+
+    #!/bin/bash
+    echo "Hello World"
+
+The previous code block should not trigger AM012 because it is indented correctly.
+
+The following code block is indented incorrectly.
+
+ #!/bin/bash
+    echo "Hello World"
+  echo "Two spaces are used to indent this line, but it should be four spaces."
+
+The following code block is fenced, but not terminated.
+
+```
+#!/bin/bash
+echo "Hello World"
+
+# This text is part of the code block, and it should trigger AM012 because the code block is not terminated.
+```
+
+
+### Options
+
+This rule does not have any options.
+
+## Markdown Lint built-in rules
+
 <a name="md001"></a>
 
 ## MD001 - Heading levels should only increment by one level at a time
