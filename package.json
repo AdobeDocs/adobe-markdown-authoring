@@ -331,6 +331,11 @@
         "command": "md-shortcut.toggleUIControl",
         "title": "Toggle UICONTROL",
         "category": "Markdown Shortcuts"
+      },
+      {
+        "command": "md-shortcut.toggleShadebox",
+        "title": "Toggle Shadebox",
+        "category": "Markdown Shortcuts"
       }
     ],
     "keybindings": [
@@ -457,6 +462,11 @@
       {
         "command": "md-shortcut.toggleUIControl",
         "key": "Ctrl+m Ctrl+u",
+        "when": "editorTextFocus && markdown:enabled"
+      },
+      {
+        "command": "md-shortcut.toggleShadebox",
+        "key": "Ctrl+m Ctrl+h",
         "when": "editorTextFocus && markdown:enabled"
       }
     ],
@@ -591,6 +601,11 @@
           "command": "md-shortcut.toggleUIControl",
           "when": "markdown:enabled",
           "group": "2_markdown_4@15"
+        },
+        {
+          "command": "md-shortcut.toggleShadebox",
+          "when": "markdown:enabled",
+          "group": "2_markdown_4@16"
         }
       ],
       "editor/title": [
