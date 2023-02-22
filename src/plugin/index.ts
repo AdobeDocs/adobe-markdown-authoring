@@ -21,6 +21,7 @@ export enum TokenType {
   HEADING_OPEN = "heading_open",
   TABLE_OPEN = "table_open",
   TABLE_CLOSE = "table_close",
+  IMAGE = "image",
 }
 
 export default function adobeMarkdownPlugin(md: MarkdownIt, filePath: string) {
@@ -44,5 +45,5 @@ function injectTransforms(md: MarkdownIt, filePath: string) {
   md.core.ruler.after("block", "alert", transformAdmonitions);
   md.core.ruler.after("block", "header-anchors", transformHeaderAnchors);
   md.core.ruler.after("block", "collapsible", transformCollapsible);
-  md.core.ruler.after("block", "images", transformImages);
+  md.core.ruler.after("inline", "image-size", transformImages);
 }
