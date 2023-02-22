@@ -2,6 +2,22 @@ import StateCore from "markdown-it/lib/rules_core/state_core";
 import Token from "markdown-it/lib/token";
 import { TokenType } from "..";
 
+function centerFirstImage(token: Token) {
+  if (!token?.children) {
+    return;
+  }
+  const imageToken = token.children.find((child) => child.type === "image");
+  if (imageToken) {
+    const imageIndex = token.children.indexOf(imageToken);
+    const startToken = new Token("html_block", "", 0);
+    startToken.content = "<div style='text-align:center;'>";
+    const endToken = new Token("html_block", "", 0);
+    endToken.content = "</div>";
+    token.children.splice(imageIndex, 0, startToken);
+    token.children.splice(imageIndex + 2, 0, endToken);
+  }
+}
+
 function extractAttributes(token: Token) {
   const regex = /\[(.+?)\]\((.+?)\s(.*)\)/;
   const match = token.content.match(regex);
@@ -23,8 +39,12 @@ function extractAttributes(token: Token) {
 
       const textProps = propsArray.reduce<[string, string][]>((arr, prop) => {
         const [key, value] = prop.split("=");
-        if (key.toLowerCase() === "align" && value.toLowerCase() === "center") {
+        if (
+          key.toLowerCase() === "align" &&
+          value.toLowerCase().replace(/"/g, "") === "center"
+        ) {
           arr.push(["style", "display: block; margin: auto;"]);
+          centerFirstImage(token);
         } else {
           arr.push([key, value.replace(/"/g, "")]);
         }
