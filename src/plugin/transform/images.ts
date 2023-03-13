@@ -66,10 +66,10 @@ export function transformImages(state: StateCore) {
   let tokens = state.tokens;
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i];
-    if (token.type !== TokenType.INLINE) {
+    if (token?.type !== TokenType.INLINE) {
       continue;
     }
-    if (token?.children && token.children[0].type === TokenType.IMAGE) {
+    if (token?.children && token?.children[0]?.type === TokenType.IMAGE) {
       extractAttributes(token);
     }
   }
