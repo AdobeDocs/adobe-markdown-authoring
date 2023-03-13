@@ -1,4 +1,6 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const glob = require('glob');
 
 module.exports = {
   target: "web",
@@ -26,5 +28,6 @@ module.exports = {
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
+
   ]
 };
