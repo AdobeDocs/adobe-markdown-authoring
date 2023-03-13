@@ -3,7 +3,7 @@
   "displayName": "Adobe Markdown Authoring extension for Visual Studio Code",
   "description": "All-in-one Adobe Flavored Markdown document authoring extension for Visual Studio Code.",
   "publisher": "AdobeExl",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -331,6 +331,11 @@
         "command": "md-shortcut.toggleUIControl",
         "title": "Toggle UICONTROL",
         "category": "Markdown Shortcuts"
+      },
+      {
+        "command": "md-shortcut.toggleShadebox",
+        "title": "Toggle Shadebox",
+        "category": "Markdown Shortcuts"
       }
     ],
     "keybindings": [
@@ -457,6 +462,11 @@
       {
         "command": "md-shortcut.toggleUIControl",
         "key": "Ctrl+m Ctrl+u",
+        "when": "editorTextFocus && markdown:enabled"
+      },
+      {
+        "command": "md-shortcut.toggleShadebox",
+        "key": "Ctrl+m Ctrl+h",
         "when": "editorTextFocus && markdown:enabled"
       }
     ],
@@ -591,6 +601,11 @@
           "command": "md-shortcut.toggleUIControl",
           "when": "markdown:enabled",
           "group": "2_markdown_4@15"
+        },
+        {
+          "command": "md-shortcut.toggleShadebox",
+          "when": "markdown:enabled",
+          "group": "2_markdown_4@16"
         }
       ],
       "editor/title": [
@@ -716,7 +731,7 @@
     "build-rules": "webpack --mode=development --config=./build/rules.webpack.config.js",
     "build-ext": "webpack --mode=development --config=./build/ext.webpack.config.js",
     "build-test": "tsc -p ./src/test",
-    "copy-fixtures": "cpx \"./src/test/fixtures/**/*\" \"./dist/test\" --verbose",
+    "copy-fixtures": "cpx \"./src/test/fixtures/**/*\" \"./dist/test/fixtures\" --verbose",
     "compile": "npm run copy-fixtures && npm run build-test",
     "test": "node ./dist/test/runTest.bundle.js",
     "clean": "rimraf dist",
@@ -736,7 +751,7 @@
     "@types/lodash": "^4.14.191",
     "@types/markdown-it": "^12.2.3",
     "@types/mocha": "^10.0.1",
-    "@types/node": "16.x",
+    "@types/node": "^18.15.0",
     "@types/vscode": "^1.74.0",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
@@ -745,11 +760,11 @@
     "copy-webpack-plugin": "^11.0.0",
     "cpx": "^1.5.0",
     "eslint": "^8.28.0",
-    "glob": "^8.0.3",
+    "glob": "^9.2.1",
     "ignore-loader": "^0.1.2",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.2",
-    "mocha": "^10.1.0",
+    "mocha": "^10.2.0",
     "mocha-explorer-launcher-scripts": "^0.4.0",
     "nyc": "^15.1.0",
     "ts-loader": "^9.4.1",
@@ -761,11 +776,13 @@
     "webpack-cli": "^5.0.0"
   },
   "dependencies": {
-    "@spectrum-web-components/tabs": "^0.10.4",
+    "@spectrum-web-components/tabs": "^0.11.1",
     "@spectrum-web-components/theme": "^0.14.8",
     "markdown-it": "^13.0.1",
     "markdownlint-cli": "^0.33.0",
     "markdownlint-rule-helpers": "^0.18.0",
+    "minimist": "^1.2.8",
+    "mkdirp": "^2.1.5",
     "title-case": "^3.0.3"
   }
 }

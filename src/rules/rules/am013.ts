@@ -5,6 +5,7 @@ import {
   ErrorContext,
   FilterParams,
   forEachLine,
+  makeTokenCache,
 } from "../shared";
 
 module.exports = {
@@ -15,8 +16,8 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     const lines = params.lines;
-
     forEachLine(function forLine(line, i) {
       line = line.replace(">", " "); // get rid of blockquotes
       line = line.replace(/```.*?```/, "reg");

@@ -3,6 +3,7 @@ import { transformAdmonitions } from "./transform/admonitions";
 import { transformCollapsible } from "./transform/collapsible";
 import { transformDNL } from "./transform/dnl";
 import { transformHeaderAnchors } from "./transform/header-anchors";
+import { transformImages } from "./transform/images";
 import transformLinkTargets from "./transform/link-targets";
 import { transformShadebox } from "./transform/shadebox";
 import { includeFileParts } from "./transform/snippets";
@@ -20,6 +21,7 @@ export enum TokenType {
   HEADING_OPEN = "heading_open",
   TABLE_OPEN = "table_open",
   TABLE_CLOSE = "table_close",
+  IMAGE = "image",
 }
 
 export default function adobeMarkdownPlugin(md: MarkdownIt, filePath: string) {
@@ -43,4 +45,5 @@ function injectTransforms(md: MarkdownIt, filePath: string) {
   md.core.ruler.after("block", "alert", transformAdmonitions);
   md.core.ruler.after("block", "header-anchors", transformHeaderAnchors);
   md.core.ruler.after("block", "collapsible", transformCollapsible);
+  md.core.ruler.after("inline", "image-size", transformImages);
 }

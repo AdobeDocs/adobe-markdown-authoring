@@ -6,6 +6,7 @@ import {
   FilterParams,
   forEachLine,
   isInCodeBlock,
+  makeTokenCache,
 } from "../shared";
 
 module.exports = {
@@ -16,6 +17,7 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     const lines = params.lines;
     var inCodeBlock = false;
     var pre = "";

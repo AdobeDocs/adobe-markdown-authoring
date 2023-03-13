@@ -6,6 +6,7 @@ import {
   ErrorContext,
   FilterParams,
   forEachLine,
+  makeTokenCache,
 } from "../shared";
 
 module.exports = {
@@ -16,6 +17,7 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     const lines = params.lines;
     var openFenceIndent = -1;
     var inCode = false;
@@ -23,7 +25,6 @@ module.exports = {
     var codeblockcount = 0;
 
     forEachLine(function forLine(line, i) {
-      var oldline = line;
       line = line.replace(">", " "); // get rid of blockquotes
       line = line.replace(/```.*?```/, "reg"); // remove inline code
       line = line.replace(/^[\s]*\\[\s]*$/, ""); // remove backslashes used as replacements for html comments in clearHtmlCommentText()

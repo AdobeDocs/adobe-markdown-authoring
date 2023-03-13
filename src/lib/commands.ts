@@ -32,6 +32,7 @@ import { toggleMoreLikeThis } from "./commands/toggle-morelikethis";
 import { toggleNote } from "./commands/toggle-note";
 import { toggleNumberList } from "./commands/toggle-numberlist";
 import { togglePrerequisites } from "./commands/toggle-prerequisites";
+import { toggleShadebox } from "./commands/toggle-shadebox";
 import { toggleStrikethrough } from "./commands/toggle-strikethrough";
 import { toggleSuccess } from "./commands/toggle-success";
 import { toggleTip } from "./commands/toggle-tip";
@@ -68,6 +69,17 @@ class Command implements CommandItem {
 }
 
 const _commands: Command[] = [
+  new Command(
+    "toggleShadebox",
+    toggleShadebox,
+    "Toggle shadebox",
+    ">[!BEGINSHADEBOX]" +
+      getEol() +
+      "Shadebox text" +
+      getEol() +
+      ">[!ENDSHADEBOX]",
+    true
+  ),
   new Command(
     "toggleStrikethrough",
     toggleStrikethrough,

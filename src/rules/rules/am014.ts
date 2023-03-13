@@ -1,6 +1,12 @@
 "use strict";
 
-import { ErrorContext, FilterParams, forEachLine } from "../shared";
+import {
+  addErrorContext,
+  ErrorContext,
+  FilterParams,
+  forEachLine,
+  makeTokenCache,
+} from "../shared";
 
 module.exports = {
   names: ["AM014", "code-block-language-has-curly-braces"],
@@ -10,9 +16,13 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     forEachLine(function forLine(line, i) {
       line = line.replace(">", " "); // get rid of blockquotes
-      line = line.replace(/```.*?```/g, "reg");
+      line = line.replace(/```.*?```/g, "reg"); // Ignore inline code blocks
+      if (line.match(/```.*\{/)) {
+        addErrorContext(onError, i + 1, line.trim());
+      }
     });
   },
 };

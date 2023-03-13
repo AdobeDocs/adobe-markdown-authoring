@@ -5,6 +5,7 @@ import {
   ErrorContext,
   FilterParams,
   forEachHeading,
+  makeTokenCache,
   rangeFromRegExp,
 } from "../shared";
 
@@ -16,6 +17,7 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
+    makeTokenCache(params);
     const anchorMissingHashRe = new RegExp("{[^#][^=]*}$");
     forEachHeading(params, function forHeading(heading, content) {
       content = content.replace(/{{.*?}}/, "SNIPPET");
