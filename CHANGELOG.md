@@ -6,10 +6,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [2.0.2] - 2023-03-13
+
+- Updated dependencies to fix security vulnerabilities
+- Removed cpx dependency
+- Identified source of minimist warnings
+
 ## [2.0.1] - 2023-03-13
 
 - Updated dependencies to fix security vulnerabilities
 - Generated new VSIX file.
+
 ## [2.0.0] - 2022-12-31
 
 - Complete refactor of the extension to use TypeScript and the new VS Code API
