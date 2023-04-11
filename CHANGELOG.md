@@ -4,7 +4,9 @@ All notable changes to the "adobe-markdown-authoring" extension will be document
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [2.0.3] - 2023-04-11
+
+-  Turn off or edit validation rules that mistakenly flag valid syntax #26
 
 ## [2.0.2] - 2023-03-13
 

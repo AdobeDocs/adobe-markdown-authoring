@@ -22,9 +22,11 @@ module.exports = {
     forEachLine(function forLine(line, lineIndex) {
       const lineNumber = lineIndex + 1;
       const codeBlockMatch = codeBlockRe.exec(line);
-      const spaceinurl = line.match(/\[.+?\]\((?:.*\s+.*)\)/);
+      const spaceinurl = line.match(
+        /(?<!\!)\[(?:(?!\]).)*\]\((?:(?!\)).)*\s(?:(?!\)).)*\)/
+      );
       const pareninurl = line.match(
-        /\[[^\]]*\]\((?=.*?\()(?:[^\s)]|\((?:[^()]*|\([^()]*\))*\))+\)/
+        /(?<!\!)\[(?:(?!\]).)*\]\((?:(?!\)).)*\((?:(?!\)).)*\)(?:(?!\)).)*\)/
       );
       if (codeBlockMatch) {
         inCodeBlock = !inCodeBlock;
