@@ -27,9 +27,6 @@ export function AM015(
         // we found the end of the comment on this line
         inComment = false;
         openComment = false;
-      } else {
-        // the comment hasn't ended yet
-        addErrorContext(onError, i + 1, line.trim(), params.name);
       }
     } else if (
       commentStart >= 0 &&

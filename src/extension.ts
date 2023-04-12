@@ -104,7 +104,7 @@ export function activate(context: vscode.ExtensionContext) {
 // This method is called when your extension is deactivated
 export function deactivate() {}
 
-const defaultSpectrumTheme = "light";
+const defaultSpectrumTheme = "dark";
 const validSpectrumThemes = ["lightest", "light", "dark", "darkest"];
 
 function sanitizeSpectrumTheme(theme: string | undefined) {

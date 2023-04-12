@@ -33,7 +33,7 @@ export function transformCollapsible(state: StateCore) {
           tokens.splice(i + 1, 0, contentToken); // insert the content token
           tokens.splice(i + 1, 0, popen);
         }
-        i += 3; // skip the summary token
+        i+=2; // skip the summary token
         // Find the closing +++ line.
         while (i < tokens.length) {
           let nextToken = tokens[i];
@@ -41,9 +41,15 @@ export function transformCollapsible(state: StateCore) {
             text = nextToken.content;
             if (text.startsWith("+++")) {
               let endDetailsToken = new Token("paragraph_close", "details", -1);
-              // endDetailsToken.content = "</details>";
               tokens.splice(i - 1, 3, endDetailsToken);
               i--; // back up to the end details token
+              break;
+            } else if (text.includes("\n+++")) {
+              let endDetailsToken = new Token("paragraph_close", "details", -1);
+              // Remove the +++ from the end of the line.
+              nextToken.content = text.replace("+++", "");
+              // Insert the end details token after the updated inline token.
+              tokens.splice(i+1, 0, endDetailsToken);
               break;
             }
           }

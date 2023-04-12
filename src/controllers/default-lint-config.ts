@@ -1,4 +1,4 @@
-export const DEFAULT_MARKDOWNLINT_CONFIG = {
+export const defaultMarkdownlintConfig = {
   "line-length": false,
   AM001: false,
   AM009: false,
