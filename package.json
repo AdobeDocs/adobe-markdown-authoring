@@ -650,6 +650,7 @@
     "AM001": false,
     "AM009": false,
     "AM011": false,
+    "AM015": false,
     "MD003": {
       "style": "atx"
     },
