@@ -25,13 +25,13 @@ module.exports = {
     const asideBlockRe = new RegExp("^\\|[^\\|]*$"); // const missingClosingPipe = new RegExp("^\\s*\\")
     const codeBlockRe = new RegExp("```");
     var inCodeBlock = false;
-    var tablelines: string[] = [];
+    var tablelines: any[][] = [];
     // The following code doesn't seem to do anything useful - GDE
-    // filterTokens(params, "table_open", function forToken(token: MarkdownItToken) {
-    //   var begin = token.map[0] + 1 + params.frontMatterLines.length;
-    //   var end = token.map[1] + 1 + params.frontMatterLines.length;
-    //   tablelines.push(token.map);
-    // });
+    filterTokens(params, "table_open", function forToken(token: MarkdownItToken) {
+      var begin = token.map[0] + 1 + params.frontMatterLines.length;
+      var end = token.map[1] + 1 + params.frontMatterLines.length;
+      tablelines.push(token.map);
+    });
     forEachLine(function forLine(line, lineIndex) {
       const lineNumber = lineIndex + 1;
       const realLineNumber = lineNumber + params.frontMatterLines.length;
@@ -59,7 +59,6 @@ module.exports = {
         for (let step = 0; step < tablelines.length; step++) {
           let tableStart = tablelines[step][0] + params.frontMatterLines.length;
           let tableEnd = tablelines[step][1] + params.frontMatterLines.length;
-          // console.log(tableStart, tableEnd,mdlint realLineNumber)
           if (realLineNumber === tableEnd + 2) {
             pass = true;
           }
