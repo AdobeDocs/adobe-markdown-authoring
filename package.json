@@ -650,6 +650,7 @@
     "AM001": false,
     "AM009": false,
     "AM011": false,
+    "AM014": false,
     "AM015": false,
     "MD003": {
       "style": "atx"
@@ -668,8 +669,8 @@
     "MD027": false,
     "MD028": false,
     "MD030": {
-      "ul_multi": 3,
-      "ol_multi": 2
+      "ul_multi": 1,
+      "ol_multi": 1
     },
     "MD033": {
       "allowed_elements": [
