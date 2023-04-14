@@ -290,12 +290,12 @@ export function surroundBlockSelection(
           editBuilder.insert(endPos, endPattern);
         })
         .then(() => {
-          // Update the selection to include the start and end patterns
-          const newStartPos = startPos.with(startPos.line, startPos.character + startPattern.length);
-          const newEndPos = endPos.with(endPos.line + 2, endPos.character);
-          editor.selection = new vscode.Selection(newStartPos, newEndPos);
+          // Set the cursor at the end of the endPos line
+          const cursorPos = endPos.with(endPos.line, editor.document.lineAt(endPos.line).text.length);
+          editor.selection = new vscode.Selection(cursorPos, cursorPos);
         });
     }
+
   }
 }
 
