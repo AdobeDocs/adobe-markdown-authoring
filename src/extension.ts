@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 import MarkdownIt from "markdown-it";
+import markdownItAttrs from "markdown-it-attrs";
+
 import adobeMarkdownPlugin from "./plugin";
 import {
   checkMarkdownlintCustomProperty,
@@ -91,11 +93,63 @@ export function activate(context: vscode.ExtensionContext) {
   // Extend MarkdownIt to process Adobe Flavored Markdown to HTML for preview.
   return {
     extendMarkdownIt(md: MarkdownIt) {
+      // Custom fence renderer for code blocks with line numbering, line highlighting, and starting line number
       let plugin = adobeMarkdownPlugin(
         md,
         getRootFolder()?.uri.path || extensionPath
       );
       md.use(injectSpectrumTheme);
+      const hljs = require("highlight.js");
+
+      md.set({
+        highlight: function (str, lang, attrs) {
+          if (lang && hljs.getLanguage(lang)) {
+            try {
+              return hljs.highlight(str, {
+                language: lang,
+                ignoreIllegals: true,
+              }).value;
+            } catch (__) {}
+          }
+
+          return ""; // use external default escaping
+        },
+      });
+
+      md.renderer.rules.fence = (tokens, idx, options, env, slf) => {
+        const token = tokens[idx];
+        const langInfo = token.info.trim();
+        const langAttrs = langInfo.match(/{[^}]+}/)?.[0] || "";
+
+        let code = token.content;
+
+        let lineNumberRows = "";
+        let preClass = "";
+
+        if (langAttrs) {
+          const lineNumbersAttr = /line-numbers="true"/.test(langAttrs);
+          const startLineAttr = /start-line="(\d+)"/.exec(langAttrs);
+          const startLine = startLineAttr ? parseInt(startLineAttr[1]) : 1;
+
+          if (lineNumbersAttr) {
+            preClass = "line-numbers";
+            const numberOfLines = code.split("\n").length - 1;
+            lineNumberRows =
+              '<span aria-hidden="true" class="line-numbers-rows">';
+            for (let i = 0; i < numberOfLines; i++) {
+              lineNumberRows += "<span></span>";
+            }
+            lineNumberRows += "</span>";
+          }
+        }
+
+        const langName = token.info ? token.info.split(/\s+/g)[0] : "";
+
+        const highlightedCode = md.options.highlight(code, langName, langAttrs);
+
+        return `<pre class="${preClass} ${langName}" tabindex="0"><code class="${langName}">${highlightedCode}${lineNumberRows}</code></pre>`;
+      };
+
       return plugin;
     },
   };
