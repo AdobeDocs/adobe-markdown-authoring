@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import MarkdownIt from "markdown-it";
-import markdownItAttrs from "markdown-it-attrs";
+import Prism from "prismjs";
+import "prismjs/components/index.js"; // Load all supported languages
 
 import adobeMarkdownPlugin from "./plugin";
 import {
@@ -99,16 +100,11 @@ export function activate(context: vscode.ExtensionContext) {
         getRootFolder()?.uri.path || extensionPath
       );
       md.use(injectSpectrumTheme);
-      const hljs = require("highlight.js");
-
       md.set({
         highlight: function (str, lang, attrs) {
-          if (lang && hljs.getLanguage(lang)) {
+          if (lang && Prism.languages[lang]) {
             try {
-              return hljs.highlight(str, {
-                language: lang,
-                ignoreIllegals: true,
-              }).value;
+              return Prism.highlight(str, Prism.languages[lang], lang);
             } catch (__) {}
           }
 
@@ -125,29 +121,38 @@ export function activate(context: vscode.ExtensionContext) {
 
         let lineNumberRows = "";
         let preClass = "";
+        const startLineAttr = /start-line="(\d+)"/.exec(langAttrs);
+        const startLine = startLineAttr ? parseInt(startLineAttr[1]) : 1;
 
         if (langAttrs) {
           const lineNumbersAttr = /line-numbers="true"/.test(langAttrs);
-          const startLineAttr = /start-line="(\d+)"/.exec(langAttrs);
-          const startLine = startLineAttr ? parseInt(startLineAttr[1]) : 1;
+          const highlightLinesAttr = /highlight="([\d,-]+)"/.exec(langAttrs);
+          const highlightLines = highlightLinesAttr
+            ? highlightLinesAttr[1]
+            : "";
 
           if (lineNumbersAttr) {
             preClass = "line-numbers";
             const numberOfLines = code.split("\n").length - 1;
-            lineNumberRows =
-              '<span aria-hidden="true" class="line-numbers-rows">';
+            lineNumberRows = `<span aria-hidden="true" class="line-numbers-rows">`;
             for (let i = 0; i < numberOfLines; i++) {
               lineNumberRows += "<span></span>";
             }
             lineNumberRows += "</span>";
           }
+
+          preClass += ` language-html" data-start="${startLine}"`;
+          if (highlightLines) {
+            preClass += ` data-line="${highlightLines}"`;
+          }
         }
 
         const langName = token.info ? token.info.split(/\s+/g)[0] : "";
-
         const highlightedCode = md.options.highlight(code, langName, langAttrs);
 
-        return `<pre class="${preClass} ${langName}" tabindex="0"><code class="${langName}">${highlightedCode}${lineNumberRows}</code></pre>`;
+        return `<div class="code-toolbar"><pre class="${preClass}" tabindex="0" style="counter-reset: linenumber ${
+          startLine - 1
+        };"><code class="${langName}">${highlightedCode}${lineNumberRows}</code></pre></div>`;
       };
 
       return plugin;

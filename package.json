@@ -768,10 +768,9 @@
     "@spectrum-web-components/tabs": "^0.11.1",
     "@spectrum-web-components/theme": "^0.14.12",
     "@types/vscode": "^1.76.0",
-    "highlight.js": "^11.7.0",
     "jsondiffpatch": "^0.4.1",
     "lodash": "^4.17.21",
-    "markdown-it-attrs": "^4.1.6",
-    "markdownlint": "^0.27.0"
+    "markdownlint": "^0.27.0",
+    "prismjs": "^1.29.0"
   }
 }
