@@ -1,7 +1,18 @@
-import { promisify } from "util";
 import glob from "glob";
 import Mocha from "mocha";
 import path from "path";
+
+function globPromise(pattern: string, options: glob.IOptions): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    glob(pattern, options, (err, matches) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(matches);
+      }
+    });
+  });
+}
 
 export function run(): Promise<void> {
   // Create the mocha test
@@ -12,7 +23,7 @@ export function run(): Promise<void> {
 
   const testsRoot = path.resolve(__dirname, "..");
 
-  return glob("**/**.test.js", { cwd: testsRoot })
+  return globPromise("**/**.test.js", { cwd: testsRoot })
     .then((files: string[]) => {
       // Add files to the test suite
       files.forEach((f: string) => mocha.addFile(path.resolve(testsRoot, f)));

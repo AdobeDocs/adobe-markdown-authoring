@@ -3,7 +3,7 @@
   "displayName": "Adobe Markdown Authoring extension for Visual Studio Code",
   "description": "All-in-one Adobe Flavored Markdown document authoring extension for Visual Studio Code.",
   "publisher": "AdobeExl",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -30,11 +30,16 @@
     "markdown.previewStyles": [
       "./assets/styles/spectrum.css",
       "./assets/styles/base.css",
-      "./assets/styles/docs.css"
+      "./assets/styles/docs.css",
+      "./assets/styles/prism.css",
+      "./assets/styles/prism-line-numbers.css",
+      "./assets/styles/prism-line-highlight.css"
     ],
     "markdown.markdownItPlugins": true,
     "markdown.previewScripts": [
-      "./dist/preview/index.bundle.js"
+      "./dist/preview/index.bundle.js",
+      "./assets/scripts/prism-line-numbers.js",
+      "./assets/scripts/prism-line-highlight.js"
     ],
     "configuration": {
       "title": "Markdown Preview Spectrum Support",
@@ -656,7 +661,7 @@
       "style": "atx"
     },
     "MD007": {
-      "indent": 3
+      "indent": 2
     },
     "MD009": false,
     "MD012": false,
@@ -749,9 +754,11 @@
     "vsce:package": "vsce package"
   },
   "devDependencies": {
+    "@types/glob": "^8.1.0",
     "@types/lodash": "^4.14.191",
     "@types/markdown-it": "^12.2.3",
     "@types/mocha": "^10.0.1",
+    "@types/prismjs": "^1.26.0",
     "@vscode/test-electron": "^2.3.0",
     "copy-webpack-plugin": "^11.0.0",
     "mini-css-extract-plugin": "^2.7.3",
@@ -763,11 +770,13 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "@spectrum-web-components/badge": "^0.4.8",
     "@spectrum-web-components/tabs": "^0.11.1",
     "@spectrum-web-components/theme": "^0.14.12",
     "@types/vscode": "^1.76.0",
     "jsondiffpatch": "^0.4.1",
     "lodash": "^4.17.21",
-    "markdownlint": "^0.27.0"
+    "markdownlint": "^0.27.0",
+    "prismjs": "^1.29.0"
   }
 }
