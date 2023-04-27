@@ -198,17 +198,30 @@ function injectSpectrumTheme(md: any): any {
 function processLineNumbersAndHighlights(
   langAttrs: string,
   code: string
-): { lineNumberRows: string; preClass: string; startLine: number } {
+): {
+  lineNumberRows: string;
+  preClass: string;
+  startLine: number;
+  highlightLines: string[];
+} {
   let lineNumberRows = "";
   let preClass = "";
 
-  const startLineAttr = /start-line="(\d+)"/.exec(langAttrs);
+  const startLineAttr = /start-line=["'](\d+)["']/.exec(langAttrs);
   const startLine = startLineAttr ? parseInt(startLineAttr[1]) : 1;
 
+  let highlightLines: string[] = [];
+
   if (langAttrs) {
-    const lineNumbersAttr = /line-numbers="true"/.test(langAttrs);
-    const highlightLinesAttr = /highlight="([\d,-]+)"/.exec(langAttrs);
-    const highlightLines = highlightLinesAttr ? highlightLinesAttr[1] : "";
+    const lineNumbersAttr = /line-numbers=["']true["']/.test(langAttrs);
+    const highlightAttr =
+      /highlight=["']((\d+(-\d+)?)(,\s*\d+(-\d+)?)*)["']/.exec(
+        langAttrs.replace(/[{}]/g, "")
+      );
+    const highlightValue = highlightAttr ? highlightAttr[1] : "";
+    highlightLines = Array.from(highlightValue.matchAll(/\d+(-\d+)?/g)).map(
+      (match) => match[0]
+    );
 
     if (lineNumbersAttr) {
       preClass = "line-numbers";
@@ -221,12 +234,31 @@ function processLineNumbersAndHighlights(
     }
 
     preClass += ` language-html" data-start="${startLine}"`;
-    if (highlightLines) {
-      preClass += ` data-line="${highlightLines}"`;
+    if (highlightLines.length) {
+      preClass += ` data-line="${highlightLines.join(", ")}"`;
     }
   }
 
-  return { lineNumberRows, preClass, startLine };
+  return { lineNumberRows, preClass, startLine, highlightLines };
+}
+
+function generateLineHighlights(
+  highlightLines: string[],
+  startLine: number
+): string {
+  const lineRanges = highlightLines.map((range) =>
+    range.split("-").map(Number)
+  );
+  return lineRanges
+    .map(
+      ([start, end]) =>
+        `<div aria-hidden="true" data-range="${start}-${
+          end || start
+        }" class=" line-highlight" style="top: ${
+          (start - startLine) * 24 + 2
+        }px; height: ${((end || start) - start + 1) * 24}px;"></div>`
+    )
+    .join("");
 }
 
 /**
@@ -253,13 +285,15 @@ function customFenceRenderer(
 
   let code = token.content;
 
-  const { lineNumberRows, preClass, startLine } =
+  const { lineNumberRows, preClass, startLine, highlightLines } =
     processLineNumbersAndHighlights(langAttrs, code);
 
   const langName = token.info ? token.info.split(/\s+/g)[0] : "";
   const highlightedCode = md.options.highlight(code, langName, langAttrs);
 
+  const lineHighlights = generateLineHighlights(highlightLines, startLine);
+
   return `<div class="code-toolbar"><pre class="${preClass}" tabindex="0" style="counter-reset: linenumber ${
     startLine - 1
-  };"><code class="${langName}">${highlightedCode}${lineNumberRows}</code></pre></div>`;
+  };"><code class="${langName}">${highlightedCode}${lineNumberRows}</code>${lineHighlights}</pre></div>`;
 }
