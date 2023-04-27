@@ -32,12 +32,14 @@
       "./assets/styles/base.css",
       "./assets/styles/docs.css",
       "./assets/styles/prism.css",
-      "./assets/styles/prism-line-numbers.css"
+      "./assets/styles/prism-line-numbers.css",
+      "./assets/styles/prism-line-highlight.css"
     ],
     "markdown.markdownItPlugins": true,
     "markdown.previewScripts": [
       "./dist/preview/index.bundle.js",
-      "./assets/scripts/prism-line-numbers.js"
+      "./assets/scripts/prism-line-numbers.js",
+      "./assets/scripts/prism-line-highlight.js"
     ],
     "configuration": {
       "title": "Markdown Preview Spectrum Support",
