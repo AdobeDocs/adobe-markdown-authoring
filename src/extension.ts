@@ -13,7 +13,10 @@ import { register } from "./lib/commands";
 import { findAndReplaceTargetExpressions, getRootFolder } from "./lib/utiity";
 
 const spectrumConfigSection = "markdown-spectrum";
-
+/**
+ * Activates the extension and registers event listeners and functions to enable various functionalities.
+ * @param {vscode.ExtensionContext} context - The context of the extension.
+ */
 export function activate(context: vscode.ExtensionContext) {
   var extensionPath: string = context.extensionPath;
   const { msTimeValue } = generateTimestamp();
@@ -94,87 +97,73 @@ export function activate(context: vscode.ExtensionContext) {
   // Extend MarkdownIt to process Adobe Flavored Markdown to HTML for preview.
   return {
     extendMarkdownIt(md: MarkdownIt) {
-      // Custom fence renderer for code blocks with line numbering, line highlighting, and starting line number
-      let plugin = adobeMarkdownPlugin(
-        md,
-        getRootFolder()?.uri.path || extensionPath
-      );
-      md.use(injectSpectrumTheme);
-      md.set({
-        highlight: function (str, lang, attrs) {
+      md = adobeMarkdownPlugin(md, getRootFolder()?.uri.path || extensionPath);
+      md.use(injectSpectrumTheme).set({
+        highlight: function (str: string, lang: string, attrs: any) {
           if (lang && Prism.languages[lang]) {
             try {
               return Prism.highlight(str, Prism.languages[lang], lang);
             } catch (__) {}
           }
-
           return ""; // use external default escaping
         },
       });
 
-      md.renderer.rules.fence = (tokens, idx, options, env, slf) => {
-        const token = tokens[idx];
-        const langInfo = token.info.trim();
-        const langAttrs = langInfo.match(/{[^}]+}/)?.[0] || "";
-
-        let code = token.content;
-
-        let lineNumberRows = "";
-        let preClass = "";
-        const startLineAttr = /start-line="(\d+)"/.exec(langAttrs);
-        const startLine = startLineAttr ? parseInt(startLineAttr[1]) : 1;
-
-        if (langAttrs) {
-          const lineNumbersAttr = /line-numbers="true"/.test(langAttrs);
-          const highlightLinesAttr = /highlight="([\d,-]+)"/.exec(langAttrs);
-          const highlightLines = highlightLinesAttr
-            ? highlightLinesAttr[1]
-            : "";
-
-          if (lineNumbersAttr) {
-            preClass = "line-numbers";
-            const numberOfLines = code.split("\n").length - 1;
-            lineNumberRows = `<span aria-hidden="true" class="line-numbers-rows">`;
-            for (let i = 0; i < numberOfLines; i++) {
-              lineNumberRows += "<span></span>";
-            }
-            lineNumberRows += "</span>";
-          }
-
-          preClass += ` language-html" data-start="${startLine}"`;
-          if (highlightLines) {
-            preClass += ` data-line="${highlightLines}"`;
-          }
-        }
-
-        const langName = token.info ? token.info.split(/\s+/g)[0] : "";
-        const highlightedCode = md.options.highlight(code, langName, langAttrs);
-
-        return `<div class="code-toolbar"><pre class="${preClass}" tabindex="0" style="counter-reset: linenumber ${
-          startLine - 1
-        };"><code class="${langName}">${highlightedCode}${lineNumberRows}</code></pre></div>`;
+      md.renderer.rules.fence = (
+        tokens: any[],
+        idx: number,
+        options: object,
+        env: object,
+        slf: object
+      ) => {
+        return customFenceRenderer(tokens, idx, options, env, slf, md);
       };
 
-      return plugin;
+      return md;
     },
   };
 }
 
-// This method is called when your extension is deactivated
+/**
+ * This function is called when the extension is deactivated.
+ */
 export function deactivate() {}
 
+// The default Spectrum theme to use if no valid theme is found
 const defaultSpectrumTheme = "dark";
+
+// An array of valid Spectrum themes
 const validSpectrumThemes = ["lightest", "light", "dark", "darkest"];
 
-function sanitizeSpectrumTheme(theme: string | undefined) {
-  return typeof theme === "string" && validSpectrumThemes.includes(theme)
-    ? theme
-    : defaultSpectrumTheme;
+/**
+ * Sanitizes a Spectrum theme by checking if it is a string and if it is a valid theme.
+ * If the theme is not a string or is not a valid theme, the default theme is returned.
+ * @param {string|undefined} theme - The Spectrum theme to sanitize.
+ * @returns {string} - The sanitized Spectrum theme.
+ */
+function sanitizeSpectrumTheme(theme: string | undefined): string {
+  // Check if the theme is a string and if it is a valid theme
+  if (typeof theme === "string" && validSpectrumThemes.includes(theme)) {
+    // If the theme is valid, return it
+    return theme;
+  } else {
+    // If the theme is not valid, return the default theme
+    return defaultSpectrumTheme;
+  }
 }
 
-function injectSpectrumTheme(md: any) {
+/**
+ * Injects Spectrum theme settings into the Markdown preview.
+ * @param {any} md - The Markdown renderer instance.
+ * @returns {any} - The modified Markdown renderer instance.
+ */
+function injectSpectrumTheme(md: any): any {
+  // Get the original render function from the Markdown renderer
   const render = md.renderer.render;
+
+  // Override the render function to inject Spectrum theme settings
   md.renderer.render = function () {
+    // Get the Spectrum theme configurations from settings.json
     const darkModeTheme = sanitizeSpectrumTheme(
       vscode.workspace
         .getConfiguration(spectrumConfigSection)
@@ -185,6 +174,8 @@ function injectSpectrumTheme(md: any) {
         .getConfiguration(spectrumConfigSection)
         .get("lightModeTheme")
     );
+
+    // Inject the Spectrum theme settings into the Markdown preview
     return `<sp-theme id="${spectrumConfigSection}"
 					theme="spectrum"
 					color="light"
@@ -193,5 +184,82 @@ function injectSpectrumTheme(md: any) {
                     data-light-mode-theme="${lightModeTheme}"></span>
                 ${render.apply(md.renderer, arguments)}`;
   };
+
+  // Return the modified Markdown renderer instance
   return md;
+}
+
+/**
+ * Extracts and returns lineNumberRows and preClass from langAttrs and code.
+ * @param {string} langAttrs - Language attributes
+ * @param {string} code - Code block content
+ * @returns {{lineNumberRows: string, preClass: string, startLine: number}}
+ */
+function processLineNumbersAndHighlights(
+  langAttrs: string,
+  code: string
+): { lineNumberRows: string; preClass: string; startLine: number } {
+  let lineNumberRows = "";
+  let preClass = "";
+
+  const startLineAttr = /start-line="(\d+)"/.exec(langAttrs);
+  const startLine = startLineAttr ? parseInt(startLineAttr[1]) : 1;
+
+  if (langAttrs) {
+    const lineNumbersAttr = /line-numbers="true"/.test(langAttrs);
+    const highlightLinesAttr = /highlight="([\d,-]+)"/.exec(langAttrs);
+    const highlightLines = highlightLinesAttr ? highlightLinesAttr[1] : "";
+
+    if (lineNumbersAttr) {
+      preClass = "line-numbers";
+      const numberOfLines = code.split("\n").length - 1;
+      lineNumberRows = `<span aria-hidden="true" class="line-numbers-rows">`;
+      for (let i = 0; i < numberOfLines; i++) {
+        lineNumberRows += "<span></span>";
+      }
+      lineNumberRows += "</span>";
+    }
+
+    preClass += ` language-html" data-start="${startLine}"`;
+    if (highlightLines) {
+      preClass += ` data-line="${highlightLines}"`;
+    }
+  }
+
+  return { lineNumberRows, preClass, startLine };
+}
+
+/**
+ * Overrides fence renderer for code blocks with line numbering, line highlighting, and starting line number.
+ * @param {Array} tokens - Tokens
+ * @param {number} idx - Index
+ * @param {Object} options - Options
+ * @param {Object} env - Environment
+ * @param {Object} slf - Self
+ * @param {MarkdownIt} md - MarkdownIt instance
+ * @returns {string} - Rendered HTML
+ */
+function customFenceRenderer(
+  tokens: Array<any>,
+  idx: number,
+  options: object,
+  env: object,
+  slf: object,
+  md: MarkdownIt
+): string {
+  const token = tokens[idx];
+  const langInfo = token.info.trim();
+  const langAttrs = langInfo.match(/{[^}]+}/)?.[0] || "";
+
+  let code = token.content;
+
+  const { lineNumberRows, preClass, startLine } =
+    processLineNumbersAndHighlights(langAttrs, code);
+
+  const langName = token.info ? token.info.split(/\s+/g)[0] : "";
+  const highlightedCode = md.options.highlight(code, langName, langAttrs);
+
+  return `<div class="code-toolbar"><pre class="${preClass}" tabindex="0" style="counter-reset: linenumber ${
+    startLine - 1
+  };"><code class="${langName}">${highlightedCode}${lineNumberRows}</code></pre></div>`;
 }

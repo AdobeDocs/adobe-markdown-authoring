@@ -30,11 +30,14 @@
     "markdown.previewStyles": [
       "./assets/styles/spectrum.css",
       "./assets/styles/base.css",
-      "./assets/styles/docs.css"
+      "./assets/styles/docs.css",
+      "./assets/styles/prism.css",
+      "./assets/styles/prism-line-numbers.css"
     ],
     "markdown.markdownItPlugins": true,
     "markdown.previewScripts": [
-      "./dist/preview/index.bundle.js"
+      "./dist/preview/index.bundle.js",
+      "./assets/scripts/prism-line-numbers.js"
     ],
     "configuration": {
       "title": "Markdown Preview Spectrum Support",
@@ -753,6 +756,7 @@
     "@types/lodash": "^4.14.191",
     "@types/markdown-it": "^12.2.3",
     "@types/mocha": "^10.0.1",
+    "@types/prismjs": "^1.26.0",
     "@vscode/test-electron": "^2.3.0",
     "copy-webpack-plugin": "^11.0.0",
     "mini-css-extract-plugin": "^2.7.3",
