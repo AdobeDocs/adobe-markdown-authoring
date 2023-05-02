@@ -118,7 +118,6 @@ export function activate(context: vscode.ExtensionContext) {
       ) => {
         return customFenceRenderer(tokens, idx, options, env, slf, md);
       };
-
       return md;
     },
   };
@@ -175,14 +174,21 @@ function injectSpectrumTheme(md: any): any {
         .get("lightModeTheme")
     );
 
-    // Inject the Spectrum theme settings into the Markdown preview
+    // Inject the Spectrum theme settings into the Markdown preview.
     return `<sp-theme id="${spectrumConfigSection}"
-					theme="spectrum"
-					color="light"
-					scale="medium" aria-hidden="true"
-                    data-dark-mode-theme="${darkModeTheme}"
-                    data-light-mode-theme="${lightModeTheme}"></span>
-                ${render.apply(md.renderer, arguments)}`;
+		theme="spectrum"
+		color="light"
+		scale="medium" aria-hidden="true"
+    data-dark-mode-theme="${darkModeTheme}"
+    data-light-mode-theme="${lightModeTheme}">
+    <div id="app">
+      <div data-id="main">
+        <div data-id="body">
+          ${render.apply(md.renderer, arguments)}
+        </div>
+      </div>
+    </div>
+  </sp-theme>`;
   };
 
   // Return the modified Markdown renderer instance
@@ -288,7 +294,7 @@ function customFenceRenderer(
   const { lineNumberRows, preClass, startLine, highlightLines } =
     processLineNumbersAndHighlights(langAttrs, code);
 
-  const langName = token.info ? token.info.split(/\s+/g)[0] : "";
+  const langName = token.info ? token.info.split(/\s+/g)[0] : "text";
   const highlightedCode = md.options.highlight(code, langName, langAttrs);
 
   const lineHighlights = generateLineHighlights(highlightLines, startLine);

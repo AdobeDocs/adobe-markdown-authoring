@@ -10,10 +10,13 @@ import { includeFileParts } from "./transform/snippets";
 import { transformTableStyles } from "./transform/table-styles";
 import transformTabs from "./transform/tabs";
 import { transformUICONTROL } from "./transform/uicontrol";
-import { transformBadgeInline } from "./transform/badge";
+import { transformBadgeMeta } from "./transform/badge-meta";
+import { transformBadgeInline } from "./transform/badge-inline";
 import { transformCodeBlock } from "./transform/code-block";
+import { transformHighlights } from "./transform/highlights";
 
 export enum TokenType {
+  FRONT_MATTER = "front_matter",
   BLOCKQUOTE_OPEN = "blockquote_open",
   BLOCKQUOTE_CLOSE = "blockquote_close",
   HTML_BLOCK = "html_block",
@@ -37,8 +40,10 @@ function injectTransforms(md: MarkdownIt, filePath: string) {
     includeFileParts(state, filePath);
   });
   // Now add the token transforms.
+  md.core.ruler.after("block", "highlights", transformHighlights);
   md.core.ruler.after("block", "shadebox", transformShadebox);
-  md.core.ruler.after("block", "badge", transformBadgeInline)
+  md.core.ruler.after("block", "badge-meta", transformBadgeMeta);
+  md.core.ruler.after("block", "badge", transformBadgeInline);
   md.core.ruler.after("block", "link-targets", transformLinkTargets);
   md.core.ruler.after("block", "table-styles", transformTableStyles);
   md.core.ruler.after("block", "dnl", transformDNL);
