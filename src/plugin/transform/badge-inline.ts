@@ -4,7 +4,7 @@ import { TokenType } from "..";
 
 export function transformBadgeInline(state: StateCore): void {
   let tokens: Token[] = state.tokens;
-  const badgeRegex = /\[\!BADGE\s(.+?)\]\{(.+?)\}/;
+  const badgeRegex = /\[\!BADGE\s(.+?)\](?:\{(.+?)\})?/;
 
   for (let i = 0, l = tokens.length; i < l; i++) {
     if (tokens[i].type === TokenType.INLINE) {
@@ -13,21 +13,23 @@ export function transformBadgeInline(state: StateCore): void {
 
       if (matches) {
         let label = matches[1];
-        let params = matches[2];
+        let params = matches[2] || "";
         let type = "Informative";
         let url = "";
         let tooltip = "";
 
-        params.split(/\s+/).forEach((param) => {
-          let [key, value] = param.split("=");
-          if (key === "type") {
-            type = value;
-          } else if (key === "url") {
-            url = value.slice(1, -1);
-          } else if (key === "tooltip") {
-            tooltip = value.slice(1, -1);
-          }
-        });
+        if (params) {
+          params.split(/\s+/).forEach((param) => {
+            let [key, value] = param.split("=");
+            if (key === "type") {
+              type = value;
+            } else if (key === "url") {
+              url = value.slice(1, -1);
+            } else if (key === "tooltip") {
+              tooltip = value.slice(1, -1);
+            }
+          });
+        }
 
         let badgeHTML = `<span class="sp-badge-wrapper"><sp-badge size="s" style="cursor:inherit !important" variant="${type.toLowerCase()}" dir="ltr"`;
         if (tooltip) {

@@ -1,39 +1,75 @@
 import * as assert from "assert";
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 import * as vscode from "vscode";
-import { TextEditor } from "vscode";
-const vscodeTestContent = require("vscode-test-content");
 
-import { getEol } from "../../lib/env";
-var newLine = getEol();
+const setEditorContent = async (
+  content: string
+): Promise<vscode.TextEditor> => {
+  const document = await vscode.workspace.openTextDocument({
+    content,
+    language: "markdown", // or any language you're testing
+  });
 
-export const testCommand = (
+  const editor = await vscode.window.showTextDocument(document);
+  return editor;
+};
+
+const updateSelection = (
+  editor: vscode.TextEditor,
+  startPosition: vscode.Position,
+  endPosition: vscode.Position
+) => {
+  const selection = new vscode.Selection(startPosition, endPosition);
+  editor.selection = selection;
+};
+
+const extractPositionsFromContent = (content: string) => {
+  const anchorStart = "«";
+  const anchorEnd = "»";
+  const activeStart = "≤";
+  const activeEnd = "≥";
+
+  const anchorStartIndex = content.indexOf(anchorStart);
+  const anchorEndIndex = content.indexOf(anchorEnd);
+  const activeStartIndex = content.indexOf(activeStart);
+  const activeEndIndex = content.indexOf(activeEnd);
+
+  const startPosition = new vscode.Position(
+    content.substring(0, anchorStartIndex).split("\n").length - 1,
+    anchorStartIndex -
+      content.substring(0, anchorStartIndex).lastIndexOf("\n") -
+      1
+  );
+  const endPosition = new vscode.Position(
+    content.substring(0, activeEndIndex).split("\n").length - 1,
+    activeEndIndex - content.substring(0, activeEndIndex).lastIndexOf("\n") - 1
+  );
+
+  const cleanContent = content
+    .replace(anchorStart, "")
+    .replace(anchorEnd, "")
+    .replace(activeStart, "")
+    .replace(activeEnd, "");
+
+  return { startPosition, endPosition, cleanContent };
+};
+
+export const testCommand = async (
   command: string,
-  inputContent: string,
+  inputContentWithMarkers: string,
   expectedContent: string
-): Thenable<TextEditor> => {
-  return vscodeTestContent
-    .setWithSelection(inputContent, {
-      caret: "•",
-      anchor: { start: "«", end: "»" },
-      active: { start: "≤", end: "≥" },
-    })
-    .then((editor: TextEditor) => {
-      return Promise.resolve(
-        vscode.commands.executeCommand("md-shortcut." + command).then(() =>
-          assert.strictEqual(
-            vscodeTestContent.getWithSelection(editor, {
-              caret: "•",
-              anchor: { start: "«", end: "»" },
-              active: { start: "≤", end: "≥" },
-            }),
-            expectedContent
-          )
-        )
-      ).finally(() =>
-        vscode.commands.executeCommand("workbench.action.closeActiveEditor")
-      );
-    });
+): Promise<void> => {
+  const { startPosition, endPosition, cleanContent } =
+    extractPositionsFromContent(inputContentWithMarkers);
+
+  const editor = await setEditorContent(cleanContent);
+  updateSelection(editor, startPosition, endPosition);
+
+  await vscode.commands.executeCommand("md-shortcut." + command);
+  const resultContent = editor.document.getText();
+
+  try {
+    assert.strictEqual(resultContent, expectedContent);
+  } finally {
+    await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+  }
 };

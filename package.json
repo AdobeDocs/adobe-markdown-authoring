@@ -3,7 +3,7 @@
   "displayName": "Adobe Markdown Authoring extension for Visual Studio Code",
   "description": "All-in-one Adobe Flavored Markdown document authoring extension for Visual Studio Code.",
   "publisher": "AdobeExl",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -763,20 +763,20 @@
     "copy-webpack-plugin": "^11.0.0",
     "mini-css-extract-plugin": "^2.7.3",
     "mocha": "^10.2.0",
-    "rimraf": "^4.4.0",
+    "rimraf": "^5.0.0",
     "ts-loader": "^9.4.2",
-    "vscode-test-content": "^1.2.0",
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
     "@spectrum-web-components/badge": "^0.4.8",
     "@spectrum-web-components/tabs": "^0.11.1",
-    "@spectrum-web-components/theme": "^0.14.12",
+    "@spectrum-web-components/theme": "^0.15.0",
     "@types/vscode": "^1.76.0",
     "jsondiffpatch": "^0.4.1",
     "lodash": "^4.17.21",
-    "markdownlint": "^0.27.0",
+    "markdownlint": "^0.28.2",
+    "minimist": "^1.2.8",
     "prismjs": "^1.29.0"
   }
 }

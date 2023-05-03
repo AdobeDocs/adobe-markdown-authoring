@@ -12,7 +12,6 @@ import transformTabs from "./transform/tabs";
 import { transformUICONTROL } from "./transform/uicontrol";
 import { transformBadgeMeta } from "./transform/badge-meta";
 import { transformBadgeInline } from "./transform/badge-inline";
-import { transformCodeBlock } from "./transform/code-block";
 import { transformHighlights } from "./transform/highlights";
 
 export enum TokenType {
@@ -52,6 +51,5 @@ function injectTransforms(md: MarkdownIt, filePath: string) {
   md.core.ruler.after("block", "tabs", transformTabs);
   md.core.ruler.after("block", "header-anchors", transformHeaderAnchors);
   md.core.ruler.after("block", "collapsible", transformCollapsible);
-  md.core.ruler.after("block", "code-block", transformCodeBlock);
   md.core.ruler.after("inline", "image-size", transformImages);
 }
