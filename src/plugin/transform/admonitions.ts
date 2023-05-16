@@ -11,9 +11,11 @@ import { TokenType } from "..";
  * >
  * >This is note text.
  * .
- * <div class="extension note" data-label="NOTE">
- * <div class="p"></div>
- * <div class="p">This is note text.</div>
+ * <div class="extension note">
+ * <div>NOTE</div>
+ * <div>
+ * <p>This is a standard NOTE block.</p>
+ * </div>
  * </div>
  * .
  *
@@ -49,17 +51,22 @@ export function transformAdmonitions(state: StateCore): void {
       continue;
     }
     // We are inside an ExL block because level > 0.
-    // Adobe ExL marks up paragraphs as <div class='p'></div> instead of using <p></p> tags
-    if (tokens[i].type === TokenType.PARAGRAPH_OPEN) {
-      tokens[i].tag = "div";
-      tokens[i].attrSet("class", "p");
-      continue;
-    } else if (tokens[i].type === TokenType.PARAGRAPH_CLOSE) {
-      tokens[i].tag = "div";
-      continue;
-    }
+    // <div class="extension note">
+    // <div>NOTE</div>
+    // <div>
+    // <p>This is a standard NOTE block.</p>
+    // </div>
+    // </div>
+    // if (tokens[i].type === TokenType.PARAGRAPH_OPEN) {
+    //   tokens[i].tag = "div";
+    //   tokens[i].attrSet("class", "p");
+    //   continue;
+    // } else if (tokens[i].type === TokenType.PARAGRAPH_CLOSE) {
+    //   tokens[i].tag = "div";
+    //   continue;
+    // }
     // The next token after the paragraph open will be the label of the note type that could
-    // be one of [!NOTE], [!CAUTION], [!IMPORTANT], [!TIP], [!WARNING].  If it's not, then this is an
+    // be one of the various admonition types.  If it's not, then this is an
     // ordinary block, so stop processing.
     if (tokens[i].type === TokenType.INLINE) {
       let labelMatches = tokens[i].content.match(
@@ -77,7 +84,6 @@ export function transformAdmonitions(state: StateCore): void {
           "class",
           `extension ${labelMatches[1].toLowerCase()}`
         );
-        tokens[startBlock].attrSet("data-label", labelText);
       } else {
         let videoMatches = tokens[i].content.match(/^\[\!VIDEO\]\s*\((.*)\)/);
 

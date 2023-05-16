@@ -9,9 +9,7 @@ export const defaultMarkdownlintConfig = {
   MD004: {
     style: "consistent",
   },
-  MD007: {
-    indent: 4,
-  },
+  MD007: false,
   MD009: false,
   MD012: false,
   MD014: false,
