@@ -9877,7 +9877,8 @@ ul.has-arrow-style > li::before {
 
 .extension.note > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_InfoOutline_18_N.svg") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20width%3D%2218%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.fill%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23464646%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fstyle%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Ctitle%3ES%20InfoOutline%2018%20N%3C%2Ftitle%3E%0A%20%20%3Crect%20id%3D%22Canvas%22%20fill%3D%22%23ff13dc%22%20opacity%3D%220%22%20width%3D%2218%22%20height%3D%2218%22%20%2F%3E%3Cpath%20class%3D%22fill%22%20d%3D%22M10.075%2C6A1.075%2C1.075%2C0%2C1%2C1%2C9%2C4.925H9A1.075%2C1.075%2C0%2C0%2C1%2C10.075%2C6Zm.09173%2C6H10V8.2A.20005.20005%2C0%2C0%2C0%2C9.8%2C8H7.83324S7.25%2C8.01612%2C7.25%2C8.5c0%2C.48365.58325.5.58325.5H8v3H7.83325s-.58325.01612-.58325.5c0%2C.48365.58325.5.58325.5h2.3335s.58325-.01635.58325-.5C10.75%2C12.01612%2C10.16673%2C12%2C10.16673%2C12ZM9%2C.5A8.5%2C8.5%2C0%2C1%2C0%2C17.5%2C9%2C8.5%2C8.5%2C0%2C0%2C0%2C9%2C.5ZM9%2C15.6748A6.67481%2C6.67481%2C0%2C1%2C1%2C15.67484%2C9%2C6.67481%2C6.67481%2C0%2C0%2C1%2C9%2C15.6748Z%22%20%2F%3E%0A%3C%2Fsvg%3E")
+    no-repeat center;
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -9892,7 +9893,8 @@ ul.has-arrow-style > li::before {
 
 .extension.important > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_AlertCircle_18_N.svg") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20width%3D%2218%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.fill%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23464646%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fstyle%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Ctitle%3ES%20AlertCircle%2018%20N%3C%2Ftitle%3E%0A%20%20%3Crect%20id%3D%22Canvas%22%20fill%3D%22%23ff13dc%22%20opacity%3D%220%22%20width%3D%2218%22%20height%3D%2218%22%20%2F%3E%3Cpath%20class%3D%22fill%22%20d%3D%22M7.84555%2C12.88618a1.13418%2C1.13418%2C0%2C0%2C1%2C1.1161-1.15195q.042-.00064.08391.00178a1.116%2C1.116%2C0%2C0%2C1%2C1.2%2C1.15017%2C1.09065%2C1.09065%2C0%2C0%2C1-1.2%2C1.11661%2C1.0908%2C1.0908%2C0%2C0%2C1-1.2-1.11661ZM10.0625%2C4.39771a.20792.20792%2C0%2C0%2C1%2C.09966.183V5.62212c0%2C1.40034-.28322%2C3.98034-.33305%2C4.48067%2C0%2C.04984-.01678.09967-.11695.09967H8.379a.11069.11069%2C0%2C0%2C1-.11695-.09967c-.03305-.46678-.3-3.0305-.3-4.43084V4.6306a.1773.1773%2C0%2C0%2C1%2C.08339-.18306%2C2.88262%2C2.88262%2C0%2C0%2C1%2C1.00017-.20033A3.27435%2C3.27435%2C0%2C0%2C1%2C10.0625%2C4.39771ZM17.50005%2C9A8.50005%2C8.50005%2C0%2C1%2C1%2C9%2C.5H9A8.50008%2C8.50008%2C0%2C0%2C1%2C17.50005%2C9ZM15.67484%2C9A6.67485%2C6.67485%2C0%2C1%2C0%2C9%2C15.6748H9A6.67479%2C6.67479%2C0%2C0%2C0%2C15.67484%2C9Z%22%20%2F%3E%0A%3C%2Fsvg%3E")
+    no-repeat center;
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -9907,7 +9909,8 @@ ul.has-arrow-style > li::before {
 
 .extension.warning > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_Alert_18_N.svg") no-repeat center;
+  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18"%3E%3Cdefs%3E%3Cstyle%3E.fill %7B fill: %23464646; %7D%3C/style%3E%3C/defs%3E%3Ctitle%3ES Alert 18 N%3C/title%3E%3Crect id="Canvas" fill="%23ff13dc" opacity="0" width="18" height="18" /%3E%3Cpath class="fill" d="M8.5635,1.2895.2,16.256A.5.5,0,0,0,.636,17H17.364a.5.5,0,0,0,.436-.744L9.4365,1.2895a.5.5,0,0,0-.873,0ZM10,14.75a.25.25,0,0,1-.25.25H8.25A.25.25,0,0,1,8,14.75v-1.5A.25.25,0,0,1,8.25,13h1.5a.25.25,0,0,1,.25.25Zm0-3a.25.25,0,0,1-.25.25H8.25A.25.25,0,0,1,8,11.75v-6a.25.25,0,0,1,.25-.25h1.5a.25.25,0,0,1,.25.25Z" /%3E%3C/svg%3E')
+    no-repeat center;
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -9922,7 +9925,8 @@ ul.has-arrow-style > li::before {
 
 .extension.caution > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_Alert_18_N.svg") no-repeat center;
+  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18"%3E%3Cdefs%3E%3Cstyle%3E.fill %7B fill: %23464646; %7D%3C/style%3E%3C/defs%3E%3Ctitle%3ES Alert 18 N%3C/title%3E%3Crect id="Canvas" fill="%23ff13dc" opacity="0" width="18" height="18" /%3E%3Cpath class="fill" d="M8.5635,1.2895.2,16.256A.5.5,0,0,0,.636,17H17.364a.5.5,0,0,0,.436-.744L9.4365,1.2895a.5.5,0,0,0-.873,0ZM10,14.75a.25.25,0,0,1-.25.25H8.25A.25.25,0,0,1,8,14.75v-1.5A.25.25,0,0,1,8.25,13h1.5a.25.25,0,0,1,.25.25Zm0-3a.25.25,0,0,1-.25.25H8.25A.25.25,0,0,1,8,11.75v-6a.25.25,0,0,1,.25-.25h1.5a.25.25,0,0,1,.25.25Z" /%3E%3C/svg%3E')
+    no-repeat center;
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -9937,7 +9941,8 @@ ul.has-arrow-style > li::before {
 
 .extension.tip > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_InfoOutline_18_N.svg") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20width%3D%2218%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.fill%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23464646%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fstyle%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Ctitle%3ES%20InfoOutline%2018%20N%3C%2Ftitle%3E%0A%20%20%3Crect%20id%3D%22Canvas%22%20fill%3D%22%23ff13dc%22%20opacity%3D%220%22%20width%3D%2218%22%20height%3D%2218%22%20%2F%3E%3Cpath%20class%3D%22fill%22%20d%3D%22M10.075%2C6A1.075%2C1.075%2C0%2C1%2C1%2C9%2C4.925H9A1.075%2C1.075%2C0%2C0%2C1%2C10.075%2C6Zm.09173%2C6H10V8.2A.20005.20005%2C0%2C0%2C0%2C9.8%2C8H7.83324S7.25%2C8.01612%2C7.25%2C8.5c0%2C.48365.58325.5.58325.5H8v3H7.83325s-.58325.01612-.58325.5c0%2C.48365.58325.5.58325.5h2.3335s.58325-.01635.58325-.5C10.75%2C12.01612%2C10.16673%2C12%2C10.16673%2C12ZM9%2C.5A8.5%2C8.5%2C0%2C1%2C0%2C17.5%2C9%2C8.5%2C8.5%2C0%2C0%2C0%2C9%2C.5ZM9%2C15.6748A6.67481%2C6.67481%2C0%2C1%2C1%2C15.67484%2C9%2C6.67481%2C6.67481%2C0%2C0%2C1%2C9%2C15.6748Z%22%20%2F%3E%0A%3C%2Fsvg%3E")
+    no-repeat center;
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -9952,7 +9957,8 @@ ul.has-arrow-style > li::before {
 
 .extension.admin > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_InfoOutline_18_N.svg") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20width%3D%2218%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.fill%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23464646%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fstyle%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Ctitle%3ES%20InfoOutline%2018%20N%3C%2Ftitle%3E%0A%20%20%3Crect%20id%3D%22Canvas%22%20fill%3D%22%23ff13dc%22%20opacity%3D%220%22%20width%3D%2218%22%20height%3D%2218%22%20%2F%3E%3Cpath%20class%3D%22fill%22%20d%3D%22M10.075%2C6A1.075%2C1.075%2C0%2C1%2C1%2C9%2C4.925H9A1.075%2C1.075%2C0%2C0%2C1%2C10.075%2C6Zm.09173%2C6H10V8.2A.20005.20005%2C0%2C0%2C0%2C9.8%2C8H7.83324S7.25%2C8.01612%2C7.25%2C8.5c0%2C.48365.58325.5.58325.5H8v3H7.83325s-.58325.01612-.58325.5c0%2C.48365.58325.5.58325.5h2.3335s.58325-.01635.58325-.5C10.75%2C12.01612%2C10.16673%2C12%2C10.16673%2C12ZM9%2C.5A8.5%2C8.5%2C0%2C1%2C0%2C17.5%2C9%2C8.5%2C8.5%2C0%2C0%2C0%2C9%2C.5ZM9%2C15.6748A6.67481%2C6.67481%2C0%2C1%2C1%2C15.67484%2C9%2C6.67481%2C6.67481%2C0%2C0%2C1%2C9%2C15.6748Z%22%20%2F%3E%0A%3C%2Fsvg%3E")
+    no-repeat center;
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -9967,7 +9973,8 @@ ul.has-arrow-style > li::before {
 
 .extension.availability > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_InfoOutline_18_N.svg") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20width%3D%2218%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.fill%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23464646%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fstyle%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Ctitle%3ES%20InfoOutline%2018%20N%3C%2Ftitle%3E%0A%20%20%3Crect%20id%3D%22Canvas%22%20fill%3D%22%23ff13dc%22%20opacity%3D%220%22%20width%3D%2218%22%20height%3D%2218%22%20%2F%3E%3Cpath%20class%3D%22fill%22%20d%3D%22M10.075%2C6A1.075%2C1.075%2C0%2C1%2C1%2C9%2C4.925H9A1.075%2C1.075%2C0%2C0%2C1%2C10.075%2C6Zm.09173%2C6H10V8.2A.20005.20005%2C0%2C0%2C0%2C9.8%2C8H7.83324S7.25%2C8.01612%2C7.25%2C8.5c0%2C.48365.58325.5.58325.5H8v3H7.83325s-.58325.01612-.58325.5c0%2C.48365.58325.5.58325.5h2.3335s.58325-.01635.58325-.5C10.75%2C12.01612%2C10.16673%2C12%2C10.16673%2C12ZM9%2C.5A8.5%2C8.5%2C0%2C1%2C0%2C17.5%2C9%2C8.5%2C8.5%2C0%2C0%2C0%2C9%2C.5ZM9%2C15.6748A6.67481%2C6.67481%2C0%2C1%2C1%2C15.67484%2C9%2C6.67481%2C6.67481%2C0%2C0%2C1%2C9%2C15.6748Z%22%20%2F%3E%0A%3C%2Fsvg%3E")
+    no-repeat center;
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -9982,7 +9989,9 @@ ul.has-arrow-style > li::before {
 
 .extension.prerequisites > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_InfoOutline_18_N.svg") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20width%3D%2218%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.fill%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23464646%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fstyle%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Ctitle%3ES%20InfoOutline%2018%20N%3C%2Ftitle%3E%0A%20%20%3Crect%20id%3D%22Canvas%22%20fill%3D%22%23ff13dc%22%20opacity%3D%220%22%20width%3D%2218%22%20height%3D%2218%22%20%2F%3E%3Cpath%20class%3D%22fill%22%20d%3D%22M10.075%2C6A1.075%2C1.075%2C0%2C1%2C1%2C9%2C4.925H9A1.075%2C1.075%2C0%2C0%2C1%2C10.075%2C6Zm.09173%2C6H10V8.2A.20005.20005%2C0%2C0%2C0%2C9.8%2C8H7.83324S7.25%2C8.01612%2C7.25%2C8.5c0%2C.48365.58325.5.58325.5H8v3H7.83325s-.58325.01612-.58325.5c0%2C.48365.58325.5.58325.5h2.3335s.58325-.01635.58325-.5C10.75%2C12.01612%2C10.16673%2C12%2C10.16673%2C12ZM9%2C.5A8.5%2C8.5%2C0%2C1%2C0%2C17.5%2C9%2C8.5%2C8.5%2C0%2C0%2C0%2C9%2C.5ZM9%2C15.6748A6.67481%2C6.67481%2C0%2C1%2C1%2C15.67484%2C9%2C6.67481%2C6.67481%2C0%2C0%2C1%2C9%2C15.6748Z%22%20%2F%3E%0A%3C%2Fsvg%3E")
+    no-repeat center;
+
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -9997,7 +10006,9 @@ ul.has-arrow-style > li::before {
 
 .extension.info > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_InfoOutline_18_N.svg") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20width%3D%2218%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.fill%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23464646%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fstyle%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Ctitle%3ES%20InfoOutline%2018%20N%3C%2Ftitle%3E%0A%20%20%3Crect%20id%3D%22Canvas%22%20fill%3D%22%23ff13dc%22%20opacity%3D%220%22%20width%3D%2218%22%20height%3D%2218%22%20%2F%3E%3Cpath%20class%3D%22fill%22%20d%3D%22M10.075%2C6A1.075%2C1.075%2C0%2C1%2C1%2C9%2C4.925H9A1.075%2C1.075%2C0%2C0%2C1%2C10.075%2C6Zm.09173%2C6H10V8.2A.20005.20005%2C0%2C0%2C0%2C9.8%2C8H7.83324S7.25%2C8.01612%2C7.25%2C8.5c0%2C.48365.58325.5.58325.5H8v3H7.83325s-.58325.01612-.58325.5c0%2C.48365.58325.5.58325.5h2.3335s.58325-.01635.58325-.5C10.75%2C12.01612%2C10.16673%2C12%2C10.16673%2C12ZM9%2C.5A8.5%2C8.5%2C0%2C1%2C0%2C17.5%2C9%2C8.5%2C8.5%2C0%2C0%2C0%2C9%2C.5ZM9%2C15.6748A6.67481%2C6.67481%2C0%2C1%2C1%2C15.67484%2C9%2C6.67481%2C6.67481%2C0%2C0%2C1%2C9%2C15.6748Z%22%20%2F%3E%0A%3C%2Fsvg%3E")
+    no-repeat center;
+
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -10012,8 +10023,8 @@ ul.has-arrow-style > li::before {
 
 .extension.success > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_CheckmarkCircleOutline_18_N.svg") no-repeat
-    center;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20width%3D%2218%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.fill%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23464646%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fstyle%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Ctitle%3ES%20CheckmarkCircleOutline%2018%20N%3C%2Ftitle%3E%0A%20%20%3Crect%20id%3D%22Canvas%22%20fill%3D%22%23ff13dc%22%20opacity%3D%220%22%20width%3D%2218%22%20height%3D%2218%22%20%2F%3E%3Cpath%20class%3D%22fill%22%20d%3D%22M9.05%2C1.1A7.95%2C7.95%2C0%2C1%2C0%2C17%2C9.05%2C7.95%2C7.95%2C0%2C0%2C0%2C9.05%2C1.1Zm0%2C14.906A6.956%2C6.956%2C0%2C1%2C1%2C16.006%2C9.05%2C6.956%2C6.956%2C0%2C0%2C1%2C9.05%2C16.006Zm4.49072-9.68845-5.436%2C6.98773a.5.5%2C0%2C0%2C1-.74839.04628L4.2779%2C10.28586a.50035.50035%2C0%2C0%2C1%2C.00021-.70736l.66226-.66226a.5.5%2C0%2C0%2C1%2C.70709%2C0l1.939%2C1.92155%2C4.43735-5.701a.50006.50006%2C0%2C0%2C1%2C.70176-.08744h0l.72764.56642A.50016.50016%2C0%2C0%2C1%2C13.54072%2C6.31755Z%22%20%2F%3E%0A%3C%2Fsvg%3E")
+    no-repeat center;
   background-size: cover;
   resize: both;
   display: inline-block;
@@ -10028,7 +10039,8 @@ ul.has-arrow-style > li::before {
 
 .extension.error > div:first-child:before {
   content: "";
-  background: url("/assets/img/Smock_Alert_18_N.svg") no-repeat center;
+  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 18 18" width="18"%3E%3Cdefs%3E%3Cstyle%3E.fill %7B fill: %23464646; %7D%3C/style%3E%3C/defs%3E%3Ctitle%3ES Alert 18 N%3C/title%3E%3Crect id="Canvas" fill="%23ff13dc" opacity="0" width="18" height="18" /%3E%3Cpath class="fill" d="M8.5635,1.2895.2,16.256A.5.5,0,0,0,.636,17H17.364a.5.5,0,0,0,.436-.744L9.4365,1.2895a.5.5,0,0,0-.873,0ZM10,14.75a.25.25,0,0,1-.25.25H8.25A.25.25,0,0,1,8,14.75v-1.5A.25.25,0,0,1,8.25,13h1.5a.25.25,0,0,1,.25.25Zm0-3a.25.25,0,0,1-.25.25H8.25A.25.25,0,0,1,8,11.75v-6a.25.25,0,0,1,.25-.25h1.5a.25.25,0,0,1,.25.25Z" /%3E%3C/svg%3E')
+    no-repeat center;
   background-size: cover;
   resize: both;
   display: inline-block;

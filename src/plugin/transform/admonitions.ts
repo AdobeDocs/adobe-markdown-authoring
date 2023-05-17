@@ -27,6 +27,7 @@ export function transformAdmonitions(state: StateCore): void {
   let tokens: Token[] = state.tokens;
   let startBlock: number = -1;
   let level: number = 0;
+  let label: string = "NOTE";
 
   for (var i: number = 0, l: number = tokens.length; i < l; i++) {
     // Is this the start of a blockquote?  If so, set the starting index and increment
@@ -57,14 +58,20 @@ export function transformAdmonitions(state: StateCore): void {
     // <p>This is a standard NOTE block.</p>
     // </div>
     // </div>
-    // if (tokens[i].type === TokenType.PARAGRAPH_OPEN) {
-    //   tokens[i].tag = "div";
-    //   tokens[i].attrSet("class", "p");
-    //   continue;
-    // } else if (tokens[i].type === TokenType.PARAGRAPH_CLOSE) {
-    //   tokens[i].tag = "div";
-    //   continue;
-    // }
+    if (tokens[i].type === TokenType.PARAGRAPH_OPEN) {
+      tokens[i].tag = "div";
+      tokens[i].attrSet("class", "ico");
+      tokens[i].content = label;
+      // const labelToken = new Token(TokenType.INLINE, "", 0);
+      // labelToken.content = label;
+      // labelToken.level = 2;
+      // tokens.splice(i + 1, 0, labelToken);
+      // i++;
+      continue;
+    } else if (tokens[i].type === TokenType.PARAGRAPH_CLOSE) {
+      tokens[i].tag = "div";
+      continue;
+    }
     // The next token after the paragraph open will be the label of the note type that could
     // be one of the various admonition types.  If it's not, then this is an
     // ordinary block, so stop processing.
@@ -75,6 +82,7 @@ export function transformAdmonitions(state: StateCore): void {
       );
       if (labelMatches) {
         tokens[i].content = labelMatches[3]; // Clear the [!NOTE] label text, retaining the message.
+        label = labelMatches[1].toUpperCase();
         let labelText =
           labelMatches[1] === "MORELIKETHIS"
             ? "Related Articles"
