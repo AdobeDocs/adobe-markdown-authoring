@@ -1,5 +1,5 @@
-import * as vscode from 'vscode';
-import { Selection, TextEditor, Range, Position, TextEditorEdit } from 'vscode';
+import * as vscode from "vscode";
+import { Selection, TextEditor, Range, Position, TextEditorEdit } from "vscode";
 
 export function replaceSelection(
   replaceFunc: (text: string) => string
@@ -23,7 +23,7 @@ export function replaceBlockSelection(
   }
   const selection = getBlockSelection();
   if (!selection) {
-    return Promise.reject('No Selection to replace.');
+    return Promise.reject("No Selection to replace.");
   }
 
   const newText = replaceFunc(editor.document.getText(selection));
@@ -50,11 +50,11 @@ export function surroundSelection(
 ): Thenable<boolean> {
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
   if (editor === undefined) {
-    return Promise.reject('No Text Editor Defined');
+    return Promise.reject("No Text Editor Defined");
   }
   let selection: Selection | void = editor.selection;
   if (selection === undefined) {
-    return Promise.reject('Selection is undefined.');
+    return Promise.reject("Selection is undefined.");
   }
 
   if (!isAnythingSelected()) {
@@ -85,7 +85,7 @@ export function surroundSelection(
         editor.selection = new Selection(newPosition, newPosition);
         return !!editor.selection;
       });
-  } else if (isSelectionMatch(selection, startPattern, endPattern)) {
+  } else if (isSelectionMatch(selection, startPattern)) {
     return replaceSelection((text: string): string =>
       text.substr(
         startPattern.length,
@@ -100,6 +100,7 @@ export function surroundSelection(
 /**
  * Returns a selection that includes the block surrounded by the startPattern and endPattern.
  * If no surrounding block is found, the function returns the selection of the current paragraph.
+ * If there is no paragraph, the selection returns a zero length selection at the current cursor position.
  * @param editor - The active TextEditor instance.
  * @param selection - The current selection in the editor.
  * @param startPattern - The start pattern to search for.
@@ -116,14 +117,15 @@ export function getSurroundingBlock(
   const cursorPosition = selection.active;
 
   // Remove newline characters from patterns and escape special characters
-  startPattern = processPatternForRegex(startPattern);
+  startPattern = extractFirstLineForRegex(startPattern);
   endPattern = processPatternForRegex(endPattern);
 
   // Create regular expressions for start and end patterns
   const startPatternRegex = new RegExp(startPattern);
   const endPatternRegex = new RegExp(endPattern);
 
-  // Find the start pattern position
+  // Find the start pattern position by looking backwards from the cursor position
+  // all the way to the start of the file, if necessary.
   let startPatternPosition: Position | null = null;
   for (let line = cursorPosition.line; line >= 0; line--) {
     const lineText = doc.lineAt(line).text;
@@ -134,7 +136,8 @@ export function getSurroundingBlock(
     }
   }
 
-  // Find the end pattern position
+  // Find the end pattern position by looking from the current cursor postion
+  // to the end of the file, if necessary.
   let endPatternPosition: Position | null = null;
   for (let line = cursorPosition.line; line < doc.lineCount; line++) {
     const lineText = doc.lineAt(line).text;
@@ -145,9 +148,10 @@ export function getSurroundingBlock(
     }
   }
 
+  // We have found the matching block, so select the block and return it.
   if (startPatternPosition && endPatternPosition) {
     const start = startPatternPosition;
-    const end = endPatternPosition.translate(0, endPattern.length);;
+    const end = endPatternPosition.translate(0, endPattern.length);
     return new Selection(start, end);
   } else {
     // If start and end patterns not found, select the current paragraph
@@ -158,7 +162,7 @@ export function getSurroundingBlock(
     // Find the start of the paragraph
     for (let i = currLine; i >= 0; i--) {
       const line = doc.lineAt(i).text;
-      if (line.trim() === '' && i !== currLine) {
+      if (line.trim() === "" && i !== currLine) {
         startOfParagraph = i + 1;
         break;
       } else if (i === 0) {
@@ -170,7 +174,7 @@ export function getSurroundingBlock(
     // Find the end of the paragraph
     for (let i = currLine; i < doc.lineCount; i++) {
       const line = doc.lineAt(i).text;
-      if (line.trim() === '' && i !== currLine) {
+      if (line.trim() === "" && i !== currLine) {
         endOfParagraph = i - 1;
         break;
       } else if (i === doc.lineCount - 1) {
@@ -185,20 +189,20 @@ export function getSurroundingBlock(
   }
 }
 
-
-
 export function getSurroundingPattern(
   editor: TextEditor,
   selection: Selection,
   pattern?: RegExp
 ): Selection | void {
-
   const line: vscode.TextLine = editor.document.lineAt(selection.active);
   const matched: RegExpExecArray | null | undefined = pattern?.exec(line.text);
 
   if (matched) {
     const selStart = new Position(line.lineNumber, matched.index);
-    const selEnd = new Position(line.lineNumber, matched.index + matched[0].length);
+    const selEnd = new Position(
+      line.lineNumber,
+      matched.index + matched[0].length
+    );
     return new Selection(selStart, selEnd);
   } else {
     return;
@@ -240,14 +244,17 @@ export function surroundBlockSelection(
 
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
   if (!editor) {
-    return Promise.reject('No Text Editor is Defined');
+    return Promise.reject("No Text Editor is Defined");
   }
   let selection: void | Selection = getBlockSelection();
   if (!selection) {
-    return Promise.reject('No selection is available');
+    return Promise.reject("No selection is available");
   }
 
+  // Nothing is selected, so try to find something to toggle.
   if (!isAnythingSelected()) {
+    // If the cursor is in a markdown block, select the block, otherwise return
+    // a zero-length selection at the cursor position.
     var withSurroundingWord: Selection | void = getSurroundingBlock(
       editor,
       selection,
@@ -255,11 +262,13 @@ export function surroundBlockSelection(
       endPattern
     );
 
+    // Select the block
     if (withSurroundingWord) {
       selection = editor.selection = withSurroundingWord;
     }
   }
 
+  //
   if (!isAnythingSelected()) {
     var position = selection.active;
     var newPosition = position.with(position.line + 2, 1);
@@ -271,7 +280,7 @@ export function surroundBlockSelection(
         editor.selection = new vscode.Selection(newPosition, newPosition);
       });
   } else {
-    if (isSelectionMatch(selection, startPattern, endPattern)) {
+    if (isSelectionMatch(selection, startPattern)) {
       return replaceBlockSelection((text) => {
         const start: number = startPattern.toString().length;
         const end: number = endPattern ? endPattern.toString().length : start;
@@ -291,14 +300,15 @@ export function surroundBlockSelection(
         })
         .then(() => {
           // Set the cursor at the end of the endPos line
-          const cursorPos = endPos.with(endPos.line, editor.document.lineAt(endPos.line).text.length);
+          const cursorPos = endPos.with(
+            endPos.line,
+            editor.document.lineAt(endPos.line).text.length
+          );
           editor.selection = new vscode.Selection(cursorPos, cursorPos);
         });
     }
-
   }
 }
-
 
 export function getBlockSelection(): Selection | void {
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
@@ -332,23 +342,33 @@ export function getLineSelection(): Selection | void {
   );
 }
 
-export function isBlockMatch(
-  startPattern: RegExp,
-  endPattern?: RegExp
-): boolean {
+export function isBlockMatch(startPattern: RegExp): boolean {
   const selection: void | Selection = getBlockSelection();
   if (!selection) {
     return false;
   }
-  return isSelectionMatch(selection, startPattern, endPattern);
+  return isSelectionMatch(selection, startPattern);
 }
 
-export function isMatch(startPattern: RegExp, endPattern?: RegExp): boolean {
+export function isMatch(startPattern: RegExp): boolean {
   const editor: TextEditor | void = vscode.window.activeTextEditor;
   if (!editor) {
     return false;
   }
-  return isSelectionMatch(editor.selection, startPattern, endPattern);
+  return isSelectionMatch(editor.selection, startPattern);
+}
+
+/**
+ * Extracts the first line of a string, and escapes special characters to be used in a regular expression.
+ * @param str - The string to be processed.
+ * @returns The processed first line of the string with special characters escaped.
+ */
+function extractFirstLineForRegex(str: string): string {
+  // Split the string into an array of lines and take the first one
+  const firstLine = str.split("\n")[0];
+  // Escapes special characters in the first line
+  const escapedFirstLine = firstLine.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&");
+  return escapedFirstLine;
 }
 
 /**
@@ -357,29 +377,19 @@ export function isMatch(startPattern: RegExp, endPattern?: RegExp): boolean {
  * @returns The processed string with newline characters removed and special characters escaped.
  */
 function processPatternForRegex(str: string): string {
-  const stringWithoutNewlines = str.replace(/\n/g, '');
-  return stringWithoutNewlines.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
+  const stringWithoutNewlines = str.replace(/\n/g, "");
+  return stringWithoutNewlines.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&");
 }
 
-
 /**
  * Checks if the current selection matches the given start and end patterns.
  * @param selection - The current Selection in the editor.
  * @param startPattern - The start pattern to check for (can be a string or a RegExp).
- * @param endPattern - The end pattern to check for (can be a string, a RegExp, or undefined).
- * @returns true if the selection matches the start and end patterns, false otherwise.
- */
-/**
- * Checks if the current selection matches the given start and end patterns.
- * @param selection - The current Selection in the editor.
- * @param startPattern - The start pattern to check for (can be a string or a RegExp).
- * @param endPattern - The end pattern to check for (can be a string, a RegExp, or undefined).
  * @returns true if the selection matches the start and end patterns, false otherwise.
  */
 export function isSelectionMatch(
   selection: Selection,
-  startPattern: RegExp | string,
-  endPattern?: RegExp | string
+  startPattern: RegExp | string
 ): boolean {
   const editor: TextEditor | void = vscode.window.activeTextEditor;
   if (!editor) {
@@ -387,19 +397,12 @@ export function isSelectionMatch(
   }
   const text = editor.document.getText(selection);
 
-  const startPatternRegex = startPattern.constructor === RegExp
-    ? startPattern as RegExp
-    : new RegExp('^' + processPatternForRegex(startPattern.toString()), 'm');
-  const endPatternRegex = endPattern
-    ? (endPattern.constructor === RegExp
-        ? endPattern as RegExp
-        : new RegExp(processPatternForRegex(endPattern.toString()) + '$', 'm'))
-    : undefined;
+  const startPatternRegex =
+    startPattern.constructor === RegExp
+      ? (startPattern as RegExp)
+      : new RegExp(extractFirstLineForRegex(startPattern.toString()), "m");
 
-  const result = (
-    startPatternRegex.test(text) &&
-    (!endPatternRegex || endPatternRegex.test(text))
-  );
+  const result = startPatternRegex.test(text);
 
   return result;
 }
@@ -450,11 +453,13 @@ export function promptForInput(
 ): Thenable<string | undefined> {
   const opts: vscode.InputBoxOptions = { prompt, value, placeHolder };
   return vscode.window.showInputBox(opts);
-};
+}
 
 const TRUESTR = /t|true|y|yes|1/i;
 function isTrueish(val?: string): boolean {
-  if (!val) { return false; }
+  if (!val) {
+    return false;
+  }
   const istrue: RegExpMatchArray | null = val.match(TRUESTR);
   return istrue !== null && istrue.length > 0;
 }
@@ -462,7 +467,8 @@ function isTrueish(val?: string): boolean {
 export function promptForBoolean(
   prompt: string,
   placeHolder?: string,
-  value?: string): Thenable<boolean | undefined> {
+  value?: string
+): Thenable<boolean | undefined> {
   const opts: vscode.InputBoxOptions = { prompt, value, placeHolder };
-  return vscode.window.showInputBox(opts).then((retval) => (isTrueish(retval)));
+  return vscode.window.showInputBox(opts).then((retval) => isTrueish(retval));
 }
