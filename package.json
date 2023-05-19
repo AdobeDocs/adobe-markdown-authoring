@@ -3,7 +3,7 @@
   "displayName": "Adobe Markdown Authoring extension for Visual Studio Code",
   "description": "All-in-one Adobe Flavored Markdown document authoring extension for Visual Studio Code.",
   "publisher": "AdobeExl",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -660,9 +660,7 @@
     "MD003": {
       "style": "atx"
     },
-    "MD007": {
-      "indent": 2
-    },
+    "MD007": false,
     "MD009": false,
     "MD012": false,
     "MD014": false,

@@ -11,23 +11,35 @@ import { TokenType } from "..";
  * >
  * >This is note text.
  * .
- * <div class="extension note" data-label="NOTE">
- * <div class="p"></div>
- * <div class="p">This is note text.</div>
+ * Token[i] = BLOCKQUOTE_OPEN
+ * Token[i+1] = PARAGRAPH_OPEN
+ * Token[i+2] = INLINE content = [!NOTE]
+ * Token[i+3] = PARAGRAPH_CLOSE
+ * Token[i+4] = PARAGRAPH_OPEN
+ * Token[i+5] = INLINE content = This is note text.
+ * Token[i+6] = PARAGRAPH_CLOSE
+ * Token[i+7] = BLOCKQUOTE_CLOSE
+ *.
+ * <div class="extension note">
+ * <div>NOTE</div>
+ * <div>
+ * <p>This is a standard NOTE block.</p>
+ * </div>
  * </div>
  * .
  *
  *
  * @return {void}
  */
-
 export function transformAdmonitions(state: StateCore): void {
   let tokens: Token[] = state.tokens;
   let startBlock: number = -1;
   let level: number = 0;
+  let label: string = "NOTE";
 
   for (var i: number = 0, l: number = tokens.length; i < l; i++) {
-    // Is this the start of a blockquote?  If so, set the starting index and increment
+    // Is this the start of a blockquote?  A blockquote is any line that begins with > (greater than)
+    // If so, set the starting index and increment
     // the level.
     if (tokens[i].type === TokenType.BLOCKQUOTE_OPEN) {
       level += 1;
@@ -49,17 +61,22 @@ export function transformAdmonitions(state: StateCore): void {
       continue;
     }
     // We are inside an ExL block because level > 0.
-    // Adobe ExL marks up paragraphs as <div class='p'></div> instead of using <p></p> tags
+    // <div class="extension note">
+    // <div>NOTE</div>
+    // <div>
+    // <p>This is a standard NOTE block.</p>
+    // </div>
+    // </div>
     if (tokens[i].type === TokenType.PARAGRAPH_OPEN) {
       tokens[i].tag = "div";
-      tokens[i].attrSet("class", "p");
+      tokens[i].attrSet("class", "ico");
       continue;
     } else if (tokens[i].type === TokenType.PARAGRAPH_CLOSE) {
       tokens[i].tag = "div";
       continue;
     }
     // The next token after the paragraph open will be the label of the note type that could
-    // be one of [!NOTE], [!CAUTION], [!IMPORTANT], [!TIP], [!WARNING].  If it's not, then this is an
+    // be one of the various admonition types.  If it's not, then this is an
     // ordinary block, so stop processing.
     if (tokens[i].type === TokenType.INLINE) {
       let labelMatches = tokens[i].content.match(
@@ -67,17 +84,18 @@ export function transformAdmonitions(state: StateCore): void {
         /^\[\!(ADMINISTRATION|AVAILABILITY|CAUTION|ERROR|IMPORTANT|INFO|MORELIKETHIS|NOTE|PREREQUISITES|SUCCESS|TIP|WARNING)\](\n\s*)*(.*)/
       );
       if (labelMatches) {
-        tokens[i].content = labelMatches[3]; // Clear the [!NOTE] label text, retaining the message.
-        let labelText =
+        label =
           labelMatches[1] === "MORELIKETHIS"
             ? "Related Articles"
-            : labelMatches[1] || "extension";
+            : (labelMatches[1] && labelMatches[1].toUpperCase()) || "NOTE";
+        tokens[i].content = label;
+        // We are definitely in an admonition, so go back and set the tag for the block open to be "div"
         tokens[startBlock].tag = "div";
+        // Set the class to be "extension" and the admonition type.
         tokens[startBlock].attrSet(
           "class",
           `extension ${labelMatches[1].toLowerCase()}`
         );
-        tokens[startBlock].attrSet("data-label", labelText);
       } else {
         let videoMatches = tokens[i].content.match(/^\[\!VIDEO\]\s*\((.*)\)/);
 
