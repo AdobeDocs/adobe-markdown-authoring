@@ -61,12 +61,11 @@ export function transformAdmonitions(state: StateCore): void {
     if (tokens[i].type === TokenType.PARAGRAPH_OPEN) {
       tokens[i].tag = "div";
       tokens[i].attrSet("class", "ico");
-      tokens[i].content = label;
-      // const labelToken = new Token(TokenType.INLINE, "", 0);
-      // labelToken.content = label;
-      // labelToken.level = 2;
-      // tokens.splice(i + 1, 0, labelToken);
-      // i++;
+      // tokens[i].content = label;
+      // let contentToken = new Token(TokenType.INLINE, "", 0);
+      // contentToken.content = label;
+      // contentToken.children = []; // important -cannot be null
+      // tokens.splice(i + 1, 0, contentToken);
       continue;
     } else if (tokens[i].type === TokenType.PARAGRAPH_CLOSE) {
       tokens[i].tag = "div";
@@ -82,11 +81,10 @@ export function transformAdmonitions(state: StateCore): void {
       );
       if (labelMatches) {
         tokens[i].content = labelMatches[3]; // Clear the [!NOTE] label text, retaining the message.
-        label = labelMatches[1].toUpperCase();
-        let labelText =
+        label =
           labelMatches[1] === "MORELIKETHIS"
             ? "Related Articles"
-            : labelMatches[1] || "extension";
+            : (labelMatches[1] && labelMatches[1].toUpperCase()) || "NOTE";
         tokens[startBlock].tag = "div";
         tokens[startBlock].attrSet(
           "class",
