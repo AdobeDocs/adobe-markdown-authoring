@@ -137,7 +137,7 @@ This is the last line of the shade box.
 | md-shortcut.toggleBold          | Make \*\*bold\*\*                                | ctrl+B              |
 | md-shortcut.toggleItalic        | Make \_italic\_                                  | ctrl+I              |
 | md-shortcut.toggleStrikethrough | Make \~\~strikethrough\~\~                       |                     |
-| md-shortcut.toggleLink          | Make [a hyperlink]\(www.example.org)             | ctrl+L              |
+| md-shortcut.toggleLink          | Make [a hyperlink]\(<www.example.org>)             | ctrl+L              |
 | md-shortcut.toggleImage         | Make an image ![]\(image_url.png)                | ctrl+shift+L        |
 | md-shortcut.toggleCodeBlock     | Make \`\`\`a code block\`\`\`                    | ctrl+M ctrl+C       |
 | md-shortcut.toggleInlineCode    | Make \`inline code\`                             | ctrl+M ctrl+I       |
@@ -176,7 +176,6 @@ To change the settings, go to Preferences > Settings > markdownlint.
 markdownlint.config: {
     "line-length": false,
     "AM001": false,
-    "AM009": false,
     "AM011": false,
     "MD003": {
       "style": "atx"
