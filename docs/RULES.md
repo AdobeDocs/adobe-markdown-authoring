@@ -55,7 +55,7 @@ DITA transformation does not support having a link in a heading.
 
 <a name="AM009"></a>
 
-## AM009 - Space between blockquote bracket and AFM control
+## AM009 - Admonition Syntax errors (NOTE, TIP, WARNING, IMPORTANT, CAUTION, etc)
 
 ```
 > [!NOTE]
@@ -76,14 +76,17 @@ Not allowed: `{#id-tag-#name}`
 <a name="AM011"/>
 
 ## AM011 - Spaces between link components or in URL
+
 Spaces between link components or in URLs are not recommended as they can cause issues with linking or break links altogether.
 
 ### Rule Details
+
 This rule detects any links in the document where there are spaces between the link components or within the URL itself. Links should have no spaces between the link text and the URL or between the components of the URL.
 
 ### Examples
 
 #### Incorrect
+
 The following example demonstrates the incorrect usage of spaces in a link:
 
 ```markdown
@@ -98,6 +101,7 @@ The following example demonstrates the correct usage of links without spaces:
 ```
 
 ### Configuration
+
 This rule does not take any configuration.
 
 <a name="AM012"></a>
@@ -107,6 +111,7 @@ This rule does not take any configuration.
 Code blocks must have the same indent level as their surrounding context, and the opening and closing fence must be indented to the same level.
 
 ### Rule Details
+
 This rule checks for proper indentation in code blocks, including inline code. It will detect if the opening and closing fence are not indented to the same level, and whether the code block has the same indent level as its surrounding context. The rule also checks for unclosed code blocks.
 
 ### Example

@@ -1,7 +1,6 @@
 export const defaultMarkdownlintConfig = {
   "line-length": false,
   AM001: false,
-  AM009: false,
   AM011: false,
   MD003: {
     style: "atx",
