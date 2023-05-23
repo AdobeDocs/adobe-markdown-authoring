@@ -4,16 +4,16 @@ import { TokenType } from "..";
 
 export function transformBadgeInline(state: StateCore): void {
   let tokens: Token[] = state.tokens;
-  const badgeRegex = /\[\!BADGE\s(.+?)\](?:\{(.+?)\})?/;
+  const badgeRegex = /\[\!BADGE\s(.+?)\]\{(.+?)\}/g;
 
   for (let i = 0, l = tokens.length; i < l; i++) {
     if (tokens[i].type === TokenType.INLINE) {
       let content = tokens[i].content;
-      let matches = content.match(badgeRegex);
+      let matches = Array.from(content.matchAll(badgeRegex));
 
-      if (matches) {
-        let label = matches[1];
-        let params = matches[2] || "";
+      matches.forEach((match) => {
+        let label = match[1];
+        let params = match[2];
         let type = "Informative";
         let url = "";
         let tooltip = "";
@@ -41,8 +41,10 @@ export function transformBadgeInline(state: StateCore): void {
           badgeHTML = `<a href="${url}" style="color:inherit !important;text-decoration:none">${badgeHTML}</a>`;
         }
 
-        tokens[i].content = content.replace(badgeRegex, badgeHTML);
-      }
+        content = content.replace(match[0], badgeHTML);
+      });
+
+      tokens[i].content = content;
     }
   }
 }

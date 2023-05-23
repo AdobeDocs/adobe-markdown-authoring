@@ -18,9 +18,23 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
+/**
+ * Linter rule to check for malformed Adobe Markdown.
+ * This rule checks for a number of possible issues:
+ *  - stray AFM admonitions outside of blockquote
+ *  - malformed UICONTROL/DNL tags
+ *  - admonitions in non-comment html block
+ *  - incorrect use of inline and block tags
+ *  - misindentation in block quotes
+ *
+ * @module AM009
+ * @param {FilterParams} params - A FilterParams object containing the lines of the markdown document, amongst other parameters.
+ * @param {Function} onError - A function to be called when an error is detected.
+ * @returns {void}
+ */
 module.exports = {
   names: ["AM009", "malformed-adobe-markdown-block"],
-  description: "Tests whether the Adobe Markdown is malformed",
+  description: "Malformed Adobe admonition markdown block.",
   tags: [
     "adobe-markdown",
     "admonitions",
@@ -38,12 +52,12 @@ module.exports = {
     var incodeblock: boolean = false;
     // check for stray AFM admonitions outside of blockquote or UICONTROL/DNL without brackets
     for (var i = 0; i < params.lines.length; i++) {
+      // Skip first two lines (0 and 1).
       if (i > 1) {
         var curline = params.lines[i];
         var prevline = params.lines[i - 1];
         var prevprevline = params.lines[i - 2];
         incodeblock = isInCodeBlock(curline, incodeblock);
-        // console.log(i + 1, curline)
         if (!incodeblock) {
           if (
             prevprevline.trim().startsWith(">") &&
@@ -53,7 +67,6 @@ module.exports = {
             prevline.trim() !== ""
           ) {
             var warn = false;
-            // console.log(curline, curline.length)
             if (warn) {
               addWarningContext(
                 params.name,
@@ -187,13 +200,8 @@ module.exports = {
             }
           }
         }
-        // console.log(token)
-        // console.log(token.lineNumber + params.frontMatterLines.length)
-        // console.log(token.line)
-        // console.log(indent)
         if (token.line.indexOf("[!") > 0) {
           // is it AFM component
-
           // TODO: split the tag out here
           var afmtag = line.split(/[\[\]]/)[1];
 
@@ -256,7 +264,7 @@ module.exports = {
               "[\\s]*>\\s*\\[!" + blocktags[i] + "\\s*\\]";
             var re = new RegExp(repattern);
             if (token.line.match(re) !== null) {
-              // addErrorContext(onError, token.lineNumber, token.line);
+              addErrorContext(onError, token.lineNumber, token.line);
             }
           }
           /*
