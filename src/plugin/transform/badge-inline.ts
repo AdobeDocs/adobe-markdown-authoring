@@ -4,7 +4,7 @@ import { TokenType } from "..";
 
 export function transformBadgeInline(state: StateCore): void {
   let tokens: Token[] = state.tokens;
-  const badgeRegex = /\[\!BADGE\s(.+?)\]\{(.+?)\}/g;
+  const badgeRegex = /\[\!BADGE\s(.+?)\](?:\{(.+?)\})?/g; // Updated regex to include optional badge parameters
 
   for (let i = 0, l = tokens.length; i < l; i++) {
     if (tokens[i].type === TokenType.INLINE) {
@@ -18,6 +18,7 @@ export function transformBadgeInline(state: StateCore): void {
         let url = "";
         let tooltip = "";
 
+        // Check if params exist before processing them
         if (params) {
           params.split(/\s+/).forEach((param) => {
             let [key, value] = param.split("=");
