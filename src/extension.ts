@@ -1,7 +1,10 @@
 import * as vscode from "vscode";
 import MarkdownIt from "markdown-it";
 import Prism from "prismjs";
-import "prismjs/components/index.js"; // Load all supported languages
+import "prismjs/components/index.js";
+import "prismjs/components/prism-http";
+import "prismjs/components/prism-json";
+import "prismjs/components/prism-bash";
 
 import adobeMarkdownPlugin from "./plugin";
 import {
@@ -105,7 +108,7 @@ export function activate(context: vscode.ExtensionContext) {
               return Prism.highlight(str, Prism.languages[lang], lang);
             } catch (__) {}
           }
-          return ""; // use external default escaping
+          return str; // return original code if no language match
         },
       });
 

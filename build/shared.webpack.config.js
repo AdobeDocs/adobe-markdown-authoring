@@ -1,12 +1,15 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const glob = require('glob');
+const webpack = require("webpack");
+const Prism = require("prismjs");
+require("prismjs/components/index"); // Import all language components
+
+const prismLanguages = Object.keys(Prism.languages);
 
 module.exports = {
   target: "web",
   externals: ["fs"],
   resolve: {
-    extensions: [".ts", ".js"], // support ts-files and js-files
+    extensions: [".ts", ".js"],
   },
   module: {
     rules: [
@@ -23,11 +26,12 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
-
-  ]
+    new webpack.ContextReplacementPlugin(
+      /prismjs[\\/]components/,
+      new RegExp(`^./(${prismLanguages.join("|")})$`, "i")
+    ),
+  ],
 };
