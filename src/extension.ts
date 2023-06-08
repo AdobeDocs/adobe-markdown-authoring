@@ -1,12 +1,13 @@
 import * as vscode from "vscode";
 import MarkdownIt from "markdown-it";
 import Prism from "prismjs";
-import "prismjs/components/index.js";
+import components from "prismjs/components";
 import "prismjs/components/prism-http";
 import "prismjs/components/prism-json";
 import "prismjs/components/prism-bash";
+import "prismjs/components/prism-yaml";
 
-import adobeMarkdownPlugin from "./plugin";
+   import adobeMarkdownPlugin from "./plugin";
 import {
   checkMarkdownlintCustomProperty,
   checkMarkdownlintConfigSettings,
