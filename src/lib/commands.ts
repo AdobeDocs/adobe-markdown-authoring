@@ -234,7 +234,7 @@ const _commands: Command[] = [
     "toggleAdministration",
     toggleAdministration,
     "Toggle administration",
-    ">[!ADMINISTRATION]\r\n>This is a ADMINISTRATION block.",
+    ">[!ADMIN]\r\n>This is a ADMIN block.",
     true
   ),
   new Command(

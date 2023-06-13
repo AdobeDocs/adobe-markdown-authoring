@@ -81,13 +81,16 @@ export function transformAdmonitions(state: StateCore): void {
     if (tokens[i].type === TokenType.INLINE) {
       let labelMatches = tokens[i].content.match(
         // eslint-disable-next-line max-len
-        /^\[\!(ADMINISTRATION|AVAILABILITY|CAUTION|ERROR|IMPORTANT|INFO|MORELIKETHIS|NOTE|PREREQUISITES|SUCCESS|TIP|WARNING)\](\n\s*)*(.*)/
+        /^\[\!(ADMIN|AVAILABILITY|CAUTION|ERROR|IMPORTANT|INFO|MORELIKETHIS|NOTE|PREREQUISITES|SUCCESS|TIP|WARNING)\](\n\s*)*(.*)/
       );
       if (labelMatches) {
         label =
           labelMatches[1] === "MORELIKETHIS"
             ? "Related Articles"
+            : labelMatches[1] === "ADMIN"
+            ? "ADMINISTRATION"
             : (labelMatches[1] && labelMatches[1].toUpperCase()) || "NOTE";
+
         tokens[i].content = label;
         // We are definitely in an admonition, so go back and set the tag for the block open to be "div"
         tokens[startBlock].tag = "div";

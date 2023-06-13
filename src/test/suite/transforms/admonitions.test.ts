@@ -11,7 +11,7 @@ suite("Admonition Transform Rule", () => {
   });
 
   const alertTypes = [
-    "ADMINISTRATION",
+    "ADMIN",
     "AVAILABILITY",
     "CAUTION",
     "ERROR",

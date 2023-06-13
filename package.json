@@ -3,7 +3,7 @@
   "displayName": "Adobe Markdown Authoring extension for Visual Studio Code",
   "description": "All-in-one Adobe Flavored Markdown document authoring extension for Visual Studio Code.",
   "publisher": "AdobeExl",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -289,7 +289,7 @@
       },
       {
         "command": "md-shortcut.toggleAdministration",
-        "title": "Toggle Administration",
+        "title": "Toggle Admin",
         "category": "Markdown Shortcuts"
       },
       {
