@@ -3,12 +3,12 @@ import { testCommand } from "../shortcuts.test";
 
 const NEWLINE = getEol();
 
-suite("Administration Alerts", () => {
+suite("Admin Alerts", () => {
   test("Ranged selection", () => {
     return testCommand(
       "toggleAdministration",
       "«This is just a plain tip≥",
-      "«>[!ADMINISTRATION]\n>\n>This is just a plain tip\n≥"
+      "«>[!ADMIN]\n>\n>This is just a plain tip\n≥"
     );
   });
 
@@ -16,7 +16,7 @@ suite("Administration Alerts", () => {
     return testCommand(
       "toggleAdministration",
       "«This is just a" + NEWLINE + "plain tip≥",
-      "«>[!ADMINISTRATION]\n>\n>This is just a\nplain tip\n≥"
+      "«>[!ADMIN]\n>\n>This is just a\nplain tip\n≥"
     );
   });
 
@@ -24,7 +24,7 @@ suite("Administration Alerts", () => {
     return testCommand(
       "toggleAdministration",
       "«This is just a" + NEWLINE + "plain tip≥" + NEWLINE,
-      "«>[!ADMINISTRATION]\n>\n>This is just a\nplain tip\n≥"
+      "«>[!ADMIN]\n>\n>This is just a\nplain tip\n≥"
     );
   });
 
@@ -32,7 +32,7 @@ suite("Administration Alerts", () => {
     return testCommand(
       "toggleAdministration",
       "«This is just a" + NEWLINE + "plain tip" + NEWLINE + "≥",
-      "«>[!ADMINISTRATION]\n>\n>This is just a\nplain tip\n\n≥"
+      "«>[!ADMIN]\n>\n>This is just a\nplain tip\n\n≥"
     );
   });
 
@@ -40,7 +40,7 @@ suite("Administration Alerts", () => {
     return testCommand(
       "toggleAdministration",
       "Just a plain tip•",
-      "«>[!ADMINISTRATION]\n>\n>Just a plain tip\n≥"
+      "«>[!ADMIN]\n>\n>Just a plain tip\n≥"
     );
   });
 
@@ -48,7 +48,7 @@ suite("Administration Alerts", () => {
     return testCommand(
       "toggleAdministration",
       "«This is just a plain tip≥",
-      "«>[!ADMINISTRATION]\n>\n>This is just a plain tip\n≥"
+      "«>[!ADMIN]\n>\n>This is just a plain tip\n≥"
     );
   });
 
@@ -56,7 +56,7 @@ suite("Administration Alerts", () => {
     return testCommand(
       "toggleAdministration",
       "«This is just a" + NEWLINE + "plain tip≥",
-      "«>[!ADMINISTRATION]\n>\n>This is just a\nplain tip\n≥"
+      "«>[!ADMIN]\n>\n>This is just a\nplain tip\n≥"
     );
   });
 });
