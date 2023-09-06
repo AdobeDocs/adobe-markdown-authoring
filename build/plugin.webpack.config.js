@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '..', 'dist', 'standalone'),
-        filename: 'plugin.standalone.js',
+        filename: 'markdown-it-adobe-plugin.js',
         library: 'Plugin',
         libraryTarget: 'commonjs2',
     },
@@ -20,6 +20,7 @@ module.exports = {
         'path': 'commonjs path'
     },
     resolve: {
+        extensions: ['.ts', '.tsx', '.js'],
         fallback: {
             // No fallback needed as we're targeting node
         }
