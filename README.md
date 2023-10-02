@@ -6,6 +6,12 @@ This is a Visual Studio Code extension that enhances the built-in Markdown previ
 
 > See [CHANGELOG.md](CHANGELOG.md) for details.
 
+> See [docs/PLUGIN.md](docs/PLUGIN.md) for details on the markdown-it-adobe-plugin.
+
+> See [docs/DEPLOY.md](docs/DEPLOY.md) for details on how to deploy the extension.
+
+> See [docs/RULES.md](docs/RULES.md) for details on the custom markdownlint rules.
+
 Currently this plugin extends the [CommonMark](https://spec.commonmark.org/) specification, which is slightly different from the Git-flavored Markdown described in the [Adobe Contributor Guide](https://experienceleague.adobe.com/docs/contributor/contributor-guide/writing-essentials/markdown.html).
 
 ## Features
