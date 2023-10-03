@@ -3,7 +3,7 @@
   "displayName": "Adobe Markdown Authoring extension for Visual Studio Code",
   "description": "All-in-one Adobe Flavored Markdown document authoring extension for Visual Studio Code.",
   "publisher": "AdobeExl",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -732,23 +732,26 @@
   },
   "scripts": {
     "rebuild": "npm run clean && npm run build",
-    "build": "npm run build-preview && npm run build-rules && npm run build-ext && npm run compile",
+    "build": "npm run build-preview && npm run build-rules && npm run build-ext && run build-plugin  && npm run compile",
     "build-preview": "webpack --mode=development --config=./build/preview.webpack.config.js",
     "build-rules": "webpack --mode=development --config=./build/rules.webpack.config.js",
     "build-ext": "webpack --mode=development --config=./build/ext.webpack.config.js",
+    "build-plugin": "webpack --mode=development --config ./build/plugin.webpack.config.js",
     "build-test": "tsc -p ./src/test",
     "copy-fixtures": "webpack --mode=development --config=./build/test.webpack.config.js",
     "compile": "npm run build-test && npm run copy-fixtures",
     "test": "node ./dist/test/runTest.bundle.js",
     "clean": "rimraf dist",
-    "package": "npm run clean && npm run package-preview && npm run package-rules && npm run package-ext",
+    "package": "npm run clean && npm run package-preview && npm run package-rules && npm run package-plugin && npm run package-ext",
     "package-preview": "webpack --mode production --devtool hidden-source-map --config ./build/preview.webpack.config.js",
     "package-rules": "webpack --mode production --devtool hidden-source-map --config ./build/rules.webpack.config.js ",
     "package-ext": "webpack --mode production --devtool hidden-source-map --config ./build/ext.webpack.config.js",
+    "package-plugin": "webpack --mode production --devtool hidden-source-map --config ./build/plugin.webpack.config.js",
     "lint": "eslint src --ext ts",
     "test-lint": "markdownlint-cli2 README.md --rules ./dist/rules/rules.bundle.js",
     "vscode:prepublish": "npm run package",
-    "vsce:package": "vsce package"
+    "vsce:package": "vsce package",
+    "deploy": "npm run package && npm run vsce:package &&  mkdir -p releases && cp *.vsix releases/ && cp dist/standalone/markdown-it-adobe-plugin.js releases/"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
