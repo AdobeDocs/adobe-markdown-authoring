@@ -7,6 +7,7 @@
   "engines": {
     "vscode": "^1.74.0"
   },
+  "type": "module",
   "homepage": "https://github.com/AdobeDocs/adobe-markdown-authoring.git",
   "repository": {
     "type": "git",
@@ -737,7 +738,7 @@
     "build-rules": "webpack --mode=development --config=./build/rules.webpack.config.js",
     "build-ext": "webpack --mode=development --config=./build/ext.webpack.config.js",
     "build-plugin": "webpack --mode=development --config ./build/plugin.webpack.config.js",
-    "build-test": "tsc -p ./src/test",
+    "build-test": "webpack --config ./build/test.webpack.config.js",
     "copy-fixtures": "webpack --mode=development --config=./build/test.webpack.config.js",
     "compile": "npm run build-test && npm run copy-fixtures",
     "test": "node ./dist/test/runTest.bundle.js",
@@ -755,12 +756,12 @@
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
-    "@types/lodash": "^4.14.191",
-    "@types/markdown-it": "^12.2.3",
+    "@types/lodash": "^4.14.202",
+    "@types/markdown-it": "^13.0.7",
     "@types/mocha": "^10.0.1",
     "@types/prismjs": "^1.26.0",
     "@vscode/test-electron": "^2.3.0",
-    "copy-webpack-plugin": "^11.0.0",
+    "copy-webpack-plugin": "^12.0.2",
     "mini-css-extract-plugin": "^2.7.3",
     "mocha": "^10.2.0",
     "rimraf": "^5.0.0",
@@ -769,13 +770,14 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "@spectrum-web-components/badge": "^0.4.8",
-    "@spectrum-web-components/tabs": "^0.11.1",
-    "@spectrum-web-components/theme": "^0.15.0",
+    "@spectrum-web-components/badge": "^0.41.0",
+    "@spectrum-web-components/tabs": "^0.41.0",
+    "@spectrum-web-components/theme": "^0.41.0",
     "@types/vscode": "^1.76.0",
-    "jsondiffpatch": "^0.4.1",
+    "jsondiffpatch": "^0.6.0",
     "lodash": "^4.17.21",
-    "markdownlint": "^0.28.2",
+    "markdown-it": "^14.0.0",
+    "markdownlint": "^0.33.0",
     "minimist": "^1.2.8",
     "prismjs": "^1.29.0"
   }

@@ -1,5 +1,5 @@
 import StateCore from "markdown-it/lib/rules_core/state_core";
-import { TokenType } from "..";
+import { TokenType } from "../index";
 
 /**
  * DNL (Do Not Localize) transformation rule. Simply strips the [!DNL <text>] markdown

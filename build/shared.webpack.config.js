@@ -1,11 +1,12 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const webpack = require("webpack");
-const Prism = require("prismjs");
-require("prismjs/components/index"); // Import all language components
+// ESM imports
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import webpack from "webpack";
+import Prism from "prismjs";
 
 const prismLanguages = Object.keys(Prism.languages);
 
-module.exports = {
+// Configuration object
+const sharedConfig = {
   target: "web",
   externals: ["fs"],
   resolve: {
@@ -35,3 +36,6 @@ module.exports = {
     ),
   ],
 };
+
+// ESM export
+export default sharedConfig;

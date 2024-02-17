@@ -2,7 +2,10 @@ import glob from "glob";
 import Mocha from "mocha";
 import path from "path";
 
-function globPromise(pattern: string, options: glob.IOptions): Promise<string[]> {
+function globPromise(
+  pattern: string,
+  options: glob.IOptions
+): Promise<string[]> {
   return new Promise((resolve, reject) => {
     glob(pattern, options, (err, matches) => {
       if (err) {

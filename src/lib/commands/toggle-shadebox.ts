@@ -7,8 +7,5 @@ const blankLine = newLine + newLine;
 const startingBlock: string = ">[!BEGINSHADEBOX]" + blankLine;
 const endingBlock: string = blankLine + ">[!ENDSHADEBOX]" + newLine;
 export function toggleShadebox() {
-    return surroundBlockSelection(
-    startingBlock,
-    endingBlock
-  );
+  return surroundBlockSelection(startingBlock, endingBlock);
 }

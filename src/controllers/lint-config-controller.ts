@@ -3,9 +3,9 @@
 
 import { ConfigurationTarget, workspace } from "vscode";
 import { showStatusMessage, output, generateTimestamp } from "../lib/common";
-import * as path from 'path';
-import * as fs from 'fs';
-import * as jsondiffpatch from 'jsondiffpatch';
+import * as path from "path";
+import * as fs from "fs";
+import * as jsondiffpatch from "jsondiffpatch";
 
 // store users markdownlint settings on activation
 const markdownlintProperty = "markdownlint.config";
@@ -89,13 +89,15 @@ export function addFrontMatterTitle() {
  */
 export function checkMarkdownlintConfigSettings() {
   const { msTimeValue } = generateTimestamp();
-  const configProperty = 'markdownlint.config';
-  const configPropertyData = workspace.getConfiguration().inspect(configProperty);
+  const configProperty = "markdownlint.config";
+  const configPropertyData = workspace
+    .getConfiguration()
+    .inspect(configProperty);
 
   // Load custom lint config from extension's package.json file
   const extensionPath = path.dirname(__dirname); // Assumes this file is in the root of the extension
-  const packageJsonPath = path.join(extensionPath, 'package.json');
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+  const packageJsonPath = path.join(extensionPath, "package.json");
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 
   // Make sure that the markdownlint.config property is present in the loaded package.json file
   const customLintConfig = packageJson[configProperty];
@@ -115,10 +117,7 @@ export function checkMarkdownlintConfigSettings() {
           .update(configProperty, customLintConfig, ConfigurationTarget.Global);
         const diff = jsondiffpatch.diff(oldConfig, customLintConfig);
         output.appendLine(
-          `[${msTimeValue}] - Updated markdownlint.config settings:\n${jsondiffpatch.formatters.console.format(
-            diff,
-            oldConfig
-          )}`
+          `[${msTimeValue}] - Patched markdownlint.config settings`
         );
       } else {
         output.appendLine(
@@ -130,12 +129,13 @@ export function checkMarkdownlintConfigSettings() {
         .getConfiguration()
         .update(configProperty, customLintConfig, ConfigurationTarget.Global);
       output.appendLine(
-        `[${msTimeValue}] - Added markdownlint.config settings:\n${JSON.stringify(customLintConfig)}`
+        `[${msTimeValue}] - Added markdownlint.config settings:\n${JSON.stringify(
+          customLintConfig
+        )}`
       );
     }
   }
 }
-
 
 // /**
 //  * Method to check for the markdownlint.config property in package.json and add user settings if they do not exist.
@@ -174,7 +174,7 @@ export function checkMarkdownlintCustomProperty() {
   const { msTimeValue } = generateTimestamp();
   const customProperty = "markdownlint.customRules";
   const customRuleset =
-    "{AdobeExl.adobe-markdown-authoring}/dist/rules/rules.bundle.js";
+    "{AdobeExl.adobe-markdown-authoring}/dist/rules/rules.bundle";
   const customPropertyData: any = workspace
     .getConfiguration()
     .inspect(customProperty);

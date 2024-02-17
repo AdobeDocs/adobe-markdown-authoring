@@ -1,9 +1,14 @@
-// plugin.webpack.config.js
+// ESM imports
+import path from 'path';
+import { fileURLToPath } from 'url';
+import shared from './shared.webpack.config.js'; // Make sure this is an ESM module
 
-const path = require('path');
-const shared = require('./shared.webpack.config');
+// Deriving __dirname equivalent in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-module.exports = {
+// Configuration object
+const pluginConfig = {
     ...shared,
     target: 'node',
     entry: {
@@ -12,17 +17,20 @@ module.exports = {
     output: {
         path: path.join(__dirname, '..', 'dist', 'standalone'),
         filename: 'markdown-it-adobe-plugin.js',
-        library: 'Plugin',
-        libraryTarget: 'commonjs2',
+        library: {
+            name: 'Plugin',
+            type: 'commonjs2',
+        },
     },
     externals: {
         'fs': 'commonjs fs',
         'path': 'commonjs path'
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js'],
-        fallback: {
-            // No fallback needed as we're targeting node
-        }
+        extensions: ['.ts', '.tsx', '.js', '.mjs'],
+        // Ensure fallback settings are correct for your project's needs
     }
 };
+
+// ESM export
+export default pluginConfig;

@@ -17,17 +17,13 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
-    filterTokens(
-      params,
-      "inline",
-      (token: MarkdownItToken) => {
-        const line = token.line;
-        const spaceinlink = line.match(/\[[^\]]+\]\s+\([^)]*[^)]*\)/);
-        const spaceinurl = line.match(/\[[^\]]*\]\((?:[^)]*\s+[^)]*)\)/);
-        if (spaceinlink !== null || spaceinurl !== null) {
-          addErrorContext(onError, token.lineNumber, token.line);
-        }
+    filterTokens(params, "inline", (token: MarkdownItToken) => {
+      const line = token.line;
+      const spaceinlink = line.match(/\[[^\]]+\]\s+\([^)]*[^)]*\)/);
+      const spaceinurl = line.match(/\[[^\]]*\]\((?:[^)]*\s+[^)]*)\)/);
+      if (spaceinlink !== null || spaceinurl !== null) {
+        addErrorContext(onError, token.lineNumber, token.line);
       }
-    );
-  }
+    });
+  },
 };

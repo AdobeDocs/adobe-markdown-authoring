@@ -1,32 +1,31 @@
-//@ts-check
+// @ts-check
+import path from 'path';
+import { fileURLToPath } from 'url';
+import TerserPlugin from 'terser-webpack-plugin';
 
-'use strict';
+// Calculate __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const path = require('path');
-const TerserPlugin = require("terser-webpack-plugin");
-
-//@ts-check
+// Assuming webpack's Configuration type can be imported directly if needed
+// If not, you might need to adjust or remove this typedef based on your setup
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
 
 /** @type WebpackConfig */
 const extensionConfig = {
   target: 'node',
   mode: 'none',
-
-  entry: { extension: './src/extension.ts' }, // the entry point of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
+  entry: { extension: './src/extension.ts' },
   output: {
-    // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
     path: path.resolve(__dirname, '..', 'dist'),
     filename: 'extension.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   externals: {
-    vscode: 'commonjs vscode' // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
-    // modules added here also need to be added in the .vscodeignore file
+    vscode: 'commonjs vscode',
   },
   resolve: {
-    // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js', '.mjs'],
   },
   module: {
     rules: [
@@ -37,12 +36,12 @@ const extensionConfig = {
           {
             loader: 'ts-loader',
             options: {
-              configFile: 'tsconfig.json'
-            }
-          }
-        ]
-      }
-    ]
+              configFile: 'tsconfig.json',
+            },
+          },
+        ],
+      },
+    ],
   },
   optimization: {
     minimizer: [
@@ -58,6 +57,7 @@ const extensionConfig = {
       }),
     ],
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
 };
-module.exports = [extensionConfig];
+
+export default [extensionConfig];

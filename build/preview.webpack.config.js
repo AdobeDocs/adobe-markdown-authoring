@@ -1,7 +1,14 @@
-const path = require('path');
-const shared = require('./shared.webpack.config');
+// Importing necessary modules using ESM syntax
+import path from 'path';
+import { fileURLToPath } from 'url';
+import shared from './shared.webpack.config.js';
 
-module.exports = {
+// Deriving __dirname equivalent in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Exporting configuration as an ECMAScript module
+export default {
     ...shared,
     target: 'web',
     entry: {

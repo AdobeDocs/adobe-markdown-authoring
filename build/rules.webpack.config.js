@@ -1,7 +1,14 @@
-const path = require('path');
-const shared = require('./shared.webpack.config');
+// ESM imports
+import path from 'path';
+import { fileURLToPath } from 'url';
+import shared from './shared.webpack.config.js'; // Adjusted to use ESM import
 
-module.exports = {
+// Deriving __dirname in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Configuration object
+const rulesConfig = {
     ...shared,
     target: 'node',
     entry: {
@@ -10,7 +17,10 @@ module.exports = {
     output: {
         path: path.join(__dirname, '..', 'dist', 'rules'),
         filename: 'rules.bundle.js',
-        "libraryTarget": "commonjs2"
+        libraryTarget: "commonjs2"
     },
     devtool: 'source-map'
 };
+
+// ESM export
+export default rulesConfig;

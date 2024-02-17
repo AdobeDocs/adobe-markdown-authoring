@@ -1,6 +1,6 @@
 import StateCore from "markdown-it/lib/rules_core/state_core";
 import Token from "markdown-it/lib/token";
-import { TokenType } from "..";
+import { TokenType } from "../index";
 
 /**
  * UICONTROL (User Interface Control) transformation rule. Simply strips the [!UICONTROL <text>] markdown

@@ -1,10 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "outDir": "../../dist/plugin",
     "rootDir": "./",
-    "esModuleInterop": true,
-    "moduleResolution": "node"
+    "esModuleInterop": true
   }
 }
