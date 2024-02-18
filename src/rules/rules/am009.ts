@@ -174,7 +174,7 @@ module.exports = {
       for (let i = oline; i < cline; i++) {
         // console.log(params.lines[i])
         var lineindent = params.lines[i].indexOf(">");
-        if (lineindent != indent) {
+        if (lineindent !== indent) {
           if (lineindent < 0) {
             addErrorContext(
               onError,
@@ -207,7 +207,7 @@ module.exports = {
         if (
           afmtag.includes("!") &&
           !blocktags.includes(afmtag.replace("!", "")) &&
-          afmtag != "!VIDEO" &&
+          afmtag !== "!VIDEO" &&
           !afmtag.startsWith("!__BETA")
         ) {
           if (
@@ -230,7 +230,7 @@ module.exports = {
         var trimmed = token.line.trim().replace(/\].*$/, "]");
 
         if (
-          token.line.trim() != trimmed &&
+          token.line.trim() !== trimmed &&
           token.line.indexOf("[!VIDEO]") <= 0
         ) {
           // check for content after end of the container declaration
@@ -240,7 +240,7 @@ module.exports = {
         // if (token.line.indexOf('[!VIDEO]') > 0) {
         //     // check for content after the video link
         //     trimmed = token.line.trim().replace(/\).*$/, ')')
-        //     if (token.line.trim() != trimmed) {
+        //     if (token.line.trim() !==trimmed) {
         //         addErrorContext(onError, token.lineNumber, token.line);
         //     }
         // }
@@ -251,7 +251,7 @@ module.exports = {
         for (var i = 0, len = blocktags.length; i < len; i++) {
           var repattern = "[\\s]*>\\s*\\[" + blocktags[i] + "\\s*\\]";
           var re = new RegExp(repattern);
-          if (token.line.match(re) != null) {
+          if (token.line.match(re) !== null) {
             addErrorContext(onError, token.lineNumber, token.line);
           }
         }
@@ -261,7 +261,7 @@ module.exports = {
           var textafterafm_pattern =
             "[\\s]*>\\s*\\[!" + blocktags[i] + "\\s*\\]";
           var re = new RegExp(nobang_pattern);
-          if (token.line.match(re) != null) {
+          if (token.line.match(re) !== null) {
             // addErrorContext(onError, token.lineNumber, token.line);
           }
         }
@@ -273,7 +273,7 @@ module.exports = {
         for (let i = 0, len = inlinetags.length; i < len; i++) {
           var repattern = "[\\s]*\\s*\\[" + inlinetags[i] + ".*?\\]";
           var re = new RegExp(repattern);
-          if (token.line.match(re) != null) {
+          if (token.line.match(re) !== null) {
             addErrorContext(onError, token.lineNumber, token.line);
           }
         }

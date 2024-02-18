@@ -5,8 +5,7 @@
     "rootDir": "./",
     "lib": ["es2020", "DOM", "DOM.Iterable"],
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "sourceMap": true
+    "esModuleInterop": true
   },
   "exclude": ["node_modules"]
 }

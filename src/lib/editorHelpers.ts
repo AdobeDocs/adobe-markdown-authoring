@@ -238,10 +238,7 @@ export function surroundBlockSelection(
   endPattern?: string,
   wordPattern?: RegExp
 ): Thenable<void | boolean> {
-  if (endPattern === undefined || endPattern === null) {
-    endPattern = startPattern;
-  }
-
+  endPattern = endPattern ?? startPattern;
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
   if (!editor) {
     return Promise.reject("No Text Editor is Defined");
@@ -296,7 +293,7 @@ export function surroundBlockSelection(
           // Insert start pattern at the start of the selection
           editBuilder.insert(startPos, startPattern);
           // Insert end pattern at the end of the selection
-          editBuilder.insert(endPos, endPattern);
+          editBuilder.insert(endPos, endPattern!);
         })
         .then(() => {
           // Set the cursor at the end of the endPos line

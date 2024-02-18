@@ -1,16 +1,42 @@
-// ESM imports
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import webpack from "webpack";
-import Prism from "prismjs";
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack");
+const Prism = require("prismjs");
+const TerserPlugin = require('terser-webpack-plugin');
 
 const prismLanguages = Object.keys(Prism.languages);
 
-// Configuration object
 const sharedConfig = {
-  target: "web",
-  externals: ["fs"],
+  target: "node",
+  externals: {
+    vscode: 'commonjs vscode',
+    fs: 'commonjs fs',
+    fsevents: 'commonjs fsevents',
+  },
+
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ['.ts', '.tsx', '.js', '.mjs'],
+  },
+  output: {
+    libraryTarget: "commonjs2",
+  },
+  stats: {
+    warnings: false, // Hide all warnings by default
+    errors: true, // Still show errors
+    warningsFilter: /Critical dependency: the request of a dependency is an expression/,
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: false,
+          mangle: false,
+          output: {
+            beautify: true,
+            comments: true,
+          },
+        },
+      }),
+    ],
   },
   module: {
     rules: [
@@ -37,5 +63,4 @@ const sharedConfig = {
   ],
 };
 
-// ESM export
-export default sharedConfig;
+module.exports = sharedConfig;

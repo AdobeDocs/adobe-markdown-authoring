@@ -298,7 +298,8 @@ function customFenceRenderer(
     processLineNumbersAndHighlights(langAttrs, code);
 
   const langName = token.info ? token.info.split(/\s+/g)[0] : "text";
-  const highlightedCode = md.options.highlight(code, langName, langAttrs);
+  const highlightedCode =
+    md.options.highlight?.(code, langName, langAttrs) ?? code;
 
   const lineHighlights = generateLineHighlights(highlightLines, startLine);
 

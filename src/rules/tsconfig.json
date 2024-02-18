@@ -1,15 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "target": "es6",
     "outDir": "../dist",
     "rootDir": "./",
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "sourceMap": true,
     "allowJs": false
   }
 }

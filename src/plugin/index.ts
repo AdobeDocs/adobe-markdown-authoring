@@ -53,3 +53,4 @@ function injectTransforms(md: MarkdownIt, filePath: string) {
   md.core.ruler.after("block", "collapsible", transformCollapsible);
   md.core.ruler.after("inline", "image-size", transformImages);
 }
+module.exports = adobeMarkdownPlugin;

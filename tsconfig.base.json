@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "strict": true,
+    "module": "CommonJS",
+    "target": "ES2019",
+    "outDir": "./dist",
+    "esModuleInterop": true,
     "moduleResolution": "node",
-    "target": "es2020",
-    "lib": ["es2020"]
+    "sourceMap": true
   },
   "exclude": ["node_modules"]
 }
