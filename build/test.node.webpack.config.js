@@ -23,7 +23,7 @@ module.exports = {
             patterns: [
                 {
                     from: 'src/test/fixtures',
-                    to: 'dist/test/node/fixtures', // Adjust the destination to reflect the test structure
+                    to: 'fixtures', // Adjust the destination to reflect the test structure
                     globOptions: {
                         ignore: [
                             '**/*.ts',

@@ -1,5 +1,10 @@
 import * as path from "path";
-import { runTests } from "@vscode/test-electron";
+import {
+  downloadAndUnzipVSCode,
+  resolveCliArgsFromVSCodeExecutablePath,
+  runTests,
+} from "@vscode/test-electron";
+import * as cp from "child_process";
 import "./index";
 
 async function main() {
@@ -12,6 +17,17 @@ async function main() {
     // Passed to --extensionTestsPath
     const extensionTestsPath = path.resolve(__dirname, "./index");
 
+    const vscodeExecutablePath = await downloadAndUnzipVSCode();
+    const [cli, ...args] =
+      resolveCliArgsFromVSCodeExecutablePath(vscodeExecutablePath);
+    cp.spawnSync(
+      cli,
+      [...args, "--install-extension", "davidanson.vscode-markdownlint"],
+      {
+        encoding: "utf-8",
+        stdio: "inherit",
+      }
+    );
     // Download VS Code, unzip it and run the integration test
     await runTests({ extensionDevelopmentPath, extensionTestsPath });
   } catch (err) {

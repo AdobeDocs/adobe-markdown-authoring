@@ -13,8 +13,7 @@
         "group": "watchers"
       },
       "group": {
-        "kind": "build",
-        "isDefault": true
+        "kind": "build"
       }
     },
     {
