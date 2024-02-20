@@ -12,7 +12,6 @@ module.exports = {
     output: {
         path: path.join(__dirname, '..', 'dist', 'standalone'),
         filename: 'markdown-it-adobe-plugin.js',
-        library: 'Plugin',
         libraryTarget: 'commonjs2',
     },
     externals: {
