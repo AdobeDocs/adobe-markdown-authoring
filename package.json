@@ -769,9 +769,9 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "@spectrum-web-components/badge": "^0.4.8",
-    "@spectrum-web-components/tabs": "^0.11.1",
-    "@spectrum-web-components/theme": "^0.15.0",
+    "@spectrum-web-components/badge": "^0.41.0",
+    "@spectrum-web-components/tabs": "^0.41.0",
+    "@spectrum-web-components/theme": "^0.41.0",
     "@types/vscode": "^1.76.0",
     "jsondiffpatch": "^0.4.1",
     "lodash": "^4.17.21",
