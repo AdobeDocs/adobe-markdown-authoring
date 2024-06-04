@@ -6,6 +6,7 @@ import { transformHeaderAnchors } from "./transform/header-anchors";
 import { transformImages } from "./transform/images";
 import transformLinkTargets from "./transform/link-targets";
 import { transformShadebox } from "./transform/shadebox";
+import { transformSingleNewline } from "./transform/single-newline";
 import { includeFileParts } from "./transform/snippets";
 import { transformTableStyles } from "./transform/table-styles";
 import transformTabs from "./transform/tabs";
@@ -39,6 +40,7 @@ function injectTransforms(md: MarkdownIt, filePath: string) {
     includeFileParts(state, filePath);
   });
   // Now add the token transforms.
+  md.core.ruler.after("block", "single-newlines", transformSingleNewline);
   md.core.ruler.after("block", "highlights", transformHighlights);
   md.core.ruler.after("block", "shadebox", transformShadebox);
   md.core.ruler.after("block", "badge-meta", transformBadgeMeta);

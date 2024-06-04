@@ -7,7 +7,7 @@ import "prismjs/components/prism-json";
 import "prismjs/components/prism-bash";
 import "prismjs/components/prism-yaml";
 
-   import adobeMarkdownPlugin from "./plugin";
+import adobeMarkdownPlugin from "./plugin";
 import {
   checkMarkdownlintCustomProperty,
   checkMarkdownlintConfigSettings,
@@ -101,6 +101,15 @@ export function activate(context: vscode.ExtensionContext) {
   // Extend MarkdownIt to process Adobe Flavored Markdown to HTML for preview.
   return {
     extendMarkdownIt(md: MarkdownIt) {
+      // Set various options on the MarkdownIt instance
+      md.set({
+        html: true, // Enable HTML tags in source
+        xhtmlOut: false, // Use '/' to close single tags (<br />).
+        breaks: true, // Convert '\n' in paragraphs into <br>
+        langPrefix: "language-", // CSS language prefix for fenced blocks
+        linkify: true, // Autoconvert URL-like text to links
+        typographer: true, // Enable smartypants and other sweet transforms
+      });
       md = adobeMarkdownPlugin(md, getRootFolder()?.uri.path || extensionPath);
       md.use(injectSpectrumTheme).set({
         highlight: function (str: string, lang: string, attrs: any) {
@@ -111,6 +120,8 @@ export function activate(context: vscode.ExtensionContext) {
           }
           return str; // return original code if no language match
         },
+        // Convert '\n' in paragraphs into <br>
+        breaks: true,
       });
 
       md.renderer.rules.fence = (
