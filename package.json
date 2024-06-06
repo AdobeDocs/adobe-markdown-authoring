@@ -138,6 +138,11 @@
     },
     "commands": [
       {
+        "command": "md-shortcut.copyRootRelativePath",
+        "title": "Copy Root Relative Path",
+        "Category": "Explorer Context Menus"
+      },
+      {
         "command": "md-shortcut.toggleBold",
         "title": "Toggle bold",
         "icon": {
@@ -643,6 +648,13 @@
           "command": "md-shortcut.toggleImage",
           "when": "markdown:enabled && config.markdown.icons.image",
           "group": "navigation@6"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "md-shortcut.copyRootRelativePath",
+          "title": "Copy Root Relative Path",
+          "group": "6_copypath@6"
         }
       ]
     }
