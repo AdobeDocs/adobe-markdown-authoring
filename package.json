@@ -313,6 +313,11 @@
         "category": "Markdown Shortcuts"
       },
       {
+        "command": "md-shortcut.toggleInclude",
+        "title": "Toggle Include",
+        "category": "Markdown Shortcuts"
+      },
+      {
         "command": "md-shortcut.toggleInfo",
         "title": "Toggle Info",
         "category": "Markdown Shortcuts"
@@ -516,6 +521,11 @@
           "command": "md-shortcut.toggleInlineCode",
           "when": "markdown:enabled",
           "group": "2_markdown_1@7"
+        },
+        {
+          "command": "md-shortcut.toggleInclude",
+          "when": "markdown:enabled",
+          "group": "2_markdown_1@8"
         },
         {
           "command": "md-shortcut.toggleBullets",

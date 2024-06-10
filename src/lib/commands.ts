@@ -25,6 +25,7 @@ import {
 } from "./commands/toggle-headers";
 import { toggleImage } from "./commands/toggle-image";
 import { toggleImportant } from "./commands/toggle-important";
+import { toggleInclude } from "./commands/toggle-include";
 import { toggleInfo } from "./commands/toggle-info";
 import { toggleItalic } from "./commands/toggle-italic";
 import { toggleLink } from "./commands/toggle-link";
@@ -115,6 +116,13 @@ const _commands: Command[] = [
     toggleInlineCode,
     "Toggle inline code",
     "`Inline code`",
+    true
+  ),
+  new Command(
+    "toggleInclude",
+    toggleInclude,
+    "Toggle Include",
+    "{{$include path/to/file}}",
     true
   ),
   new Command(

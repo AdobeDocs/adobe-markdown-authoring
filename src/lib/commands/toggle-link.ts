@@ -1,11 +1,8 @@
-import { URL } from "url";
 import * as vscode from "vscode";
 import { Selection, TextEditor } from "vscode";
 import { urlRegExp } from "../commands";
 import {
-  surroundSelection,
   isAnythingSelected,
-  getSurroundingWord,
   isMatch,
   replaceSelection,
   promptForInput,
@@ -19,15 +16,14 @@ interface LinkProps {
   target?: string;
 }
 function addLinkTag(linkProps: LinkProps): void | Thenable<void> {
-  let target = '';
+  let target = "";
   if (linkProps.target) {
     target = `{${linkProps.target}}`;
-  };
-  replaceSelection(() => (`[${linkProps.text}](${linkProps.url})${target}`));
+  }
+  replaceSelection(() => `[${linkProps.text}](${linkProps.url})${target}`);
 }
 
 const MARKDOWN_LINK_REGEX: RegExp = /^\[.+\]\(.+\)(\{.+\})?$/;
-
 
 export function toggleLink(): void {
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
@@ -52,7 +48,9 @@ export function toggleLink(): void {
     } else {
       // Check to see if our cursor is on a URL
       const surroundingUrl = getSurroundingPattern(
-        editor, selection, urlRegExp
+        editor,
+        selection,
+        urlRegExp
       );
       // If we found a URL, select it.
       if (surroundingUrl) {
@@ -71,13 +69,15 @@ export function toggleLink(): void {
     if (isMatch(urlRegExp)) {
       linkObj.url = editor.document.getText(selection);
     } else {
-      linkObj.text =editor.document.getText(selection);
+      linkObj.text = editor.document.getText(selection);
     }
   }
 
   promptForInput("Enter Link URL", linkObj.url, linkObj.url)
     .then((url) => {
-      if (!url) { return Promise.reject('URL is Required'); }
+      if (!url) {
+        return Promise.reject("URL is Required");
+      }
       linkObj.url = url;
       return promptForInput("Enter link text", linkObj.text, linkObj.text);
     })
