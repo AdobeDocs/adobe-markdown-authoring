@@ -1,5 +1,12 @@
 import * as vscode from "vscode";
-import { Selection, TextEditor, Range, Position, TextEditorEdit } from "vscode";
+import {
+  Selection,
+  TextEditor,
+  TextDocument,
+  Range,
+  Position,
+  TextEditorEdit,
+} from "vscode";
 
 export function replaceSelection(
   replaceFunc: (text: string) => string
@@ -115,78 +122,85 @@ export function getSurroundingBlock(
 ): Selection | void {
   const doc = editor.document;
   const cursorPosition = selection.active;
+  const startPatternRegex = new RegExp(extractFirstLineForRegex(startPattern));
+  const endPatternRegex = new RegExp(processPatternForRegex(endPattern));
 
-  // Remove newline characters from patterns and escape special characters
-  startPattern = extractFirstLineForRegex(startPattern);
-  endPattern = processPatternForRegex(endPattern);
+  let startPatternPosition: Position | null = findStartPatternPosition(
+    doc,
+    cursorPosition,
+    startPatternRegex
+  );
+  let endPatternPosition: Position | null = findEndPatternPosition(
+    doc,
+    cursorPosition,
+    endPatternRegex
+  );
 
-  // Create regular expressions for start and end patterns
-  const startPatternRegex = new RegExp(startPattern);
-  const endPatternRegex = new RegExp(endPattern);
-
-  // Find the start pattern position by looking backwards from the cursor position
-  // all the way to the start of the file, if necessary.
-  let startPatternPosition: Position | null = null;
-  for (let line = cursorPosition.line; line >= 0; line--) {
-    const lineText = doc.lineAt(line).text;
-    const startIndex = lineText.search(startPatternRegex);
-    if (startIndex !== -1) {
-      startPatternPosition = new Position(line, startIndex);
-      break;
-    }
+  if (startPatternPosition && endPatternPosition) {
+    const selStart = new Position(
+      startPatternPosition.line,
+      startPatternPosition.character
+    );
+    const selEnd = new Position(
+      endPatternPosition.line,
+      endPatternPosition.character + endPattern.length
+    );
+    return new Selection(selStart, selEnd);
+  } else {
+    return getParagraphSelection(editor, selection);
   }
+}
 
-  // Find the end pattern position by looking from the current cursor postion
-  // to the end of the file, if necessary.
-  let endPatternPosition: Position | null = null;
+function findStartPatternPosition(
+  doc: TextDocument,
+  cursorPosition: Position,
+  startPatternRegex: RegExp
+): Position | null {
+  let currentLine = cursorPosition.line;
+  while (currentLine >= 0) {
+    const lineText = doc.lineAt(currentLine).text;
+    if (lineText.trim() === "") break;
+    const startIndex = lineText.search(startPatternRegex);
+    if (startIndex !== -1) return new Position(currentLine, startIndex);
+    currentLine--;
+  }
+  return null;
+}
+
+function findEndPatternPosition(
+  doc: TextDocument,
+  cursorPosition: Position,
+  endPatternRegex: RegExp
+): Position | null {
   for (let line = cursorPosition.line; line < doc.lineCount; line++) {
     const lineText = doc.lineAt(line).text;
     const endIndex = lineText.search(endPatternRegex);
-    if (endIndex !== -1) {
-      endPatternPosition = new Position(line, endIndex);
-      break;
-    }
+    if (endIndex !== -1) return new Position(line, endIndex);
   }
+  return null;
+}
 
-  // We have found the matching block, so select the block and return it.
-  if (startPatternPosition && endPatternPosition) {
-    const start = startPatternPosition;
-    const end = endPatternPosition.translate(0, endPattern.length);
-    return new Selection(start, end);
-  } else {
-    // If start and end patterns not found, select the current paragraph
-    const currLine = cursorPosition.line;
-    let startOfParagraph = currLine;
-    let endOfParagraph = currLine;
+function getParagraphSelection(
+  editor: TextEditor,
+  selection: Selection
+): Selection {
+  const doc = editor.document;
+  const cursorPosition = selection.active;
+  let startLine = cursorPosition.line;
+  while (startLine >= 0 && isLineBlank(doc.lineAt(startLine).text)) startLine--;
+  let endLine = cursorPosition.line;
+  while (endLine < doc.lineCount && isLineBlank(doc.lineAt(endLine).text))
+    endLine++;
+  return startLine >= 0 && endLine < doc.lineCount
+    ? new Selection(
+        new Position(startLine, 0),
+        new Position(endLine, doc.lineAt(endLine).text.length)
+      )
+    : new Selection(cursorPosition, cursorPosition);
+}
 
-    // Find the start of the paragraph
-    for (let i = currLine; i >= 0; i--) {
-      const line = doc.lineAt(i).text;
-      if (line.trim() === "" && i !== currLine) {
-        startOfParagraph = i + 1;
-        break;
-      } else if (i === 0) {
-        startOfParagraph = i;
-        break;
-      }
-    }
-
-    // Find the end of the paragraph
-    for (let i = currLine; i < doc.lineCount; i++) {
-      const line = doc.lineAt(i).text;
-      if (line.trim() === "" && i !== currLine) {
-        endOfParagraph = i - 1;
-        break;
-      } else if (i === doc.lineCount - 1) {
-        endOfParagraph = i;
-        break;
-      }
-    }
-
-    const start = new Position(startOfParagraph, 0);
-    const end = doc.lineAt(endOfParagraph).range.end;
-    return new Selection(start, end);
-  }
+function isLineBlank(line: string): boolean {
+  return /^\s*$/.test(line);
 }
 
 export function getSurroundingPattern(
