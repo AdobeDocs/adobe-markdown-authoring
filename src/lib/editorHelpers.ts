@@ -175,9 +175,10 @@ export function getSurroundingBlock(
       startPatternPosition.line,
       startPatternPosition.character
     );
+    const selEndLine = doc.lineAt(endPatternPosition.line);
     const selEnd = new Position(
       endPatternPosition.line,
-      endPatternPosition.character + endPattern.length
+      selEndLine.text.length
     );
     return new Selection(selStart, selEnd);
   } else {
@@ -229,19 +230,14 @@ function getParagraphSelection(
   const cursorPosition = selection.active;
   let startLine = cursorPosition.line;
   // Find the first non-blank line above the cursor position
-  while (
-    startLine > 0 &&
-    !/^\s*$/.test(doc.lineAt(startLine).text) &&
-    !/^>\s*/.test(doc.lineAt(startLine).text)
-  ) {
+  while (startLine > 0 && !/^\s*$/.test(doc.lineAt(startLine).text)) {
     startLine--;
   }
   let endLine = cursorPosition.line;
   // Find the last non-blank line below the cursor position
   while (
     endLine < doc.lineCount - 1 &&
-    !/^\s*$/.test(doc.lineAt(endLine).text) &&
-    !/^>/.test(doc.lineAt(endLine).text)
+    !/^\s*$/.test(doc.lineAt(endLine).text)
   ) {
     endLine++;
   }
