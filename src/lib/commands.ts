@@ -25,6 +25,7 @@ import {
 } from "./commands/toggle-headers";
 import { toggleImage } from "./commands/toggle-image";
 import { toggleImportant } from "./commands/toggle-important";
+import { toggleInclude } from "./commands/toggle-include";
 import { toggleInfo } from "./commands/toggle-info";
 import { toggleItalic } from "./commands/toggle-italic";
 import { toggleLink } from "./commands/toggle-link";
@@ -39,6 +40,7 @@ import { toggleTip } from "./commands/toggle-tip";
 import { toggleUIControl } from "./commands/toggle-uicontrol";
 import { toggleVideo } from "./commands/toggle-video";
 import { toggleWarning } from "./commands/toggle-warning";
+import { copyRootRelativePath } from "./commands/copy-root-relative-path";
 
 interface CommandItem extends QuickPickItem {
   label: string;
@@ -48,12 +50,12 @@ class Command implements CommandItem {
   command: string;
   description?: string;
   showInCommandPalette: boolean;
-  callback: () => void;
+  callback: (...args: any[]) => void; // Allow callback with any number of arguments
   label: string;
 
   constructor(
     command: string,
-    callback: () => void,
+    callback: (...args: any[]) => void, // Change here
     label: string,
     description?: string,
     showInCommandPalette?: boolean
@@ -114,6 +116,13 @@ const _commands: Command[] = [
     toggleInlineCode,
     "Toggle inline code",
     "`Inline code`",
+    true
+  ),
+  new Command(
+    "toggleInclude",
+    toggleInclude,
+    "Toggle Include",
+    "{{$include path/to/file}}",
     true
   ),
   new Command(
@@ -301,6 +310,13 @@ const _commands: Command[] = [
     "Toggle UIControl",
     "[!UICONTROL text to be translated]",
     true
+  ),
+
+  new Command(
+    "copyRootRelativePath",
+    (uri: vscode.Uri) => copyRootRelativePath(uri),
+    "Copy Root Relative Path",
+    "Copy relative path beginning with / to anchor root."
   ),
 ];
 

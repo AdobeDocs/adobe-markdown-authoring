@@ -138,6 +138,11 @@
     },
     "commands": [
       {
+        "command": "md-shortcut.copyRootRelativePath",
+        "title": "Copy Root Relative Path",
+        "Category": "Explorer Context Menus"
+      },
+      {
         "command": "md-shortcut.toggleBold",
         "title": "Toggle bold",
         "icon": {
@@ -305,6 +310,11 @@
       {
         "command": "md-shortcut.toggleError",
         "title": "Toggle Error",
+        "category": "Markdown Shortcuts"
+      },
+      {
+        "command": "md-shortcut.toggleInclude",
+        "title": "Toggle Include",
         "category": "Markdown Shortcuts"
       },
       {
@@ -513,6 +523,11 @@
           "group": "2_markdown_1@7"
         },
         {
+          "command": "md-shortcut.toggleInclude",
+          "when": "markdown:enabled",
+          "group": "2_markdown_1@8"
+        },
+        {
           "command": "md-shortcut.toggleBullets",
           "when": "markdown:enabled",
           "group": "2_markdown_2@1"
@@ -643,6 +658,13 @@
           "command": "md-shortcut.toggleImage",
           "when": "markdown:enabled && config.markdown.icons.image",
           "group": "navigation@6"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "md-shortcut.copyRootRelativePath",
+          "title": "Copy Root Relative Path",
+          "group": "6_copypath@6"
         }
       ]
     }

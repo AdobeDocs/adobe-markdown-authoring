@@ -1,45 +1,86 @@
 import * as vscode from "vscode";
-import { Selection, TextEditor, Range, Position, TextEditorEdit } from "vscode";
+import {
+  Selection,
+  TextEditor,
+  TextDocument,
+  Range,
+  Position,
+  TextEditorEdit,
+} from "vscode";
 
+/**
+ * Replaces the selected text in the active text editor with the result of the replace function.
+ * @param replaceFunc The function used to replace the selected text.
+ * @returns A promise that resolves to true if the replace operation was successful, or false if there is no active text editor.
+ */
 export function replaceSelection(
   replaceFunc: (text: string) => string
 ): Thenable<boolean> {
+  // Get the active text editor
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
+  // If there is no active text editor, return a resolved promise with false
   if (!editor) {
     return Promise.resolve(false);
   }
+  // Get the selection from the active text editor
   const selection: Selection = editor.selection;
 
+  // Replace the selected text with the result of the replace function
   var newText: string = replaceFunc(editor.document.getText(selection));
+  // Edit the text in the active text editor by replacing the selected text with the new text
   return editor.edit((edit) => edit.replace(selection, newText));
 }
 
+/**
+ * Replaces the selected block of text in the active text editor with the result of the replace function.
+ * @param replaceFunc The function used to replace the selected text.
+ * @returns A promise that resolves to true if the replace operation was successful, or false if there is no active text editor.
+ *          The promise is rejected with the message "No Selection to replace." if there is no block selection.
+ */
 export function replaceBlockSelection(
   replaceFunc: (text: string) => string
 ): Thenable<boolean> {
+  // Get the active text editor
   const editor = vscode.window.activeTextEditor;
+  // If there is no active text editor, return a resolved promise with false
   if (!editor) {
     return Promise.resolve(false);
   }
+  // Get the selection from the active text editor
   const selection = getBlockSelection();
+  // If there is no block selection, reject the promise with the message "No Selection to replace."
   if (!selection) {
     return Promise.reject("No Selection to replace.");
   }
 
+  // Replace the selected text with the result of the replace function
   const newText = replaceFunc(editor.document.getText(selection));
+  // Edit the text in the active text editor by replacing the selected text with the new text
   return editor
     .edit((edit) => edit.replace(selection, newText))
     .then((success) => {
+      // If the replace operation was successful, update the selection to the new block selection
       const newSelection = getBlockSelection();
       if (newSelection) {
         editor.selection = newSelection;
       }
+      // Return the success status of the replace operation
       return success;
     });
 }
 
+/**
+ * Checks if anything is selected in the active text editor.
+ *
+ * @returns {boolean} True if there is an active text editor and it has a non-empty selection.
+ *                   False otherwise.
+ */
 export function isAnythingSelected(): boolean {
+  // Get the active text editor
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
+
+  // If there is no active text editor or the selection is empty, return false
+  // Otherwise, return true
   return !!editor && !editor.selection.isEmpty;
 }
 
@@ -115,112 +156,169 @@ export function getSurroundingBlock(
 ): Selection | void {
   const doc = editor.document;
   const cursorPosition = selection.active;
+  const startPatternRegex = new RegExp(extractFirstLineForRegex(startPattern));
+  const endPatternRegex = new RegExp(processPatternForRegex(endPattern));
 
-  // Remove newline characters from patterns and escape special characters
-  startPattern = extractFirstLineForRegex(startPattern);
-  endPattern = processPatternForRegex(endPattern);
+  let startPatternPosition: Position | null = findStartPatternPosition(
+    doc,
+    cursorPosition,
+    startPatternRegex
+  );
+  let endPatternPosition: Position | null = findEndPatternPosition(
+    doc,
+    cursorPosition,
+    endPatternRegex
+  );
 
-  // Create regular expressions for start and end patterns
-  const startPatternRegex = new RegExp(startPattern);
-  const endPatternRegex = new RegExp(endPattern);
-
-  // Find the start pattern position by looking backwards from the cursor position
-  // all the way to the start of the file, if necessary.
-  let startPatternPosition: Position | null = null;
-  for (let line = cursorPosition.line; line >= 0; line--) {
-    const lineText = doc.lineAt(line).text;
-    const startIndex = lineText.search(startPatternRegex);
-    if (startIndex !== -1) {
-      startPatternPosition = new Position(line, startIndex);
-      break;
-    }
-  }
-
-  // Find the end pattern position by looking from the current cursor postion
-  // to the end of the file, if necessary.
-  let endPatternPosition: Position | null = null;
-  for (let line = cursorPosition.line; line < doc.lineCount; line++) {
-    const lineText = doc.lineAt(line).text;
-    const endIndex = lineText.search(endPatternRegex);
-    if (endIndex !== -1) {
-      endPatternPosition = new Position(line, endIndex);
-      break;
-    }
-  }
-
-  // We have found the matching block, so select the block and return it.
   if (startPatternPosition && endPatternPosition) {
-    const start = startPatternPosition;
-    const end = endPatternPosition.translate(0, endPattern.length);
-    return new Selection(start, end);
+    const selStart = new Position(
+      startPatternPosition.line,
+      startPatternPosition.character
+    );
+    const selEndLine = doc.lineAt(endPatternPosition.line);
+    const selEnd = new Position(
+      endPatternPosition.line,
+      selEndLine.text.length
+    );
+    return new Selection(selStart, selEnd);
   } else {
-    // If start and end patterns not found, select the current paragraph
-    const currLine = cursorPosition.line;
-    let startOfParagraph = currLine;
-    let endOfParagraph = currLine;
-
-    // Find the start of the paragraph
-    for (let i = currLine; i >= 0; i--) {
-      const line = doc.lineAt(i).text;
-      if (line.trim() === "" && i !== currLine) {
-        startOfParagraph = i + 1;
-        break;
-      } else if (i === 0) {
-        startOfParagraph = i;
-        break;
-      }
-    }
-
-    // Find the end of the paragraph
-    for (let i = currLine; i < doc.lineCount; i++) {
-      const line = doc.lineAt(i).text;
-      if (line.trim() === "" && i !== currLine) {
-        endOfParagraph = i - 1;
-        break;
-      } else if (i === doc.lineCount - 1) {
-        endOfParagraph = i;
-        break;
-      }
-    }
-
-    const start = new Position(startOfParagraph, 0);
-    const end = doc.lineAt(endOfParagraph).range.end;
-    return new Selection(start, end);
+    return getParagraphSelection(editor, selection);
   }
 }
 
+function findStartPatternPosition(
+  doc: TextDocument,
+  cursorPosition: Position,
+  startPatternRegex: RegExp
+): Position | null {
+  let currentLine = cursorPosition.line;
+  while (currentLine >= 0) {
+    const lineText = doc.lineAt(currentLine).text;
+    if (lineText.trim() === "") break;
+    const startIndex = lineText.search(startPatternRegex);
+    if (startIndex !== -1) return new Position(currentLine, startIndex);
+    currentLine--;
+  }
+  return null;
+}
+
+function findEndPatternPosition(
+  doc: TextDocument,
+  cursorPosition: Position,
+  endPatternRegex: RegExp
+): Position | null {
+  for (let line = cursorPosition.line; line < doc.lineCount; line++) {
+    const lineText = doc.lineAt(line).text;
+    const endIndex = lineText.search(endPatternRegex);
+    if (endIndex !== -1) return new Position(line, endIndex);
+  }
+  return null;
+}
+
+/**
+ * Returns a selection that includes the paragraph that the cursor is in.
+ * It finds the first and last non-blank lines that include the cursor position.
+ * @param editor - The active TextEditor instance.
+ * @param selection - The current selection in the editor.
+ * @returns A new Selection that includes the paragraph that the cursor is in.
+ */
+function getParagraphSelection(
+  editor: TextEditor,
+  selection: Selection
+): Selection {
+  const doc = editor.document;
+  const cursorPosition = selection.active;
+  let startLine = cursorPosition.line;
+  // Find the first non-blank line above the cursor position
+  while (startLine > 0 && !/^\s*$/.test(doc.lineAt(startLine).text)) {
+    startLine--;
+  }
+  let endLine = cursorPosition.line;
+  // Find the last non-blank line below the cursor position
+  while (
+    endLine < doc.lineCount - 1 &&
+    !/^\s*$/.test(doc.lineAt(endLine).text)
+  ) {
+    endLine++;
+  }
+  return startLine < doc.lineCount && endLine >= 0
+    ? new Selection(
+        new Position(startLine + 1, 0),
+        new Position(endLine, doc.lineAt(endLine).text.length)
+      )
+    : new Selection(cursorPosition, cursorPosition);
+}
+
+/**
+ * Checks if a line is blank.
+ * @param line - The line to check.
+ * @returns Returns true if the line is blank, false otherwise.
+ */
+function isLineBlank(line: string): boolean {
+  return /^\s*$/.test(line);
+}
+
+/**
+ * Returns a selection that includes the first occurrence of the given pattern in the current line.
+ * If no match is found, returns undefined.
+ *
+ * @param editor - The active TextEditor instance.
+ * @param selection - The current selection in the editor.
+ * @param pattern - The pattern to search for. Optional; if not provided, returns undefined.
+ * @returns A new Selection that includes the first occurrence of the pattern, or undefined if no match is found.
+ */
 export function getSurroundingPattern(
   editor: TextEditor,
   selection: Selection,
   pattern?: RegExp
 ): Selection | void {
+  // Get the current line
   const line: vscode.TextLine = editor.document.lineAt(selection.active);
+
+  // Attempt to find the first occurrence of the pattern in the line
   const matched: RegExpExecArray | null | undefined = pattern?.exec(line.text);
 
+  // If a match is found
   if (matched) {
+    // Calculate the start and end positions of the selection
     const selStart = new Position(line.lineNumber, matched.index);
     const selEnd = new Position(
       line.lineNumber,
       matched.index + matched[0].length
     );
+
+    // Return a new Selection spanning from start to end positions
     return new Selection(selStart, selEnd);
   } else {
+    // If no match is found, return undefined
     return;
   }
 }
 
+/**
+ * Retrieves the first word occurrence in the current line that matches the specified RegExp pattern.
+ *
+ * @param editor - The active TextEditor instance.
+ * @param selection - The current selection in the editor.
+ * @param wordPattern - A RegExp pattern to match against the words in the line. Optional.
+ * @returns A new Selection spanning from the start to the end of the first word occurrence, or undefined if no match is found.
+ */
 export function getSurroundingWord(
   editor: TextEditor,
   selection: Selection,
   wordPattern?: RegExp
 ): Selection | void {
+  // Get the range of the word at the current cursor position, if any
   var range: Range | undefined = editor.document.getWordRangeAtPosition(
     selection.active,
     wordPattern
   );
+
+  // If no word is found at the cursor position, return undefined
   if (range === undefined) {
     return;
   } else {
+    // Return a new Selection spanning from the start to the end of the word
     return new Selection(range.start, range.end);
   }
 }
@@ -238,20 +336,27 @@ export function surroundBlockSelection(
   endPattern?: string,
   wordPattern?: RegExp
 ): Thenable<void | boolean> {
+  // If end pattern is not provided, set it to the start pattern
   if (endPattern === undefined || endPattern === null) {
     endPattern = startPattern;
   }
 
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
+
+  // If there is no active text editor, reject the promise
   if (!editor) {
     return Promise.reject("No Text Editor is Defined");
   }
+
+  // Get the current selection
   let selection: void | Selection = getBlockSelection();
+
+  // If there is no selection, reject the promise
   if (!selection) {
     return Promise.reject("No selection is available");
   }
 
-  // Nothing is selected, so try to find something to toggle.
+  // If nothing is selected, try to find something to toggle
   if (!isAnythingSelected()) {
     // If the cursor is in a markdown block, select the block, otherwise return
     // a zero-length selection at the cursor position.
@@ -262,13 +367,13 @@ export function surroundBlockSelection(
       endPattern
     );
 
-    // Select the block
+    // If a block is found, select it
     if (withSurroundingWord) {
       selection = editor.selection = withSurroundingWord;
     }
   }
 
-  //
+  // If nothing is selected, insert the start and end patterns at the cursor position
   if (!isAnythingSelected()) {
     var position = selection.active;
     var newPosition = position.with(position.line + 2, 1);
@@ -280,6 +385,7 @@ export function surroundBlockSelection(
         editor.selection = new vscode.Selection(newPosition, newPosition);
       });
   } else {
+    // If there is a selection, toggle the start and end patterns
     if (isSelectionMatch(selection, startPattern)) {
       return replaceBlockSelection((text) => {
         const start: number = startPattern.toString().length;
@@ -310,51 +416,94 @@ export function surroundBlockSelection(
   }
 }
 
+/**
+ * Returns a new Selection object that spans from the start of the first non-empty line
+ * in the current selection to the end of the last non-empty line in the current selection.
+ * If the current selection is empty, the original selection is returned.
+ *
+ * @returns {Selection | void} A new Selection object or undefined if no active editor.
+ */
 export function getBlockSelection(): Selection | void {
+  // Get the active text editor and selection
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
   if (!editor) {
     return;
   }
   const selection: Selection = editor.selection;
 
+  // If the selection is empty, return it
   if (selection.isEmpty) {
     return selection;
   }
 
-  return new Selection(
-    selection.start.with(undefined, 0),
-    selection.end.with(selection.end.line + 1, 0)
-  );
+  // Return a new Selection object that spans from the start of the first non-empty line
+  // in the current selection to the end of the last non-empty line in the current selection.
+  const graf: Selection = getParagraphSelection(editor, selection);
+  return graf;
 }
 
+/**
+ * Returns a new Selection object that spans from the start of the current line
+ * to the end of the current line. If there is no active text editor or selection,
+ * it returns undefined.
+ *
+ * @returns {Selection | void} A new Selection object or undefined.
+ */
 export function getLineSelection(): Selection | void {
+  // Get the active text editor and selection
   const editor: TextEditor | undefined = vscode.window.activeTextEditor;
   if (!editor) {
     return;
   }
+
+  // Get the current selection
   const selection: Selection = editor.selection;
 
+  // Get the end character of the current line
   const endchar = editor.document.lineAt(selection.start.line).range.end
     .character;
+
+  // Return a new Selection object that spans from the start of the current line
+  // to the end character of the current line
   return new Selection(
-    selection.start.with(selection.start.line, 0),
-    selection.end.with(selection.start.line, endchar)
+    selection.start.with(selection.start.line, 0), // Start of current line
+    selection.end.with(selection.start.line, endchar) // End of current line
   );
 }
 
+/**
+ * Checks if the current block selection matches the given start pattern.
+ * @param startPattern - The start pattern to check for (can be a string or a RegExp).
+ * @returns true if the block selection matches the start pattern, false otherwise.
+ */
 export function isBlockMatch(startPattern: RegExp): boolean {
+  // Get the current block selection
   const selection: void | Selection = getBlockSelection();
+
+  // If there is no selection, return false
   if (!selection) {
     return false;
   }
+
+  // Check if the current selection matches the start pattern
   return isSelectionMatch(selection, startPattern);
 }
 
+/**
+ * Checks if the current selection matches the given start pattern.
+ * @param startPattern - The start pattern to check for (can be a string or a RegExp).
+ * @returns true if the current selection matches the start pattern, false otherwise.
+ */
 export function isMatch(startPattern: RegExp): boolean {
+  // Get the active text editor and selection
   const editor: TextEditor | void = vscode.window.activeTextEditor;
+
+  // If there is no active text editor, return false
   if (!editor) {
     return false;
   }
+
+  // Check if the current selection matches the start pattern
   return isSelectionMatch(editor.selection, startPattern);
 }
 

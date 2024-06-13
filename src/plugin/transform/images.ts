@@ -18,47 +18,87 @@ function centerFirstImage(token: Token) {
   }
 }
 
+/**
+ * Extracts attributes from an image token and modifies the token accordingly.
+ *
+ * @param {Token} token - The image token to extract attributes from.
+ * @returns {Array} An empty array.
+ */
 function extractAttributes(token: Token) {
-  const regex = /\[(.+?)\]\((.+?)\s(.*)\)/;
+  // Regular expression to match the image syntax
+  const regex = /\!\[(.+?)\]\((.*)\)/;
+
+  // Find a match in the token content
   const match = token.content.match(regex);
+
+  // If no match is found, return early
   if (!match) {
     return;
   }
+
+  // Ensure that the token has children
   if (!token.children) {
     return;
   }
-  // const title = match[3];
+
+  // Find the text child within the token
   const textChild = token.children.find((child) => child.type === "text");
-  if (textChild) {
-    const propsRegex = /\{(.+?)\}/;
-    const propsMatch = textChild.content.match(propsRegex);
 
-    if (propsMatch) {
-      const propsString = propsMatch[1];
-      const propsArray = propsString.split(" ");
-
-      const textProps = propsArray.reduce<[string, string][]>((arr, prop) => {
-        const [key, value] = prop.split("=");
-        if (
-          key.toLowerCase() === "align" &&
-          value.toLowerCase().replace(/"/g, "") === "center"
-        ) {
-          arr.push(["style", "display: block; margin: auto;"]);
-          centerFirstImage(token);
-        } else {
-          arr.push([key, value.replace(/"/g, "")]);
-        }
-        return arr;
-      }, []);
-      const imageChild = token.children.find((child) => child.type === "image");
-      if (textProps && imageChild && imageChild.attrs) {
-        imageChild.attrs.push(...textProps);
-      }
-    }
+  // If no text child is found, return early
+  if (!textChild) {
+    return;
   }
 
+  // Regular expression to match the attributes within curly braces
+  const propsRegex = /\{(.+?)\}/;
+
+  // Find a match in the text child content
+  const propsMatch = textChild.content.match(propsRegex);
+
+  // If no match is found, return early
+  if (!propsMatch) {
+    return;
+  }
+
+  // Extract the string inside the curly braces
+  const propsString = propsMatch[1];
+
+  // Split the string into an array of key-value pairs
+  const propsArray = propsString.split(" ");
+
+  // Reduce the array into an array of key-value pairs
+  const textProps = propsArray.reduce<[string, string][]>((arr, prop) => {
+    // Split the key-value pair into an array
+    const [key, value] = prop.split("=");
+
+    // If the key is "align" and the value is "right"
+    if (
+      key.toLowerCase() === "align" &&
+      value.toLowerCase().replace(/"/g, "") === "right"
+    ) {
+      // Add a style attribute to align the image to the right
+      arr.push(["style", "float: right; margin-left: 10px;"]);
+    } else {
+      // Add the key-value pair as is
+      arr.push([key, value.replace(/"/g, "")]);
+    }
+
+    return arr;
+  }, []);
+
+  // Find the image child within the token
+  const imageChild = token.children.find((child) => child.type === "image");
+
+  // If textProps, imageChild, and imageChild.attrs are all defined
+  if (textProps && imageChild && imageChild.attrs) {
+    // Add the textProps to the imageChild's attrs array
+    imageChild.attrs.push(...textProps);
+  }
+
+  // Remove the text child from the token
   token.children = token.children.filter((child) => child.type !== "text");
 
+  // Return an empty array
   return [];
 }
 
