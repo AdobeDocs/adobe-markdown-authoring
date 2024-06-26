@@ -144,7 +144,16 @@ function replaceSnippets(src: string, rootDir: string): string {
 /**
  *
  */
-export function includeFileParts(state: StateCore, rootDir: string) {
-  state.src = replaceIncludes(state.src, rootDir);
-  state.src = replaceSnippets(state.src, rootDir);
+export function includeFileParts(state: StateCore, rootDir?: string) {
+  // Check if rootDir is provided and is a string. If not, log a warning and proceed without modifying state.src
+  if (typeof rootDir !== "string") {
+    console.warn(
+      "Warning: includeFileParts was called without a valid rootDir. The !INCLUDE tag not work as expected."
+    );
+    return;
+  } else {
+    // Proceed with the operation as rootDir is valid
+    state.src = replaceIncludes(state.src, rootDir);
+    state.src = replaceSnippets(state.src, rootDir);
+  }
 }

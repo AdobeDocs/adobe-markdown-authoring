@@ -2,115 +2,121 @@ import StateCore from "markdown-it/lib/rules_core/state_core";
 import Token from "markdown-it/lib/token";
 import { TokenType } from "..";
 
-function centerFirstImage(token: Token) {
-  if (!token?.children) {
-    return;
-  }
-  const imageToken = token.children.find((child) => child.type === "image");
-  if (imageToken) {
-    const imageIndex = token.children.indexOf(imageToken);
-    const startToken = new Token("html_block", "", 0);
-    startToken.content = "<div style='text-align:center;'>";
-    const endToken = new Token("html_block", "", 0);
-    endToken.content = "</div>";
-    token.children.splice(imageIndex, 0, startToken);
-    token.children.splice(imageIndex + 2, 0, endToken);
-  }
-}
+function extractAttributes(token: Token): void {
+  if (!token.content || !token.children) return;
 
-/**
- * Extracts attributes from an image token and modifies the token accordingly.
- *
- * @param {Token} token - The image token to extract attributes from.
- * @returns {Array} An empty array.
- */
-function extractAttributes(token: Token) {
-  // Regular expression to match the image syntax
-  const regex = /\!\[(.+?)\]\((.*)\)/;
+  const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)\s*(\{[^}]+\})?/;
+  const match = token.content.match(imageRegex);
+  if (!match) return;
 
-  // Find a match in the token content
-  const match = token.content.match(regex);
+  const [fullMatch, , , propsString] = match;
+  if (!propsString) return;
 
-  // If no match is found, return early
-  if (!match) {
-    return;
-  }
+  const attrs = parseAttributes(propsString.slice(1, -1));
 
-  // Ensure that the token has children
-  if (!token.children) {
-    return;
-  }
-
-  // Find the text child within the token
-  const textChild = token.children.find((child) => child.type === "text");
-
-  // If no text child is found, return early
-  if (!textChild) {
-    return;
-  }
-
-  // Regular expression to match the attributes within curly braces
-  const propsRegex = /\{(.+?)\}/;
-
-  // Find a match in the text child content
-  const propsMatch = textChild.content.match(propsRegex);
-
-  // If no match is found, return early
-  if (!propsMatch) {
-    return;
-  }
-
-  // Extract the string inside the curly braces
-  const propsString = propsMatch[1];
-
-  // Split the string into an array of key-value pairs
-  const propsArray = propsString.split(" ");
-
-  // Reduce the array into an array of key-value pairs
-  const textProps = propsArray.reduce<[string, string][]>((arr, prop) => {
-    // Split the key-value pair into an array
-    const [key, value] = prop.split("=");
-
-    // If the key is "align" and the value is "right"
-    if (
-      key.toLowerCase() === "align" &&
-      value.toLowerCase().replace(/"/g, "") === "right"
-    ) {
-      // Add a style attribute to align the image to the right
-      arr.push(["style", "float: right; margin-left: 10px;"]);
-    } else {
-      // Add the key-value pair as is
-      arr.push([key, value.replace(/"/g, "")]);
-    }
-
-    return arr;
-  }, []);
-
-  // Find the image child within the token
   const imageChild = token.children.find((child) => child.type === "image");
 
-  // If textProps, imageChild, and imageChild.attrs are all defined
-  if (textProps && imageChild && imageChild.attrs) {
-    // Add the textProps to the imageChild's attrs array
-    imageChild.attrs.push(...textProps);
+  if (imageChild && imageChild.attrs) {
+    imageChild.attrs.push(...attrs);
   }
 
-  // Remove the text child from the token
-  token.children = token.children.filter((child) => child.type !== "text");
+  // Remove the attribute text from the main token's content
+  token.content = token.content.replace(propsString, "");
 
-  // Return an empty array
-  return [];
+  // Find and remove the text child containing only the attributes
+  const attrTextChildIndex = token.children.findIndex(
+    (child) => child.type === "text" && child.content === propsString
+  );
+  if (attrTextChildIndex !== -1) {
+    token.children.splice(attrTextChildIndex, 1);
+  }
+
+  // Handle the text child containing the image syntax
+  const textChild = token.children.find(
+    (child) =>
+      child.type === "text" &&
+      child.content &&
+      child.content.includes(fullMatch)
+  );
+
+  if (textChild && textChild.content) {
+    // Split the content into parts: before image and after image
+    const [beforeImage, ...afterImageParts] =
+      textChild.content.split(fullMatch);
+    let afterImage = afterImageParts
+      .join(fullMatch)
+      .replace(propsString, "")
+      .trim();
+
+    // Update the existing text child with content before the image
+    if (beforeImage) {
+      textChild.content = beforeImage;
+    } else {
+      // If there's no text before the image, remove this text child
+      token.children = token.children.filter((child) => child !== textChild);
+    }
+
+    // If there's any content after the image syntax (excluding the alignment markup),
+    // create a new text child for it
+    if (afterImage) {
+      const newTextChild = new Token("text", "", 0);
+      newTextChild.content = afterImage;
+      const imageIndex = token.children.findIndex(
+        (child) => child.type === "image"
+      );
+      if (imageIndex !== -1) {
+        token.children.splice(imageIndex + 1, 0, newTextChild);
+      }
+    }
+  }
 }
 
-export function transformImages(state: StateCore) {
+function parseAttributes(propsString: string): [string, string][] {
+  const attrs: [string, string][] = [];
+  const regex = /(\w+)=(?:"([^"]*)"|'([^']*)'|(\S+))/g;
+  let match;
+
+  while ((match = regex.exec(propsString)) !== null) {
+    const [, key, value1, value2, value3] = match;
+    const value = value1 || value2 || value3;
+
+    if (key.toLowerCase() === "align") {
+      attrs.push(["style", getAlignStyle(value)]);
+    } else {
+      attrs.push([key.toLowerCase(), value]);
+    }
+  }
+
+  return attrs;
+}
+
+function getAlignStyle(align: string): string {
+  switch (align.toLowerCase()) {
+    case "left":
+      return "float: left; margin-right: 10px;";
+    case "right":
+      return "float: right; margin-left: 10px;";
+    case "center":
+      return "display: block; margin: 0 auto;";
+    default:
+      return "";
+  }
+}
+
+export function transformImages(state: StateCore): void {
   let tokens = state.tokens;
   for (let i = 0; i < tokens.length; i++) {
     let token = tokens[i];
     if (token?.type !== TokenType.INLINE) {
       continue;
     }
-    if (token?.children && token?.children[0]?.type === TokenType.IMAGE) {
-      extractAttributes(token);
+    if (token?.children) {
+      const imageChild = token.children.find(
+        (child) => child.type === TokenType.IMAGE
+      );
+      if (imageChild) {
+        extractAttributes(token);
+      }
     }
   }
 }
