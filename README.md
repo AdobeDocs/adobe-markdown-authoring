@@ -131,7 +131,7 @@ This is the last line of the shade box.
 
 ### Video
 
-> [!VIDEO](https://youtube.com?watch="xyxz")
+> [!VIDEO](https://video.tv.adobe.com/v/17187/)
 
 ![video](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/VIDEO.gif)
 
