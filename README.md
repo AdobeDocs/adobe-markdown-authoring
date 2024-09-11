@@ -45,7 +45,7 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 ### Note
 
 ```markdown
-> [!NOTE]
+>[!NOTE]
 >
 > Here is a note component. Notice that it is just a blockquote that has a [!NOTE] label at the beginning of the code.
 ```
@@ -59,7 +59,7 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 ### Caution
 
 ```markdown
-> [!CAUTION]
+>[!CAUTION]
 >
 > Here is a caution component. Notice that it is just a blockquote and that you can _embed_ inline markdown including `pre-formatted text` and other **chicanery**
 ```
@@ -79,7 +79,7 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 ### Important
 
 ```markdown
-> [!IMPORTANT]
+>[!IMPORTANT]
 >
 > Here is the _IMPORTANT_ component. It's only one line.
 ```
@@ -93,7 +93,7 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 ### Tip
 
 ```markdown
-> [!TIP]
+>[!TIP]
 >
 > Here is the _TIP_ component. It's only one line.
 ```
