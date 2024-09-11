@@ -165,8 +165,8 @@ This is the last line of the shade box.
 | md-shortcut.toggleWarning       | Make a `[!WARNING]` block                          | ctrl+m ctrl+w       |
 | md-shortcut.toggleMoreLikeThis  | Make a `[!MORELIKETHIS]` block                     | ctrl+m ctrl+m       |
 | md-shortcut.toggleVideo         | Make a `[!VIDEO]` block                            | ctrl+m ctrl+v       |
-| md-shortcut.toggleDNL           | Make a `[!DNL] block                              | ctrl+m ctrl+d       |
-| md-shortcut.toggleUIControl     | Make a `[!UICONTROL] block                        | ctrl+m ctrl+u       |
+| md-shortcut.toggleDNL           | Make a `[!DNL]` block                              | ctrl+m ctrl+d       |
+| md-shortcut.toggleUIControl     | Make a `[!UICONTROL]` block                        | ctrl+m ctrl+u       |
 
 ## Markdown Lint Validation Settings
 
