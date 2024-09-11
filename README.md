@@ -50,9 +50,9 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 > Here is a note component. Notice that it is just a blockquote that has a [!NOTE] label at the beginning of the code.
 ```
 
-> [!NOTE]
+>[!NOTE]
 >
-> Here is a note component. Notice that it is just a blockquote that has a [!NOTE] label at the beginning of the code.
+> Here is a note component. Notice that it is just a blockquote that has a `[!NOTE]` label at the beginning of the code.
 
 ![note](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/NOTE.gif)
 
@@ -64,15 +64,15 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 > Here is a caution component. Notice that it is just a blockquote and that you can _embed_ inline markdown including `pre-formatted text` and other **chicanery**
 ```
 
-> [!CAUTION]
+>[!CAUTION]
 >
 > Here is a caution component. Notice that it is just a blockquote and that you can _embed_ inline markdown including `pre-formatted text` and other **chicanery**
 
 ![caution](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/CAUTION.gif)
 
-> [!TIP]
+>[!TIP]
 >
-> Here is a tip [!TIP] This is after this.
+> Here is a tip `[!TIP]` This is after this.
 
 ![tip](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/TIP.gif)
 
@@ -84,7 +84,7 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 > Here is the _IMPORTANT_ component. It's only one line.
 ```
 
-> [!IMPORTANT]
+>[!IMPORTANT]
 >
 > Here is the _IMPORTANT_ component. It's only one line.
 
@@ -106,7 +106,7 @@ To create a shade box, add `>[!BEGINSHADEBOX]` at the beginning of the section a
 
 Example:
 
-> [!BEGINSHADEBOX "Removing the border in an HTML Table"]
+>[!BEGINSHADEBOX "Removing the border in an HTML Table"]
 
 In some cases, you use an HTML table to create a balanced design, but you don't want the content to look like a table. To turn off a border for a one-row HTML table, use this syntax:
 
@@ -116,7 +116,7 @@ In some cases, you use an HTML table to create a balanced design, but you don't 
 </table>
 ```
 
-> [!NOTE]
+>[!NOTE]
 >
 > Don't overuse. For normal tables, we want to keep a consistent design across
 > content.
@@ -127,11 +127,11 @@ In a three-column table, you can also add `<td align="center">` and `<td align="
 
 This is the last line of the shade box.
 
-> [!ENDSHADEBOX]
+>[!ENDSHADEBOX]
 
 ### Video
 
-> [!VIDEO](https://video.tv.adobe.com/v/17187/)
+>[!VIDEO](https://video.tv.adobe.com/v/17187/)
 
 ![video](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/VIDEO.gif)
 
@@ -158,15 +158,15 @@ This is the last line of the shade box.
 | md-shortcut.toggleTitleH6       | Toggle ###### H6 title                           |                     |
 | md-shortcut.addTable            | Add Tabular values                               |                     |
 | md-shortcut.addTableWithHeader  | Add Tabular values with header                   |                     |
-| md-shortcut.toggleNote          | Make a [!NOTE] block                             | ctrl+m ctrl+n       |
-| md-shortcut.toggleTip           | Make a [!TIP] block                              | ctrl+m ctrl+t       |
-| md-shortcut.toggleCaution       | Make a [!CAUTION] block                          | ctrl+m ctrl+c       |
-| md-shortcut.toggleImportant     | Make an [!IMPORTANT] block                       | ctrl+m ctrl+p       |
-| md-shortcut.toggleWarning       | Make a [!WARNING] block                          | ctrl+m ctrl+w       |
-| md-shortcut.toggleMoreLikeThis  | Make a [!MORELIKETHIS] block                     | ctrl+m ctrl+m       |
-| md-shortcut.toggleVideo         | Make a [!VIDEO] block                            | ctrl+m ctrl+v       |
-| md-shortcut.toggleDNL           | Make a [!DNL] block                              | ctrl+m ctrl+d       |
-| md-shortcut.toggleUIControl     | Make a [!UICONTROL] block                        | ctrl+m ctrl+u       |
+| md-shortcut.toggleNote          | Make a `[!NOTE]` block                             | ctrl+m ctrl+n       |
+| md-shortcut.toggleTip           | Make a `[!TIP]` block                              | ctrl+m ctrl+t       |
+| md-shortcut.toggleCaution       | Make a `[!CAUTION]` block                          | ctrl+m ctrl+c       |
+| md-shortcut.toggleImportant     | Make an `[!IMPORTANT]` block                       | ctrl+m ctrl+p       |
+| md-shortcut.toggleWarning       | Make a `[!WARNING]` block                          | ctrl+m ctrl+w       |
+| md-shortcut.toggleMoreLikeThis  | Make a `[!MORELIKETHIS]` block                     | ctrl+m ctrl+m       |
+| md-shortcut.toggleVideo         | Make a `[!VIDEO]` block                            | ctrl+m ctrl+v       |
+| md-shortcut.toggleDNL           | Make a `[!DNL] block                              | ctrl+m ctrl+d       |
+| md-shortcut.toggleUIControl     | Make a `[!UICONTROL] block                        | ctrl+m ctrl+u       |
 
 ## Markdown Lint Validation Settings
 
