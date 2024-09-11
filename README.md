@@ -70,12 +70,6 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 
 ![caution](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/CAUTION.gif)
 
->[!TIP]
->
-> Here is a tip `[!TIP]` This is after this.
-
-![tip](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/TIP.gif)
-
 ### Important
 
 ```markdown
@@ -97,6 +91,12 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 >
 > Here is the _TIP_ component. It's only one line.
 ```
+
+>[!TIP]
+>
+> Here is a tip `[!TIP]` This is after this.
+
+![tip](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/TIP.gif)
 
 ### Shade Boxes
 
