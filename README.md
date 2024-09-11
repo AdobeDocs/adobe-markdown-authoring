@@ -1,6 +1,6 @@
 # Adobe Markdown Authoring Extension for Visual Studio Code
 
-This is a Visual Studio Code extension that enhances the built-in Markdown preview feaures with Adobe extensions to the Markdown specification.
+This is a Visual Studio Code extension that enhances the built-in Markdown preview features with Adobe extensions to the Markdown specification.
 
 > This is a significant rewrite of the [Adobe Experience League Markdown Authoring](https://github.com/AdobeDocs/vsc-extensions) extension. This version is fully compatible with version 1.x of the extension. This version no longer has a dependency on the [markdown-it-adobe-plugin](https://github.com/AdobeDocs/markdown-it-adobe-plugin) module. The **markdown-it-adobe-plugin** module is deprecated and will no longer be maintained.
 
