@@ -1,6 +1,6 @@
 # Adobe Markdown Authoring Extension for Visual Studio Code
 
-This is a Visual Studio Code extension that enhances the built-in Markdown preview features with Adobe extensions to the Markdown specification.
+This is a Visual Studio Code extension that enhances the built-in Markdown preview feaures with Adobe extensions to the Markdown specification.
 
 > This is a significant rewrite of the [Adobe Experience League Markdown Authoring](https://github.com/AdobeDocs/vsc-extensions) extension. This version is fully compatible with version 1.x of the extension. This version no longer has a dependency on the [markdown-it-adobe-plugin](https://github.com/AdobeDocs/markdown-it-adobe-plugin) module. The **markdown-it-adobe-plugin** module is deprecated and will no longer be maintained.
 
@@ -45,40 +45,46 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 ### Note
 
 ```markdown
->[!NOTE]
+> [!NOTE]
 >
 > Here is a note component. Notice that it is just a blockquote that has a [!NOTE] label at the beginning of the code.
 ```
 
->[!NOTE]
+> [!NOTE]
 >
-> Here is a note component. Notice that it is just a blockquote that has a `[!NOTE]` label at the beginning of the code.
+> Here is a note component. Notice that it is just a blockquote that has a [!NOTE] label at the beginning of the code.
 
 ![note](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/NOTE.gif)
 
 ### Caution
 
 ```markdown
->[!CAUTION]
+> [!CAUTION]
 >
 > Here is a caution component. Notice that it is just a blockquote and that you can _embed_ inline markdown including `pre-formatted text` and other **chicanery**
 ```
 
->[!CAUTION]
+> [!CAUTION]
 >
 > Here is a caution component. Notice that it is just a blockquote and that you can _embed_ inline markdown including `pre-formatted text` and other **chicanery**
 
 ![caution](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/CAUTION.gif)
 
+> [!TIP]
+>
+> Here is a tip [!TIP] This is after this.
+
+![tip](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/TIP.gif)
+
 ### Important
 
 ```markdown
->[!IMPORTANT]
+> [!IMPORTANT]
 >
 > Here is the _IMPORTANT_ component. It's only one line.
 ```
 
->[!IMPORTANT]
+> [!IMPORTANT]
 >
 > Here is the _IMPORTANT_ component. It's only one line.
 
@@ -87,26 +93,20 @@ Here are some examples of the Adobe extensions in action. If you have the extens
 ### Tip
 
 ```markdown
->[!TIP]
+> [!TIP]
 >
 > Here is the _TIP_ component. It's only one line.
 ```
-
->[!TIP]
->
-> Here is a tip `[!TIP]` This is after this.
-
-![tip](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/TIP.gif)
 
 ### Shade Boxes
 
 Shade boxes are useful for setting off a section of content from the rest of the page. For example, the Workfront team likes to add "Example" boxes that contains text, images, and code samples to achieve a specific purpose. A shade box might also be useful for "On Your Own" or "Use Case" sections, or for extended notes or tips.
 
-To create a shade box, add `>[!BEGINSHADEBOX]` at the beginning of the section and `>[!ENDSHADEBOX]` at the end. All content between these begin and end tags will have a gray background. Adding a label to BEGINSHADEBOX (such as `>[!BEGINSHADEBOX "Use Case]` is an optional way to create a bolded shade box title. You can also just add bold text or a heading on the next line.
+To create a shade box, add >[!BEGINSHADEBOX] at the beginning of the section and >[!ENDSHADEBOX] at the end. All content between these begin and end tags will have a gray background. Adding a label to BEGINSHADEBOX (such as >[!BEGINSHADEBOX "Use Case] is an optional way to create a bolded shade box title. You can also just add bold text or a heading on the next line.
 
 Example:
 
->[!BEGINSHADEBOX "Removing the border in an HTML Table"]
+> [!BEGINSHADEBOX "Removing the border in an HTML Table"]
 
 In some cases, you use an HTML table to create a balanced design, but you don't want the content to look like a table. To turn off a border for a one-row HTML table, use this syntax:
 
@@ -116,22 +116,22 @@ In some cases, you use an HTML table to create a balanced design, but you don't 
 </table>
 ```
 
->[!NOTE]
+> [!NOTE]
 >
 > Don't overuse. For normal tables, we want to keep a consistent design across
 > content.
 
 ![table tip](/assets/table-no-border.png)
 
-In a three-column table, you can also add `<td align="center">` and `<td align="right">` to distribute the cell content evenly across the view area. If it were not so, I would have told you.
+In a three-column table, you can also add <td align="center"> and <td align="right"> to distribute the cell content evenly across the view area. If it were not so, I would have told you.
 
 This is the last line of the shade box.
 
->[!ENDSHADEBOX]
+> [!ENDSHADEBOX]
 
 ### Video
 
->[!VIDEO](https://video.tv.adobe.com/v/17187/)
+> [!VIDEO](https://youtube.com?watch="xyxz")
 
 ![video](https://bitbucket.org/oproma/adobe-markdown-authoring/raw/0dec36082266468ca5601a83320bff2700ed1487/assets/img/VIDEO.gif)
 
@@ -158,15 +158,15 @@ This is the last line of the shade box.
 | md-shortcut.toggleTitleH6       | Toggle ###### H6 title                           |                     |
 | md-shortcut.addTable            | Add Tabular values                               |                     |
 | md-shortcut.addTableWithHeader  | Add Tabular values with header                   |                     |
-| md-shortcut.toggleNote          | Make a `[!NOTE]` block                             | ctrl+m ctrl+n       |
-| md-shortcut.toggleTip           | Make a `[!TIP]` block                              | ctrl+m ctrl+t       |
-| md-shortcut.toggleCaution       | Make a `[!CAUTION]` block                          | ctrl+m ctrl+c       |
-| md-shortcut.toggleImportant     | Make an `[!IMPORTANT]` block                       | ctrl+m ctrl+p       |
-| md-shortcut.toggleWarning       | Make a `[!WARNING]` block                          | ctrl+m ctrl+w       |
-| md-shortcut.toggleMoreLikeThis  | Make a `[!MORELIKETHIS]` block                     | ctrl+m ctrl+m       |
-| md-shortcut.toggleVideo         | Make a `[!VIDEO]` block                            | ctrl+m ctrl+v       |
-| md-shortcut.toggleDNL           | Make a `[!DNL]` block                              | ctrl+m ctrl+d       |
-| md-shortcut.toggleUIControl     | Make a `[!UICONTROL]` block                        | ctrl+m ctrl+u       |
+| md-shortcut.toggleNote          | Make a [!NOTE] block                             | ctrl+m ctrl+n       |
+| md-shortcut.toggleTip           | Make a [!TIP] block                              | ctrl+m ctrl+t       |
+| md-shortcut.toggleCaution       | Make a [!CAUTION] block                          | ctrl+m ctrl+c       |
+| md-shortcut.toggleImportant     | Make an [!IMPORTANT] block                       | ctrl+m ctrl+p       |
+| md-shortcut.toggleWarning       | Make a [!WARNING] block                          | ctrl+m ctrl+w       |
+| md-shortcut.toggleMoreLikeThis  | Make a [!MORELIKETHIS] block                     | ctrl+m ctrl+m       |
+| md-shortcut.toggleVideo         | Make a [!VIDEO] block                            | ctrl+m ctrl+v       |
+| md-shortcut.toggleDNL           | Make a [!DNL] block                              | ctrl+m ctrl+d       |
+| md-shortcut.toggleUIControl     | Make a [!UICONTROL] block                        | ctrl+m ctrl+u       |
 
 ## Markdown Lint Validation Settings
 
