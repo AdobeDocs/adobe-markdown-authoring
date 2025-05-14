@@ -229,8 +229,10 @@ export async function suggestAltText() {
               }
               // Skip if user selects 'Skip' or dismisses the dialog
             } catch (error) {
+              const errorMessage =
+                error instanceof Error ? error.message : String(error);
               vscode.window.showErrorMessage(
-                `Failed to generate alt text for image: ${error.message}`
+                `Failed to generate alt text for image: ${errorMessage}`
               );
             }
 
@@ -239,8 +241,10 @@ export async function suggestAltText() {
 
           return processedCount;
         } catch (error) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
           vscode.window.showErrorMessage(
-            `Error processing images: ${error.message}`
+            `Error processing images: ${errorMessage}`
           );
           return 0;
         }

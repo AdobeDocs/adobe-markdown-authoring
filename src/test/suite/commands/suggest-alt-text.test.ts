@@ -130,7 +130,12 @@ suite("Suggest Alt Text Command Tests", () => {
         ) => {
           return await task(
             { report: sandbox.stub() },
-            { isCancellationRequested: false }
+            {
+              isCancellationRequested: false,
+              onCancellationRequested: sandbox
+                .stub()
+                .returns({ dispose: sandbox.stub() }),
+            }
           );
         }
       );

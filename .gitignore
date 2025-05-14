@@ -4,4 +4,13 @@ node_modules
 **/.DS_Store
 .DS_Store
 
+# VS Code extension development
+.vscode-test/
+out/
+coverage/
+.nyc_output/
+*.vsix
 
+# Project specific
+src/types/
+test-alt-text.md

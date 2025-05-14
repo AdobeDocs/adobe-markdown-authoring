@@ -5,6 +5,8 @@
     "outDir": "../../dist/plugin",
     "rootDir": "./",
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "skipLibCheck": true
   }
 }
