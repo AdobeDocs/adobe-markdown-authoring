@@ -763,7 +763,7 @@
     "copy-fixtures": "webpack --mode=development --config=./build/test.webpack.config.js",
     "compile": "npm run build-test && npm run copy-fixtures",
     "test": "node ./dist/test/runTest.bundle.js",
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "package": "npm run clean && npm run package-preview && npm run package-rules && npm run package-plugin && npm run package-ext",
     "package-preview": "webpack --mode production --devtool hidden-source-map --config ./build/preview.webpack.config.js",
     "package-rules": "webpack --mode production --devtool hidden-source-map --config ./build/rules.webpack.config.js ",
@@ -785,8 +785,8 @@
     "copy-webpack-plugin": "^11.0.0",
     "mini-css-extract-plugin": "^2.7.3",
     "mocha": "^10.2.0",
-    "rimraf": "^5.0.0",
     "ts-loader": "^9.4.2",
+    "typescript": "^5.5.4",
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1"
   },
