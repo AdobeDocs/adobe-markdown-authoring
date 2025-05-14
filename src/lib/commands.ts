@@ -41,6 +41,7 @@ import { toggleUIControl } from "./commands/toggle-uicontrol";
 import { toggleVideo } from "./commands/toggle-video";
 import { toggleWarning } from "./commands/toggle-warning";
 import { copyRootRelativePath } from "./commands/copy-root-relative-path";
+import { suggestAltText } from "./commands/suggest-alt-text";
 
 interface CommandItem extends QuickPickItem {
   label: string;
@@ -317,6 +318,13 @@ const _commands: Command[] = [
     (uri: vscode.Uri) => copyRootRelativePath(uri),
     "Copy Root Relative Path",
     "Copy relative path beginning with / to anchor root."
+  ),
+  new Command(
+    "suggestAltText",
+    suggestAltText,
+    "Suggest Alt Text for Images",
+    "Generate AI-powered alt text suggestions for images",
+    true
   ),
 ];
 

@@ -201,6 +201,8 @@ export function includeFileParts(state: StateCore, rootDir?: string) {
 
 ## Issue #71: Use VSC plugin to recommend alt tag content for images
 
+Status: In Progress
+
 ### Problem Analysis
 
 Many images are missing alt tag content, which lowers SEO. The request is to use AI to generate missing or incomplete alt text for images.
