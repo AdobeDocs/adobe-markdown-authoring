@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Snippet Code Issue Test</title>
+    <style>
+      /* Basic styling */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      /* Extension styling (similar to what's in docs.css) */
+      .extension {
+        margin-bottom: 1.5rem;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+      }
+
+      .extension.note {
+        border-left: 4px solid blue;
+      }
+
+      /* Fix for Issue #70: Prevent unwanted styling interactions between snippets and code */
+      .extension + p code,
+      .extension + p + p code {
+        display: inline-block;
+        box-shadow: none;
+        border: none;
+      }
+
+      /* Ensure proper spacing after extensions/snippets */
+      .extension + p {
+        margin-top: 1rem;
+      }
+
+      /* Code styling */
+      code {
+        background-color: #f5f5f5;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Test for Issue #70</h1>
+
+    <h2>Before Fix: Snippet followed by inline code</h2>
+    <div class="extension note" data-label="NOTE">
+      <div class="p"></div>
+      <div class="p">
+        This feature is available as part of the Target Premium solution. It is
+        not available in Target Standard without a Target Premium license.
+      </div>
+    </div>
+    <p>
+      This is text after the snippet. When followed by inline code like
+      <code>code example</code>, all text up until the code block gets a box
+      around it.
+    </p>
+
+    <h2>After Fix: Snippet followed by inline code</h2>
+    <div class="extension note" data-label="NOTE">
+      <div class="p"></div>
+      <div class="p">
+        This feature is available as part of the Target Premium solution. It is
+        not available in Target Standard without a Target Premium license.
+      </div>
+    </div>
+
+    <p>
+      This is text after the snippet. When followed by inline code like
+      <code>code example</code>, the text should NOT have a box around it.
+    </p>
+
+    <h2>Multiple paragraphs with code</h2>
+    <div class="extension note" data-label="NOTE">
+      <div class="p"></div>
+      <div class="p">
+        This feature is available as part of the Target Premium solution. It is
+        not available in Target Standard without a Target Premium license.
+      </div>
+    </div>
+
+    <p>First paragraph after snippet.</p>
+
+    <p>
+      Second paragraph with code <code>example code</code> should also not have
+      a box.
+    </p>
+  </body>
+</html>
