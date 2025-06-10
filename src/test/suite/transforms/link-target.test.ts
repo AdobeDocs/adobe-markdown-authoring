@@ -25,4 +25,60 @@ suite("Transform Link Targets Rule", () => {
     const output = md.renderer.render(tokens, md.options, {});
     assert.strictEqual(output, expectedOutput);
   });
+
+  test("should handle links with target attributes near other elements", () => {
+    // Link near image
+    const inputWithImage =
+      "![Image](http://example.com/image.png)\n[Link](http://example.com){target=_blank}";
+    const tokensWithImage = md.parse(inputWithImage, {});
+    const outputWithImage = md.renderer.render(tokensWithImage, md.options, {});
+    assert.ok(
+      outputWithImage.includes(
+        '<img src="http://example.com/image.png" alt="Image">'
+      ),
+      "Image should be rendered correctly"
+    );
+    assert.ok(
+      outputWithImage.includes(
+        '<a href="http://example.com" target="_blank">Link</a>'
+      ),
+      "Link with target should be rendered correctly"
+    );
+
+    // Link near code block
+    const inputWithCode =
+      "```js\nconsole.log('test');\n```\n[Link](http://example.com){target=_blank}";
+    const tokensWithCode = md.parse(inputWithCode, {});
+    const outputWithCode = md.renderer.render(tokensWithCode, md.options, {});
+    assert.ok(
+      outputWithCode.includes('<pre><code class="language-js">'),
+      "Code block should be rendered correctly"
+    );
+    assert.ok(
+      outputWithCode.includes(
+        '<a href="http://example.com" target="_blank">Link</a>'
+      ),
+      "Link with target should be rendered correctly"
+    );
+
+    // Link near inline code
+    const inputWithInlineCode =
+      "`inline code` [Link](http://example.com){target=_blank}";
+    const tokensWithInlineCode = md.parse(inputWithInlineCode, {});
+    const outputWithInlineCode = md.renderer.render(
+      tokensWithInlineCode,
+      md.options,
+      {}
+    );
+    assert.ok(
+      outputWithInlineCode.includes("<code>inline code</code>"),
+      "Inline code should be rendered correctly"
+    );
+    assert.ok(
+      outputWithInlineCode.includes(
+        '<a href="http://example.com" target="_blank">Link</a>'
+      ),
+      "Link with target should be rendered correctly"
+    );
+  });
 });
