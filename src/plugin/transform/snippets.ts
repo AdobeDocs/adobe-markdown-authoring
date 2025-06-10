@@ -142,7 +142,29 @@ function replaceSnippets(src: string, rootDir: string): string {
 }
 
 /**
- *
+ * Cleans up problematic token structures that can occur when snippets are followed by inline code.
+ * This prevents the issue where text between snippets and code blocks gets a box around it.
+ */
+function cleanupSnippetCodeInteractions(src: string): string {
+  // Look for patterns where a snippet (which often renders as a div or block element)
+  // is followed by text and then inline code
+  const snippetCodePattern = /(\{\{[^}]+\}\})([\s\S]*?)(`[^`]+`)/g;
+
+  // Replace with a structure that prevents unwanted styling interactions
+  return src.replace(snippetCodePattern, (match, snippet, text, code) => {
+    // If there's no text between the snippet and code, no need to modify
+    if (!text.trim()) {
+      return `${snippet}${text}${code}`;
+    }
+
+    // Add a special marker that will be used to ensure proper separation
+    // between the snippet and subsequent text with inline code
+    return `${snippet}\n\n${text.trim()}${code}`;
+  });
+}
+
+/**
+ * Process includes and snippets in markdown content
  */
 export function includeFileParts(state: StateCore, rootDir?: string) {
   // Check if rootDir is provided and is a string. If not, log a warning and proceed without modifying state.src
@@ -155,5 +177,8 @@ export function includeFileParts(state: StateCore, rootDir?: string) {
     // Proceed with the operation as rootDir is valid
     state.src = replaceIncludes(state.src, rootDir);
     state.src = replaceSnippets(state.src, rootDir);
+
+    // Add cleanup step to fix snippet-code interactions
+    state.src = cleanupSnippetCodeInteractions(state.src);
   }
 }

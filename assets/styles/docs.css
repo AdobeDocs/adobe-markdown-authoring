@@ -18,6 +18,19 @@ h2:not(:last-child),
   margin-bottom: 1.5rem;
 }
 
+/* Fix for Issue #70: Prevent unwanted styling interactions between snippets and code */
+.extension + p code,
+.extension + p + p code {
+  display: inline-block;
+  box-shadow: none;
+  border: none;
+}
+
+/* Ensure proper spacing after extensions/snippets */
+.extension + p {
+  margin-top: 1rem;
+}
+
 .is-overlay {
   bottom: 0;
   left: 0;

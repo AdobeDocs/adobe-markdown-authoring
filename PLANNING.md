@@ -4,7 +4,7 @@ This document outlines a plan to address the current open issues in the AdobeDoc
 
 ## Issue #69: Adding {target="_blank"} corrupts preview
 
-Status: In Progress
+Status: Completed
 
 ### Problem Analysis
 
@@ -146,6 +146,8 @@ function isNearSpecialElement(token: Token): boolean {
 
 ## Issue #70: Editor creates boxes around text when combining snippets with code
 
+Status: Completed
+
 ### Problem Analysis
 
 When using a snippet in a markdown file followed by inline code, all text up until the code block gets a box around it. This is not causing errors but confuses and obstructs the experience.
@@ -160,6 +162,14 @@ The problem likely occurs because:
 - The snippet replacement doesn't properly account for how it affects the rendering of subsequent inline code
 - There might be CSS conflicts between snippet styling and code block styling
 - The token structure after snippet insertion might be interpreted incorrectly by the renderer
+
+### Implementation Details
+
+The issue has been fixed by:
+
+1. Adding a post-processing step in `src/plugin/transform/snippets.ts` that identifies and fixes problematic token structures when snippets are followed by inline code
+2. Adding CSS rules in `assets/styles/docs.css` to prevent unwanted styling interactions between snippets and code blocks
+3. Creating a test case in `src/test/suite/transforms/snippet-code-interaction.test.ts` to verify the fix
 
 ### Proposed Solution
 
