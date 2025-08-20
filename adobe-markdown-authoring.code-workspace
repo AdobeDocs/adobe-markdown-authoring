@@ -1,0 +1,14 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "../vsc-extensions-test-files"
+	}
+],
+  "settings": {
+    "typescript.tsc.autoDetect": "off",
+    "githubPullRequests.ignoredPullRequestBranches": ["main"]
+  }
+}
