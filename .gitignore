@@ -4,4 +4,9 @@ node_modules
 **/.DS_Store
 .DS_Store
 
+# Kiro spec-driven development tooling (cc-sdd) — local only, not tracked
+.claude/
+.kiro/
+CLAUDE.md
+
 
