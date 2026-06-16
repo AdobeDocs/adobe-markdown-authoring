@@ -22,7 +22,30 @@ export function transformBadgeMeta(state: StateCore): void {
     // Check if the current token is a front matter token
     if (tokens[i].type === TokenType.FRONT_MATTER) {
       const metaToken = tokens[i];
-      const metaData = metaToken.meta;
+
+      // The front_matter token is produced by the host markdown engine, whose
+      // shape for `token.meta` is not stable across VS Code versions:
+      //   - VS Code <= 1.120: `token.meta` is the raw front matter string.
+      //   - VS Code >= 1.121: `token.meta` is an object `{ content: string }`
+      //     (the engine started wrapping the raw text in 1.121).
+      // Reading it as a string unconditionally throws
+      // "metaData.split is not a function" on 1.121+, which breaks the entire
+      // markdown/parse and takes down the language service (issue #81).
+      // Normalize both shapes to the raw string, and skip safely if neither
+      // is present rather than throwing.
+      const rawMeta: unknown = metaToken.meta;
+      const metaData: string =
+        typeof rawMeta === "string"
+          ? rawMeta
+          : rawMeta != null &&
+            typeof (rawMeta as { content?: unknown }).content === "string"
+          ? (rawMeta as { content: string }).content
+          : "";
+
+      // No usable front matter text — skip badge processing for this token.
+      if (metaData === "") {
+        continue;
+      }
 
       // Split the meta data into lines
       const metaLines = metaData.split("\n");
