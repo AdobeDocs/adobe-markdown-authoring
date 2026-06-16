@@ -23,7 +23,7 @@ The plugin is not hosted as a separate package on NPM or a standalone GitHub rep
 Alternatively, you can use `curl` or a similar tool to download the file directly:
 
 ```bash
-curl -O https://github.com/your-org/adobe-markdown-authoring/raw/main/releases/markdown-it-adobe-plugin.js
+curl -O https://github.com/AdobeDocs/adobe-markdown-authoring/raw/main/releases/markdown-it-adobe-plugin.js
 ```
 
 ## Integrating the Plugin
